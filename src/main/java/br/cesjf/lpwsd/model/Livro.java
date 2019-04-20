@@ -7,27 +7,22 @@ package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Livro.findByTitulo", query = "SELECT l FROM Livro l WHERE l.titulo = :titulo")
     , @NamedQuery(name = "Livro.findByIsbn", query = "SELECT l FROM Livro l WHERE l.isbn = :isbn")
     , @NamedQuery(name = "Livro.findByEdicao", query = "SELECT l FROM Livro l WHERE l.edicao = :edicao")
-    , @NamedQuery(name = "Livro.findByAno", query = "SELECT l FROM Livro l WHERE l.ano = :ano")})
+    , @NamedQuery(name = "Livro.findByAno", query = "SELECT l FROM Livro l WHERE l.ano = :ano")
+    , @NamedQuery(name = "Livro.findByIdAssunto", query = "SELECT l FROM Livro l WHERE l.idAssunto = :idAssunto")})
 public class Livro implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,13 +66,13 @@ public class Livro implements Serializable {
     @Column(name = "ano")
     @Temporal(TemporalType.DATE)
     private Date ano;
-    @ManyToMany(mappedBy = "livroList")
-    private List<Autor> autorList;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idAssunto")
+    private int idAssunto;
     @JoinColumn(name = "idEditora", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Editora idEditora;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLivro")
-    private List<Exemplar> exemplarList;
 
     public Livro() {
     }
@@ -85,12 +81,13 @@ public class Livro implements Serializable {
         this.id = id;
     }
 
-    public Livro(Integer id, String titulo, String isbn, int edicao, Date ano) {
+    public Livro(Integer id, String titulo, String isbn, int edicao, Date ano, int idAssunto) {
         this.id = id;
         this.titulo = titulo;
         this.isbn = isbn;
         this.edicao = edicao;
         this.ano = ano;
+        this.idAssunto = idAssunto;
     }
 
     public Integer getId() {
@@ -133,13 +130,12 @@ public class Livro implements Serializable {
         this.ano = ano;
     }
 
-    @XmlTransient
-    public List<Autor> getAutorList() {
-        return autorList;
+    public int getIdAssunto() {
+        return idAssunto;
     }
 
-    public void setAutorList(List<Autor> autorList) {
-        this.autorList = autorList;
+    public void setIdAssunto(int idAssunto) {
+        this.idAssunto = idAssunto;
     }
 
     public Editora getIdEditora() {
@@ -148,15 +144,6 @@ public class Livro implements Serializable {
 
     public void setIdEditora(Editora idEditora) {
         this.idEditora = idEditora;
-    }
-
-    @XmlTransient
-    public List<Exemplar> getExemplarList() {
-        return exemplarList;
-    }
-
-    public void setExemplarList(List<Exemplar> exemplarList) {
-        this.exemplarList = exemplarList;
     }
 
     @Override
