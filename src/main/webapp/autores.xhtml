@@ -5,12 +5,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h2 class="page-header">Gerenciar Assuntos</h2>
+        <h2 class="page-header">Gerenciar Autores</h2>
         <br/>
         <h:form id="formPrincipal">
             <div align="center">
                 
-                <p:dataTable var="lista" value="#{assuntoBean.entidades}"
+                <p:dataTable var="lista" value="#{autorBean.entidades}"
                              id="tabelaAssunto" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
@@ -22,24 +22,16 @@
                     <p:column headerText="Nome" sortBy="#{lista.nome}" filterBy="#{lista.nome}">
                         <h:outputText value="#{lista.nome}" />
                     </p:column>
-
-                    <p:column headerText="Descrição" sortBy="#{lista.descricao}" filterBy="#{lista.descricao}">
-                        <h:outputText value="#{lista.descricao}" />
-                    </p:column>
-                    
-                    <p:column headerText="Assunto" sortBy="#{lista.assunto}" filterBy="#{lista.assunto}">
-                        <h:outputText value="#{lista.assunto}" />
-                    </p:column>
                     
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             
                             <p:commandButton icon="ui-icon-pencil" value="Editar" onclick="PF('record').show();"> 
-                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
+                                <f:setPropertyActionListener target="#{autorBean.entidade}" value="#{lista}" />
                             </p:commandButton>
                             
                             <p:commandButton icon="ui-icon-trash" value="Deletar" onclick="PF('remove').show();"> 
-                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
+                                <f:setPropertyActionListener target="#{autorBean.entidade}" value="#{lista}" />
                             </p:commandButton> 
                         
                         </center>
@@ -59,23 +51,23 @@
 
                 <h:commandLink id="excel">
                     <p:graphicImage name="./images/exports/excel.png" />
-                    <p:dataExporter type="xls" target="tabelaAssunto" fileName="assuntos" postProcessor="#{assuntoBean.postProcessXLS}" />
+                    <p:dataExporter type="xls" target="tabelaAutor" fileName="autores" postProcessor="#{autorBean.postProcessXLS}" />
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
                     <p:graphicImage name="./images/exports/pdf.png" />
-                    <p:dataExporter type="pdf" target="tabelaAssunto" fileName="assuntos" preProcessor="#{assuntoBean.preProcessPDF}" />
+                    <p:dataExporter type="pdf" target="tabelaAutor" fileName="autores" preProcessor="#{autorBean.preProcessPDF}" />
                 </h:commandLink>
 
 
                 <h:commandLink>
                     <p:graphicImage name="./images/exports/csv.png" width="24"/>
-                    <p:dataExporter type="csv" target="tabelaAssunto" fileName="assuntos" />
+                    <p:dataExporter type="csv" target="tabelaAutor" fileName="autores" />
                 </h:commandLink>
 
                 <h:commandLink>
                     <p:graphicImage  name="./images/exports/xml.png" width="24"/>
-                    <p:dataExporter type="xml" target="tabelaAssunto" fileName="assuntos" />
+                    <p:dataExporter type="xml" target="tabelaAutor" fileName="autores" />
                 </h:commandLink>
             </div>
 
@@ -88,21 +80,17 @@
             <p:dialog header="Novo" widgetVar="record" modal="true" focus="name">
                 <p:panelGrid id="panelRecord" columns="2"> 
                     <!--Código:
-                    <p:inputText id="cod" value="#{assuntoBean.entidade.id}" /-->
+                    <p:inputText id="cod" value="#{autorBean.entidade.id}" /-->
                     Nome:
-                    <p:inputText id="name" value="#{assuntoBean.entidade.nome}" />
-                    Descrição:
-                    <p:inputText id="descricaoAssunto" value="#{assuntoBean.entidade.descricao}" />
-                    Assunto:
-                    <p:inputText id="Assunto" value="#{assuntoBean.entidade.assunto}" />
+                    <p:inputText id="name" value="#{autorBean.entidade.nome}" />
                 </p:panelGrid>  
                 <br/>
-                <p:commandButton value="Salvar" actionListener="#{assuntoBean.record}" onclick="record.hide()" alt="Record"/> 
+                <p:commandButton value="Salvar" actionListener="#{autorBean.record}" onclick="record.hide()" alt="Record"/> 
             </p:dialog>
             
             <p:dialog header="Deletar" widgetVar="remove" modal="false"> 
                 Você tem certeza?
-                <p:commandButton value="Deletar" actionListener="#{assuntoBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
+                <p:commandButton value="Deletar" actionListener="#{autorBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
             </p:dialog>
             
         </h:form>
