@@ -5,10 +5,32 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.dao.EmprestimoDAO;
+import br.cesjf.lpwsd.model.Emprestimo;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 /**
  *
  * @author luisg
  */
-public class emprestimoBean {
+@ManagedBean
+@ViewScoped
+public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
+    
+    private EmprestimoDAO emprestimoDAO;
+
+    @Override
+    public EmprestimoDAO getDao() {
+        if (emprestimoDAO == null) {
+            emprestimoDAO = new EmprestimoDAO();
+        }
+        return emprestimoDAO;
+    }
+
+    @Override
+    public Emprestimo novo() {
+        return new Emprestimo();
+    }
     
 }

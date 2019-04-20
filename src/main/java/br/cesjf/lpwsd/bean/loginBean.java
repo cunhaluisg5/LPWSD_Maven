@@ -5,10 +5,84 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.dao.UsuarioDAO;
+import br.cesjf.lpwsd.model.Usuario;
+import br.cesjf.lpwsd.util.SessionUtil;
+import static br.cesjf.lpwsd.util.SessionUtil.getRequest;
+import java.io.IOException;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author luisg
  */
+@ManagedBean
+@SessionScoped
 public class loginBean {
+
+    private String nomeUsuario;
+    private String senha;
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void login(ActionEvent actionEvent) throws IOException {
+        try {
+            Usuario user = new UsuarioDAO().autenticacao(nomeUsuario, senha);
+            HttpServletRequest request = SessionUtil.getRequest();
+            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("nome", user.getNome());
+            request.getSession().setAttribute("tipo", user.getTipo());
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().redirect("index.xhtml");            
+        } catch (Exception ex) {
+            setNomeUsuario("");
+            setSenha("");
+            adicionarMensagem();
+        }        
+    }
+
+    public void logoff() throws IOException {
+        getRequest().getSession().invalidate();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+        setNomeUsuario("");
+        setSenha("");
+    }
+
+    public void adicionarMensagem() {
+        String cabecalho = "Acesso negado";
+        String mensagem = "Usuário e/ou senha estão incorretos";
+        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, cabecalho, mensagem);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
+    }
     
+    public boolean isAdmin(){
+        return "Administrador".equals(SessionUtil.getUserTipo());
+    }
+    
+    public String getPerfil(){
+        String perfil = SessionUtil.getUserName();
+        if(perfil == null){
+            return null;
+        }
+        return perfil;
+    }
 }
