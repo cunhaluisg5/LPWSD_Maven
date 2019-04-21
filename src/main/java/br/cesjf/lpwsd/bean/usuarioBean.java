@@ -33,6 +33,17 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
         }
         return list;
     }
+    
+    public List<SelectItem> tiposUsuarios() {
+        List<SelectItem> list = new ArrayList<SelectItem>();
+
+        list.add(new SelectItem("Aluno"));
+        list.add(new SelectItem("Professor"));
+        list.add(new SelectItem("Funcionário"));
+        list.add(new SelectItem("Bibliotecário"));
+        list.add(new SelectItem("Administrador"));
+        return list;
+    }
 
     public Usuario buscarId(int id) {
         return new UsuarioDAO().buscarId(id);

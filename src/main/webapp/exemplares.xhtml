@@ -46,7 +46,7 @@
             <br/>
             
             <p:column>
-                <p:commandButton icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
+                <p:commandButton rendered="#{!(loginBean.isProfessor() || loginBean.isAluno())}" icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
             

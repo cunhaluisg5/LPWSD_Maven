@@ -50,7 +50,7 @@
             <br/>
             
             <p:column>
-                <p:commandButton icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
+                <p:commandButton rendered="#{!loginBean.isFuncionario()}" icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
             
@@ -99,7 +99,9 @@
                     <p:password id="senha" value="#{usuarioBean.entidade.senha}" feedback="true" promptLabel="Digite a senha" weakLabel="Força da senha : Fraca" goodLabel="Força da senha : Média" strongLabel="Força da senha : Forte"  validatorMessage="As duas senhas devem ser iguais" required="true"/>
                     
                     Tipo:
-                    <p:inputText id="tipo" value="#{usuarioBean.entidade.tipo}"/> 
+                    <p:selectOneMenu value="#{usuarioBean.entidade.tipo}" style="width: 180px">
+                        <f:selectItems value="#{usuarioBean.tiposUsuarios()}"/>
+                    </p:selectOneMenu>
                     
                 </p:panelGrid>  
                 <br/>

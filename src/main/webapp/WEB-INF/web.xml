@@ -4,13 +4,9 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
     </context-param>
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
     <filter>
         <filter-name>AutentificacaoFilter</filter-name>
-        <filter-class>br.cesjf.lpwsd.filter.AutentificacaoFilter</filter-class>
+        <filter-class>br.cesjf.lpwsd.filter.AutenticacaoFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AutentificacaoFilter</filter-name>

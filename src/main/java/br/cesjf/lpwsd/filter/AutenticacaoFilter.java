@@ -25,13 +25,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author luisg
  */
-public class AutentificacaoFilter implements Filter {
+public class AutenticacaoFilter implements Filter {
 
     private static final boolean debug = true;
 
     private FilterConfig filterConfig = null;
 
-    public AutentificacaoFilter() {
+    public AutenticacaoFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)

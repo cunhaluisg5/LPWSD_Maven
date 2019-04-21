@@ -1,0 +1,89 @@
+CREATE DATABASE lpwsd;
+USE lpwsd;
+
+CREATE TABLE assunto(
+    id int not null AUTO_INCREMENT,
+    nome varchar(30),
+    descricao varchar(30),
+    assunto varchar(30),
+    
+    CONSTRAINT PK_Assunto PRIMARY KEY(id)
+);
+
+CREATE TABLE autor(
+	id int not null AUTO_INCREMENT,
+    nome varchar(30),
+    
+    CONSTRAINT PK_Autor PRIMARY KEY(id)
+);
+
+CREATE TABLE editora(
+	id int not null AUTO_INCREMENT,
+    nome varchar(30),
+    
+    CONSTRAINT PK_Editora PRIMARY KEY(id)   
+    
+);
+
+CREATE TABLE usuario(
+	id int not null AUTO_INCREMENT,
+    nome varchar(30),
+    tipo varchar(20),
+    email varchar(45),
+    senha varchar(45),
+    
+    CONSTRAINT PK_Usuario PRIMARY KEY(id)
+);
+
+CREATE TABLE livro(
+	id int not null AUTO_INCREMENT,
+    ano date,
+    edicao int,
+    isbn varchar(30),
+    titulo varchar(30),
+    Assunto_id int,
+    Editora_id int,
+    
+    CONSTRAINT PK_Livro PRIMARY KEY(id),
+    CONSTRAINT FK_Livro_Assunto FOREIGN KEY(Assunto_id)
+    	REFERENCES assunto(id),
+    CONSTRAINT FK_Livro_Editora FOREIGN KEY(Editora_id)
+    	REFERENCES editora(id)
+);
+
+CREATE TABLE exemplar(
+	id int not null AUTO_INCREMENT,
+    circular boolean,
+    idLivro int,
+    
+    CONSTRAINT PK_Exemplar PRIMARY KEY(id),
+    CONSTRAINT FK_Exemplar_Livro FOREIGN KEY(idLivro)
+    	REFERENCES livro(id)
+);
+
+CREATE TABLE emprestimo(
+	id int not null AUTO_INCREMENT,
+    data datetime,
+    idExemplar int,
+    idUsuario int,
+    
+    CONSTRAINT PK_Emprestimo PRIMARY KEY(id),
+    CONSTRAINT FK_Emprestimo_Exemplar FOREIGN KEY(idExemplar)
+    	REFERENCES exemplar(id),
+    CONSTRAINT FK_Emprestimo_Usuario FOREIGN KEY(idUsuario)
+    	REFERENCES usuario(id)
+);
+
+
+CREATE TABLE autorLivro(
+    idLivro int NOT null,
+	idAutor int NOT null,
+
+    
+    CONSTRAINT PK_AutorLivro PRIMARY KEY(idAutor, idLivro),
+    CONSTRAINT FK_AutorLivro_Livro FOREIGN KEY(idLivro)
+    	REFERENCES livro(id),
+    CONSTRAINT FK_AutorLivro_Autor FOREIGN KEY(idAutor)
+    	REFERENCES autor(id)
+
+)

@@ -74,7 +74,23 @@ public class loginBean {
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
     }
     
-    public boolean isAdmin(){
+    public boolean isAluno(){
+        return "Aluno".equals(SessionUtil.getUserTipo());
+    }
+    
+    public boolean isProfessor(){
+        return "Professor".equals(SessionUtil.getUserTipo());
+    }
+    
+    public boolean isFuncionario(){
+        return "Funcionário".equals(SessionUtil.getUserTipo());
+    }
+    
+    public boolean isBibliotecario(){
+        return "Bibliotecário".equals(SessionUtil.getUserTipo());
+    }
+    
+    public boolean isAdministrador(){
         return "Administrador".equals(SessionUtil.getUserTipo());
     }
     
