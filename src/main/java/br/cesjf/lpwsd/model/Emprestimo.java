@@ -45,10 +45,10 @@ public class Emprestimo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @JoinColumn(name = "idExemplar", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Exemplar idExemplar;
     @JoinColumn(name = "idUsuario", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Usuario idUsuario;
 
     public Emprestimo() {

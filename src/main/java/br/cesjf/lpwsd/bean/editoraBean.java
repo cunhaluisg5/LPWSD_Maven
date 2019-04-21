@@ -29,7 +29,7 @@ public class editoraBean extends crudBean<Editora, EditoraDAO> {
         List<Editora> editoras = editoraDAO.buscarTodas();
 
         for (Editora editora : editoras) {
-            list.add(new SelectItem(editora, editora.getNome())); //nome Editora ira aparecer no combo
+            list.add(new SelectItem(editora, editora.getNome())); //O que aparece no ComboBox
         }
         return list;
     }

@@ -29,7 +29,7 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         List<Livro> livros = livroDAO.buscarTodas();
 
         for (Livro livro : livros) {
-            list.add(new SelectItem(livro, livro.getTitulo())); //nome livro ira aparecer no combo
+            list.add(new SelectItem(livro, livro.getTitulo())); //O que aparece no ComboBox
         }
         return list;
     }

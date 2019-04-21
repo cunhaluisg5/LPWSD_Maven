@@ -11,7 +11,7 @@
             <div align="center">
                 
                 <p:dataTable var="lista" value="#{autorBean.entidades}"
-                             id="tabelaAssunto" emptyMessage="Nenhum registro encontrado"
+                             id="tabelaAutores" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
 
@@ -77,12 +77,12 @@
             </p:confirmDialog>  
 
 
-            <p:dialog header="Novo" widgetVar="record" modal="true" focus="name">
+            <p:dialog header="Novo" widgetVar="record" modal="true" focus="nome">
                 <p:panelGrid id="panelRecord" columns="2"> 
                     <!--Código:
                     <p:inputText id="cod" value="#{autorBean.entidade.id}" /-->
                     Nome:
-                    <p:inputText id="name" value="#{autorBean.entidade.nome}" />
+                    <p:inputText id="nome" value="#{autorBean.entidade.nome}" />
                 </p:panelGrid>  
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{autorBean.record}" onclick="record.hide()" alt="Record"/> 

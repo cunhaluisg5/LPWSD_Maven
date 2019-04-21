@@ -50,24 +50,24 @@ public class AutentificacaoFilter implements Filter {
 
     /**
      *
-     * @param sr The servlet request we are processing
-     * @param sr1 The servlet response we are creating
-     * @param fc The filter chain we are processing
+     * @param request
+     * @param response
+     * @param chain
      *
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
     @Override
-    public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) sr;
-        HttpServletResponse response = (HttpServletResponse) sr1;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest rq = (HttpServletRequest) request;
+        HttpServletResponse rs = (HttpServletResponse) response;
 
-        HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("user");
+        HttpSession session = rq.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
         if (session.isNew() || user == null) {
-            doLogin(sr, sr1, request);
+            doLogin(request, response, rq);
         } else {
-            fc.doFilter(sr, sr1);
+            chain.doFilter(request, response);
         }
     }
 

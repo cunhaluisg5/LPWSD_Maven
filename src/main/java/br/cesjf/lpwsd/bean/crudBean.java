@@ -16,9 +16,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.ServletContext;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 
 /**
  *
@@ -79,7 +82,7 @@ public abstract class crudBean<E, D extends CrudDAO> {
         HSSFSheet sheet = wb.getSheetAt(0);
         HSSFRow header = sheet.getRow(0);
 
-        /*HSSFCellStyle cellStyle = wb.createCellStyle();
+        HSSFCellStyle cellStyle = wb.createCellStyle();
         cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
@@ -87,7 +90,7 @@ public abstract class crudBean<E, D extends CrudDAO> {
             HSSFCell cell = header.getCell(i);
 
             cell.setCellStyle(cellStyle);
-        }*/
+        }
     }
 
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {

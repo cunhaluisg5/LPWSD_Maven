@@ -11,7 +11,7 @@
             <div align="center">
                 
                 <p:dataTable var="lista" value="#{emprestimoBean.entidades}"
-                             id="tabelaEmprestimo" emptyMessage="Nenhum registro encontrado"
+                             id="tabelaEmprestimos" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
 
@@ -28,7 +28,9 @@
                     </p:column>
                     
                     <p:column headerText="Data Empréstimo" sortBy="#{lista.data}" filterBy="#{lista.data}">
-                        <h:outputText value="#{lista.data}" />
+                        <h:outputText value="#{lista.data}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>]
                     
                     <p:column headerText="Opções" exportable="false">

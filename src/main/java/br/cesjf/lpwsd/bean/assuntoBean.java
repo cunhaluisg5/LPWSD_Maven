@@ -29,7 +29,7 @@ public class assuntoBean extends crudBean<Assunto, AssuntoDAO>{
         List<Assunto> assuntos = assuntoDAO.buscarTodas();
 
         for (Assunto assunto : assuntos) {
-            list.add(new SelectItem(assunto, assunto.getNome())); //nome assunto ira aparecer no combo
+            list.add(new SelectItem(assunto, assunto.getNome())); //O que aparece no ComboBox
         }
         return list;
     }

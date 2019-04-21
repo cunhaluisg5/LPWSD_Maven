@@ -11,7 +11,7 @@
             <div align="center">
                 
                 <p:dataTable var="lista" value="#{exemplarBean.entidades}"
-                             id="tabelaEmprestimo" emptyMessage="Nenhum registro encontrado"
+                             id="tabelaExemplares" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
 
@@ -81,12 +81,12 @@
             </p:confirmDialog>  
 
 
-            <p:dialog header="Novo" widgetVar="record" modal="true" focus="circular">
+            <p:dialog header="Novo" widgetVar="record" modal="true">
                 <p:panelGrid id="panelRecord" columns="2"> 
                     <!--Código:
                     <p:inputText id="cod" value="#{exemplarBean.entidade.id}" /-->
                     Selecione:
-                    <p:selectBooleanCheckbox id="circular" value="#{exemplarBean.entidade.circular}" itemLabel=" Circular"/>  
+                    <p:selectBooleanCheckbox value="#{exemplarBean.entidade.circular}" itemLabel=" Circular"/>  
                     Livro:
                     <p:selectOneMenu value="#{exemplarBean.entidade.idLivro}" style="width: 180px">
                         <f:selectItems value="#{livroBean.itens}"/>

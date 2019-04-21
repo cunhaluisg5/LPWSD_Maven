@@ -6,6 +6,7 @@
 package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,34 +42,23 @@ public class Assunto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 30)
     @Column(name = "nome")
     private String nome;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 30)
     @Column(name = "descricao")
     private String descricao;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 30)
     @Column(name = "assunto")
     private String assunto;
+    @OneToMany(mappedBy = "assuntoid")
+    private List<Livro> livroList;
 
     public Assunto() {
     }
 
     public Assunto(Integer id) {
         this.id = id;
-    }
-
-    public Assunto(Integer id, String nome, String descricao, String assunto) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.assunto = assunto;
     }
 
     public Integer getId() {
@@ -100,6 +91,15 @@ public class Assunto implements Serializable {
 
     public void setAssunto(String assunto) {
         this.assunto = assunto;
+    }
+
+    @XmlTransient
+    public List<Livro> getLivroList() {
+        return livroList;
+    }
+
+    public void setLivroList(List<Livro> livroList) {
+        this.livroList = livroList;
     }
 
     @Override

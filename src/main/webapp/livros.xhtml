@@ -11,7 +11,7 @@
             <div align="center">
                 
                 <p:dataTable var="lista" value="#{livroBean.entidades}"
-                             id="tabelaEmprestimo" emptyMessage="Nenhum registro encontrado"
+                             id="tabelaLivros" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
 
@@ -37,12 +37,12 @@
                         </h:outputText>
                     </p:column>
                     
-                    <p:column headerText="Editora" sortBy="#{lista.idEditora.nome}" filterBy="#{lista.idEditora.nome}">
-                        <h:outputText value="#{lista.idEditora.nome}" />
+                    <p:column headerText="Editora" sortBy="#{lista.editoraid.nome}" filterBy="#{lista.editoraid.nome}">
+                        <h:outputText value="#{lista.editoraid.nome}" />
                     </p:column>
                     
-                    <p:column headerText="Assunto" sortBy="#{lista.idAssunto.nome}" filterBy="#{lista.idAssunto.nome}">
-                        <h:outputText value="#{lista.idAssunto.nome}" />
+                    <p:column headerText="Assunto" sortBy="#{lista.assuntoid.nome}" filterBy="#{lista.assuntoid.nome}">
+                        <h:outputText value="#{lista.assuntoid.nome}" />
                     </p:column>  
                     
                     <p:column headerText="Opções" exportable="false">
@@ -99,12 +99,12 @@
             </p:confirmDialog>  
 
 
-            <p:dialog header="Novo" widgetVar="record" modal="true" focus="name">
+            <p:dialog header="Novo" widgetVar="record" modal="true" focus="titulo">
                 <p:panelGrid id="panelRecord" columns="2"> 
                     <!--Código:
                     <p:inputText id="cod" value="#{livroBean.entidade.id}" /-->
                     Título:
-                    <p:inputText id="name" value="#{livroBean.entidade.titulo}" />
+                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" />
                     
                     ISBN:
                     <p:inputText id="isbn" value="#{livroBean.entidade.isbn}" />
@@ -116,12 +116,12 @@
                     <p:calendar locale="pt" navigator="true" pattern="dd/MM/yyyy" id="ano" value="#{livroBean.entidade.ano}"></p:calendar> 
                     
                     Editora:
-                    <p:selectOneMenu value="#{livroBean.entidade.idEditora}" style="width: 180px">
+                    <p:selectOneMenu value="#{livroBean.entidade.editoraid}" style="width: 180px">
                         <f:selectItems value="#{editoraBean.itens}"/>
                     </p:selectOneMenu>
                     
                     Assunto:
-                    <p:selectOneMenu value="#{livroBean.entidade.idAssunto}" style="width: 180px">
+                    <p:selectOneMenu value="#{livroBean.entidade.assuntoid}" style="width: 180px">
                         <f:selectItems value="#{assuntoBean.itens}"/>
                     </p:selectOneMenu>
                     

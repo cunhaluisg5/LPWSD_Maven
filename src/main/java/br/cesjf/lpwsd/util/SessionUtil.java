@@ -33,7 +33,7 @@ public class SessionUtil {
     }
 
     public static Usuario getUser() {
-        return ((Usuario) getSession().getAttribute("user"));
+        return ((Usuario) getSession().getAttribute("usuario"));
     }
 
 }

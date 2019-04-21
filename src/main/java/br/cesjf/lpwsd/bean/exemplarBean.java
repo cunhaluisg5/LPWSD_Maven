@@ -30,7 +30,7 @@ public class exemplarBean extends crudBean<Exemplar, ExemplarDAO> {
         List<Exemplar> exemplares = exemplarDAO.buscarTodas();
 
         for (Exemplar exemplar : exemplares) {
-            list.add(new SelectItem(exemplar, exemplar.getIdLivro().getTitulo())); //nome Editora ira aparecer no combo
+            list.add(new SelectItem(exemplar, exemplar.getIdLivro().getTitulo())); //O que aparece no ComboBox
         }
         return list;
     }

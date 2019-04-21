@@ -85,16 +85,16 @@
             </p:confirmDialog>  
 
 
-            <p:dialog header="Novo" widgetVar="record" modal="true" focus="name">
+            <p:dialog header="Novo" widgetVar="record" modal="true" focus="nome">
                 <p:panelGrid id="panelRecord" columns="2"> 
                     <!--Código:
                     <p:inputText id="cod" value="#{assuntoBean.entidade.id}" /-->
                     Nome:
-                    <p:inputText id="name" value="#{assuntoBean.entidade.nome}" />
+                    <p:inputText id="nome" value="#{assuntoBean.entidade.nome}" />
                     Descrição:
-                    <p:inputText id="descricaoAssunto" value="#{assuntoBean.entidade.descricao}" />
+                    <p:inputText id="descricao" value="#{assuntoBean.entidade.descricao}" />
                     Assunto:
-                    <p:inputText id="Assunto" value="#{assuntoBean.entidade.assunto}" />
+                    <p:inputText id="assunto" value="#{assuntoBean.entidade.assunto}" />
                 </p:panelGrid>  
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{assuntoBean.record}" onclick="record.hide()" alt="Record"/> 

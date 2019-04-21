@@ -8,7 +8,6 @@ package br.cesjf.lpwsd.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,10 +43,10 @@ public class Exemplar implements Serializable {
     private Integer id;
     @Column(name = "circular")
     private Boolean circular;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idExemplar")
+    @OneToMany(mappedBy = "idExemplar")
     private List<Emprestimo> emprestimoList;
     @JoinColumn(name = "idLivro", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Livro idLivro;
 
     public Exemplar() {
