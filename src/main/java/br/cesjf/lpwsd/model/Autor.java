@@ -6,6 +6,7 @@
 package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -45,11 +44,8 @@ public class Autor implements Serializable {
     @Size(max = 30)
     @Column(name = "nome")
     private String nome;
-    @JoinTable(name = "autorlivro", joinColumns = {
-        @JoinColumn(name = "idAutor", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "idLivro", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Livro> livroList;
+    @ManyToMany(mappedBy = "autorList")
+    private List<Livro> livroList = new ArrayList<Livro>();
 
     public Autor() {
     }

@@ -76,14 +76,11 @@ CREATE TABLE emprestimo(
 
 
 CREATE TABLE autorLivro(
-    idLivro int NOT null,
+        idLivro int NOT null,
 	idAutor int NOT null,
-
     
-    CONSTRAINT PK_AutorLivro PRIMARY KEY(idAutor, idLivro),
-    CONSTRAINT FK_AutorLivro_Livro FOREIGN KEY(idLivro)
-    	REFERENCES livro(id),
     CONSTRAINT FK_AutorLivro_Autor FOREIGN KEY(idAutor)
-    	REFERENCES autor(id)
-
-)
+    	REFERENCES autor(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_AutorLivro_Livro FOREIGN KEY(idLivro)
+    	REFERENCES livro(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
