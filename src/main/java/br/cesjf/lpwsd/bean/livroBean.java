@@ -5,9 +5,10 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.dao.AutorDAO;
 import br.cesjf.lpwsd.dao.LivroDAO;
+import br.cesjf.lpwsd.model.Autor;
 import br.cesjf.lpwsd.model.Livro;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -24,14 +25,20 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private LivroDAO livroDAO;
     public List<SelectItem> itens;
 
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Livro> livros = livroDAO.buscarTodas();
+    public LivroDAO getLivroDAO() {
+        return livroDAO;
+    }
 
-        for (Livro livro : livros) {
-            list.add(new SelectItem(livro, livro.getTitulo())); //O que aparece no ComboBox
-        }
-        return list;
+    public void setLivroDAO(LivroDAO livroDAO) {
+        this.livroDAO = livroDAO;
+    }
+
+    public List<SelectItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<SelectItem> itens) {
+        this.itens = itens;
     }
     
     public Livro buscarId(int id) {
@@ -50,4 +57,8 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     public Livro novo() {
         return new Livro();
     }    
+    
+    public List<Autor> getAutores(){
+        return new AutorDAO().buscarTodas();
+    }
 }

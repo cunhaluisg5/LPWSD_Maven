@@ -101,8 +101,6 @@
 
             <p:dialog header="Novo" widgetVar="record" modal="true" focus="titulo">
                 <p:panelGrid id="panelRecord" columns="2"> 
-                    <!--Código:
-                    <p:inputText id="cod" value="#{livroBean.entidade.id}" /-->
                     Título:
                     <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" />
                     
@@ -116,14 +114,20 @@
                     <p:calendar locale="pt" navigator="true" pattern="dd/MM/yyyy" id="ano" value="#{livroBean.entidade.ano}"></p:calendar> 
                     
                     Editora:
-                    <p:selectOneMenu value="#{livroBean.entidade.editoraid}" style="width: 180px">
+                    <p:selectOneMenu id="editora" value="#{livroBean.entidade.editoraid}" style="width: 180px">
                         <f:selectItems value="#{editoraBean.itens}"/>
                     </p:selectOneMenu>
                     
                     Assunto:
-                    <p:selectOneMenu value="#{livroBean.entidade.assuntoid}" style="width: 180px">
+                    <p:selectOneMenu id="autor" value="#{livroBean.entidade.assuntoid}" style="width: 180px">
                         <f:selectItems value="#{assuntoBean.itens}"/>
                     </p:selectOneMenu>
+                    
+                    Selecione Autores:
+                    <p:selectManyMenu id="autores" value="#{livroBean.entidade.autorList}" converter="autorConverter">
+                        <f:attribute name="collectionType" value="java.util.ArrayList"/>
+                        <f:selectItems value="#{autorBean.entidades}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
+                    </p:selectManyMenu>
                     
                 </p:panelGrid>  
                 <br/>

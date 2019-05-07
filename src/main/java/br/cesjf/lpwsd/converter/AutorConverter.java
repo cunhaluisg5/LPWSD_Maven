@@ -5,8 +5,8 @@
  */
 package br.cesjf.lpwsd.converter;
 
-import br.cesjf.lpwsd.dao.AssuntoDAO;
-import br.cesjf.lpwsd.model.Assunto;
+import br.cesjf.lpwsd.dao.AutorDAO;
+import br.cesjf.lpwsd.model.Autor;
 import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,8 +17,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author luisg
  */
-@FacesConverter(forClass = Assunto.class, value = "assuntoConverter")
-public class AssuntoConverter implements Converter, Serializable {
+@FacesConverter(forClass = Autor.class, value = "autorConverter")
+public class AutorConverter implements Converter, Serializable {
     
     private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class AssuntoConverter implements Converter, Serializable {
     public Object getAsObject(FacesContext arg0, UIComponent arg1, String codigo) {
         if (codigo != null && !codigo.isEmpty()) {
             int cod = Integer.parseInt(codigo);
-            return (Assunto) new AssuntoDAO().buscarId(cod);
+            return (Autor) new AutorDAO().buscarId(cod);
         }
         return codigo;
     }
@@ -34,8 +34,8 @@ public class AssuntoConverter implements Converter, Serializable {
     @Override
     public String getAsString(FacesContext arg0, UIComponent arg1, Object objeto) {
         if (objeto != null) {
-            Assunto assunto = (Assunto) objeto;
-            return assunto.getId() != null && assunto.getId() > 0 ? assunto.getId().toString() : null;
+            Autor autor = (Autor) objeto;
+            return autor.getId() != null && autor.getId() > 0 ? autor.getId().toString() : null;
         }
         return null;
     }
