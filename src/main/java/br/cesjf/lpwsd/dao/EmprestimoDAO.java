@@ -77,5 +77,4 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
        query.executeUpdate();
        em.getTransaction().commit();
     }
-    
 }

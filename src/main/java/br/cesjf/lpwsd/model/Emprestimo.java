@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Emprestimo.findAll", query = "SELECT e FROM Emprestimo e")
     , @NamedQuery(name = "Emprestimo.findById", query = "SELECT e FROM Emprestimo e WHERE e.id = :id")
-    , @NamedQuery(name = "Emprestimo.findByData", query = "SELECT e FROM Emprestimo e WHERE e.data = :data")})
+    , @NamedQuery(name = "Emprestimo.findByDataEmprestimo", query = "SELECT e FROM Emprestimo e WHERE e.dataEmprestimo = :dataEmprestimo")
+    , @NamedQuery(name = "Emprestimo.findByDataDevolucao", query = "SELECT e FROM Emprestimo e WHERE e.dataDevolucao = :dataDevolucao")})
 public class Emprestimo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +42,12 @@ public class Emprestimo implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "data")
+    @Column(name = "dataEmprestimo")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date data;
+    private Date dataEmprestimo;
+    @Column(name = "dataDevolucao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataDevolucao;
     @JoinColumn(name = "idExemplar", referencedColumnName = "id")
     @ManyToOne
     private Exemplar idExemplar;
@@ -66,12 +70,20 @@ public class Emprestimo implements Serializable {
         this.id = id;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataEmprestimo(Date dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
+    }
+
+    public Date getDataDevolucao() {
+        return dataDevolucao;
+    }
+
+    public void setDataDevolucao(Date dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
     }
 
     public Exemplar getIdExemplar() {

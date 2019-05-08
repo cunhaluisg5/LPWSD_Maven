@@ -88,7 +88,7 @@
                     Selecione:
                     <p:selectBooleanCheckbox value="#{exemplarBean.entidade.circular}" itemLabel=" Circular"/>  
                     Livro:
-                    <p:selectOneMenu value="#{exemplarBean.entidade.idLivro}" style="width: 180px">
+                    <p:selectOneMenu value="#{exemplarBean.entidade.idLivro}" converter="livroConverter" style="width: 180px">
                         <f:selectItems value="#{livroBean.itens}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>  

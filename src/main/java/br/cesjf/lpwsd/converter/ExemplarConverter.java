@@ -17,7 +17,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author luisg
  */
-@FacesConverter(forClass = Exemplar.class, value = "exemplarConverter")
+@FacesConverter(forClass = Exemplar.class)
 public class ExemplarConverter implements Converter, Serializable {
 
     private static final long serialVersionUID = 1L;

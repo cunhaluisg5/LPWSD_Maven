@@ -27,8 +27,8 @@
                         <h:outputText value="#{lista.idExemplar.idLivro.titulo}" />
                     </p:column>
                     
-                    <p:column headerText="Data Empréstimo" sortBy="#{lista.data}" filterBy="#{lista.data}">
-                        <h:outputText value="#{lista.data}">
+                    <p:column headerText="Data Empréstimo" sortBy="#{lista.dataEmprestimo}" filterBy="#{lista.dataEmprestimo}">
+                        <h:outputText value="#{lista.dataEmprestimo}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>]
@@ -87,21 +87,36 @@
             </p:confirmDialog>  
 
 
-            <p:dialog header="Novo" widgetVar="record" modal="true">
-                <p:panelGrid id="panelRecord" columns="2"> 
-                    <!--Código:
-                    <p:inputText id="cod" value="#{emprestimoBean.entidade.id}" /-->
-                    Livro:
-                    <p:selectOneMenu value="#{emprestimoBean.entidade.idExemplar}" style="width: 180px">
-                        <f:selectItems value="#{exemplarBean.itens}"/>
-                    </p:selectOneMenu>
-                    Usuário:
-                    <p:selectOneMenu value="#{emprestimoBean.entidade.idUsuario}" style="width: 180px">
-                        <f:selectItems value="#{usuarioBean.itens}"/>
-                    </p:selectOneMenu>
-                    Data:
-                    <p:calendar locale="pt" navigator="true" pattern="dd/MM/yyyy" id="data" value="#{emprestimoBean.entidade.data}"></p:calendar>
-                </p:panelGrid>  
+            <p:dialog resizable="false" header="Novo" widgetVar="record" modal="true">                    
+                <p:panel>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Usuário: "/>
+                        <p:selectOneMenu value="#{emprestimoBean.entidade.idUsuario}" required="true">
+                            <f:selectItem itemLabel="Selecione" itemValue=""/>
+                            <f:selectItems value="#{usuarioBean.itens}" />
+                        </p:selectOneMenu>
+                        <p:commandButton value="Validar" icon="ui-icon-search"/>                
+                    </h:panelGrid>
+                    <br/>
+                </p:panel>                    
+                <p:panel>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Livro: "/>
+                        <p:selectOneMenu value="#{emprestimoBean.entidade.idExemplar}" required="true">
+                            <f:selectItem itemLabel="Selecione" itemValue=""/>
+                            <f:selectItems value="#{exemplarBean.itens}" />
+                        </p:selectOneMenu>
+                        <p:commandButton value="Validar" icon="ui-icon-search"/>                
+                    </h:panelGrid>
+                </p:panel>                    
+                <p:panel style="height: 100px">
+                    <p:outputLabel value="Data do Empréstimo: "/>
+                    <p:calendar style="float: right" locale="pt" navigator="true" pattern="dd/MM/yyyy" id="dataEmprestimo" value="#{emprestimoBean.entidade.dataEmprestimo}"></p:calendar>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="Data da Devolução: "/>
+                    <p:calendar style="float: right" locale="pt" navigator="true" pattern="dd/MM/yyyy" id="dataDevolucao" value="#{emprestimoBean.entidade.dataDevolucao}"></p:calendar>
+                </p:panel>                    
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{emprestimoBean.record}" onclick="record.hide()" alt="Record"/> 
             </p:dialog>

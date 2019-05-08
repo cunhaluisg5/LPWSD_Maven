@@ -19,6 +19,23 @@ import javax.faces.bean.ViewScoped;
 public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
     
     private EmprestimoDAO emprestimoDAO;
+    private boolean debito;
+
+    public EmprestimoDAO getEmprestimoDAO() {
+        return emprestimoDAO;
+    }
+
+    public void setEmprestimoDAO(EmprestimoDAO emprestimoDAO) {
+        this.emprestimoDAO = emprestimoDAO;
+    }
+
+    public boolean isDebito() {
+        return debito;
+    }
+
+    public void setDebito(boolean debito) {
+        this.debito = debito;
+    }
 
     @Override
     public EmprestimoDAO getDao() {
@@ -32,5 +49,4 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
     public Emprestimo novo() {
         return new Emprestimo();
     }
-    
 }
