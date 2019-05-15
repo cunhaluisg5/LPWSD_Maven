@@ -6,7 +6,6 @@
 package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -53,7 +52,7 @@ public class Livro implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "ano")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date ano;
     @Column(name = "edicao")
     private Integer edicao;
@@ -69,7 +68,7 @@ public class Livro implements Serializable {
             joinColumns = @JoinColumn(name = "idLivro"),
             inverseJoinColumns = @JoinColumn(name = "idAutor")
     )
-    private List<Autor> autorList = new ArrayList<Autor>();
+    private List<Autor> autorList;
     @JoinColumn(name = "Assunto_id", referencedColumnName = "id")
     @ManyToOne
     private Assunto assuntoid;

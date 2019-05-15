@@ -33,6 +33,10 @@
                         <h:outputText value="#{lista.tipo}" />
                     </p:column>
                     
+                    <p:column headerText="Login" sortBy="#{lista.login}" filterBy="#{lista.login}">
+                        <h:outputText value="#{lista.login}" />
+                    </p:column>
+                    
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             
@@ -99,7 +103,9 @@
                     <p:outputLabel value="Tipo: "/>
                     <p:selectOneMenu required="true" requiredMessage="O tipo deve ser selecionado!" value="#{usuarioBean.entidade.tipo}" style="width: 180px">
                         <f:selectItems value="#{usuarioBean.tiposUsuarios()}"/>
-                    </p:selectOneMenu>                    
+                    </p:selectOneMenu>  
+                    <p:outputLabel value="Login: "/>
+                    <p:inputText required="true" requiredMessage="O login deve ser preenchido!" id="login" value="#{usuarioBean.entidade.login}" /> 
                 </p:panelGrid>  
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{usuarioBean.record}" onclick="record.hide()" alt="Record"/> 

@@ -4,11 +4,11 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>br.cesjf.lpwsd.model.Livro</class>
     <class>br.cesjf.lpwsd.model.Editora</class>
+    <class>br.cesjf.lpwsd.model.Autor</class>
+    <class>br.cesjf.lpwsd.model.Assunto</class>
+    <class>br.cesjf.lpwsd.model.Emprestimo</class>
     <class>br.cesjf.lpwsd.model.Exemplar</class>
     <class>br.cesjf.lpwsd.model.Usuario</class>
-    <class>br.cesjf.lpwsd.model.Assunto</class>
-    <class>br.cesjf.lpwsd.model.Autor</class>
-    <class>br.cesjf.lpwsd.model.Emprestimo</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/LPWSD?zeroDateTimeBehavior=convertToNull"/>

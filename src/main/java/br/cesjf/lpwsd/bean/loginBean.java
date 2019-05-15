@@ -25,15 +25,15 @@ import javax.servlet.http.HttpServletRequest;
 @SessionScoped
 public class loginBean {
 
-    private String nomeUsuario;
+    private String login;
     private String senha;
 
-    public String getNomeUsuario() {
-        return nomeUsuario;
+    public String getLogin() {
+        return login;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {
@@ -46,7 +46,7 @@ public class loginBean {
 
     public void logar(ActionEvent actionEvent) throws IOException {
         try {
-            Usuario user = new UsuarioDAO().validar(nomeUsuario, senha);
+            Usuario user = new UsuarioDAO().validar(login, senha);
             HttpServletRequest request = SessionUtil.getRequest();
             request.getSession().setAttribute("usuario", user);
             request.getSession().setAttribute("nome", user.getNome());
@@ -54,7 +54,7 @@ public class loginBean {
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().redirect("index.xhtml");            
         } catch (Exception ex) {
-            setNomeUsuario("");
+            setLogin("");
             setSenha("");
             status();
         }        
@@ -63,7 +63,7 @@ public class loginBean {
     public void logout() throws IOException {
         getRequest().getSession().invalidate();
         FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-        setNomeUsuario("");
+        setLogin("");
         setSenha("");
     }
 
