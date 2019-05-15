@@ -36,11 +36,11 @@
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             
-                            <p:commandButton icon="ui-icon-pencil" value="Editar" onclick="PF('record').show();"> 
+                            <p:commandButton immediate="true" icon="ui-icon-pencil" value="Editar" onclick="PF('record').show();"> 
                                 <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
                             </p:commandButton>
                             
-                            <p:commandButton icon="ui-icon-trash" value="Deletar" onclick="PF('remove').show();"> 
+                            <p:commandButton immediate="true" icon="ui-icon-trash" value="Deletar" onclick="PF('remove').show();"> 
                                 <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
                             </p:commandButton> 
                         
@@ -89,14 +89,12 @@
 
             <p:dialog header="Novo" widgetVar="record" modal="true" focus="nome">
                 <p:panelGrid id="panelRecord" columns="2"> 
-                    <!--Código:
-                    <p:inputText id="cod" value="#{assuntoBean.entidade.id}" /-->
-                    Nome:
-                    <p:inputText id="nome" value="#{assuntoBean.entidade.nome}" />
-                    Descrição:
-                    <p:inputText id="descricao" value="#{assuntoBean.entidade.descricao}" />
-                    Assunto:
-                    <p:inputText id="assunto" value="#{assuntoBean.entidade.assunto}" />
+                    <p:outputLabel value="Nome: " />
+                    <p:inputText required="true" requiredMessage="O nome precisa ser preenchido!"  id="nome" value="#{assuntoBean.entidade.nome}" />
+                    <p:outputLabel value="Descrição: " />
+                    <p:inputText required="true" requiredMessage="A descrição precisa ser preenchida!" id="descricao" value="#{assuntoBean.entidade.descricao}" />
+                    <p:outputLabel value="Assunto: " />
+                    <p:inputText required="true" requiredMessage="O assunto precisa ser preenchido!" id="assunto" value="#{assuntoBean.entidade.assunto}" />
                 </p:panelGrid>  
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{assuntoBean.record}" onclick="record.hide()" alt="Record"/> 
@@ -104,7 +102,7 @@
             
             <p:dialog header="Deletar" widgetVar="remove" modal="false"> 
                 Você tem certeza?
-                <p:commandButton value="Deletar" actionListener="#{assuntoBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
+                <p:commandButton immediate="true" value="Deletar" actionListener="#{assuntoBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
             </p:dialog>
             
         </h:form>

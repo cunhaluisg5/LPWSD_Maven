@@ -69,7 +69,7 @@ public class loginBean {
 
     public void status() {
         String cabecalho = "Dados Incorretos!";
-        String mensagem = "Por favor, preencha novamente.";
+        String mensagem = "Por favor, preencha novamente!";
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, cabecalho, mensagem);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
     }
