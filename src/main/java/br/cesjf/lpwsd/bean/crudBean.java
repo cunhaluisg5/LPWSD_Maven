@@ -84,7 +84,7 @@ public abstract class crudBean<E, D extends CrudDAO> {
 
         HSSFCellStyle cellStyle = wb.createCellStyle();
         cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
-        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        //cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
             HSSFCell cell = header.getCell(i);

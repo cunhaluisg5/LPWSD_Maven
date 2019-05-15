@@ -9,23 +9,23 @@
         <h:form>  
             <p:menubar>
                 
-                <p:menuitem value="Início" icon="ui-icon-home" url="/faces/index.xhtml" />
+                <p:menuitem value="Início" icon="ui-icon-home" url="/LPWSD/faces/index.xhtml" />
                 
 
                 <p:submenu label="Gerenciar" icon="ui-icon-gear">
-                    <p:menuitem value="Assuntos" icon="ui-icon-comment" url="/faces/assuntos.xhtml"
+                    <p:menuitem value="Assuntos" icon="ui-icon-comment" url="/LPWSD/faces/assuntos.xhtml"
                     rendered="#{loginBean.isBibliotecario() || loginBean.isAdministrador()}"/>
-                    <p:menuitem value="Autores" icon="ui-icon-person" url="/faces/autores.xhtml"
+                    <p:menuitem value="Autores" icon="ui-icon-person" url="/LPWSD/faces/autores.xhtml"
                     rendered="#{loginBean.isAdministrador()}"/>
-                    <p:menuitem value="Editoras" icon="ui-icon-script" url="/faces/editoras.xhtml"
+                    <p:menuitem value="Editoras" icon="ui-icon-script" url="/LPWSD/faces/editoras.xhtml"
                     rendered="#{loginBean.isAdministrador()}"/>
-                    <p:menuitem value="Empréstimos" icon="ui-icon-check" url="/faces/emprestimos.xhtml"
+                    <p:menuitem value="Empréstimos" icon="ui-icon-check" url="/LPWSD/faces/emprestimos.xhtml"
                     rendered="#{loginBean.isFuncionario() || loginBean.isAdministrador()}"/>
-                    <p:menuitem value="Exemplares" icon="ui-icon-document-b" url="/faces/exemplares.xhtml" 
+                    <p:menuitem value="Exemplares" icon="ui-icon-document-b" url="/LPWSD/faces/exemplares.xhtml" 
                     rendered="#{loginBean.isAluno() || loginBean.isProfessor() || loginBean.isAdministrador() || loginBean.isBibliotecario()}"/>
-                    <p:menuitem value="Livros" icon="ui-icon-document" url="/faces/livros.xhtml"
+                    <p:menuitem value="Livros" icon="ui-icon-document" url="/LPWSD/faces/livros.xhtml"
                     rendered="#{loginBean.isBibliotecario() || loginBean.isAdministrador()}"/>
-                    <p:menuitem value="Usuários" icon="ui-icon-person" url="/faces/usuarios.xhtml"
+                    <p:menuitem value="Usuários" icon="ui-icon-person" url="/LPWSD/faces/usuarios.xhtml"
                     rendered="#{loginBean.isFuncionario() || loginBean.isAdministrador()}"/>
                 </p:submenu>
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">

@@ -7,6 +7,7 @@ package br.cesjf.lpwsd.dao;
 
 import br.cesjf.lpwsd.model.Emprestimo;
 import br.cesjf.lpwsd.util.PersistenceUtil;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -77,4 +78,42 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
        query.executeUpdate();
        em.getTransaction().commit();
     }
+    
+    public Integer checkDebit(int id) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        Query query = em.createQuery("select a from Emprestimo a where a.idUsuario.id =:id and a.dataDevolucao <= :data");
+        query.setParameter("id", id);
+        query.setParameter("data", new Date());
+
+        List<Emprestimo> emprestimo = query.getResultList();
+        if (emprestimo != null && emprestimo.size() > 0) {
+            return emprestimo.size();
+        }
+        return 0;
+    }
+    
+    public Integer checkOpened(int id) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        Query query = em.createQuery("select a from Emprestimo a where a.idUsuario.id =:id and a.dataDevolucao >= :data");
+        query.setParameter("id", id);
+        query.setParameter("data", new Date());
+
+        List<Emprestimo> emprestimo = query.getResultList();
+        if (emprestimo != null && emprestimo.size() > 0) {
+            return emprestimo.size();
+        }
+        return 0;
+    }
+    
+    public Integer available(int id) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        Query query = em.createQuery("select a from Emprestimo a where a.idExemplar.id =:id ");
+        query.setParameter("id", id);        
+
+        List<Emprestimo> emprestimo = query.getResultList();
+        if (emprestimo != null && emprestimo.size() > 0) {
+            return emprestimo.size();
+        }
+        return null;
+    }   
 }
