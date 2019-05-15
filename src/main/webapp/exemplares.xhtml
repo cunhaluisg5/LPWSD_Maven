@@ -46,7 +46,7 @@
             <br/>
             
             <p:column>
-                <p:commandButton rendered="#{!(loginBean.isProfessor() || loginBean.isAluno())}" icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
+                <p:commandButton rendered="#{!(loginBean.tipo == 'Professor' || loginBean.tipo == 'Aluno')}" icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
             
@@ -54,23 +54,23 @@
                 <h3>Exportar dados da página</h3>
 
                 <h:commandLink id="excel">
-                    <p:graphicImage name="./images/exports/excel.png" />
+                    <p:graphicImage name="/resources/images/exports/excel.png" />
                     <p:dataExporter type="xls" target="tabelaEmprestimo" fileName="exemplares" postProcessor="#{exemplarBean.postProcessXLS}" />
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
-                    <p:graphicImage name="./images/exports/pdf.png" />
+                    <p:graphicImage name="/resources/images/exports/pdf.png" />
                     <p:dataExporter type="pdf" target="tabelaEmprestimo" fileName="exemplares" preProcessor="#{exemplarBean.preProcessPDF}" />
                 </h:commandLink>
 
 
                 <h:commandLink>
-                    <p:graphicImage name="./images/exports/csv.png" width="24"/>
+                    <p:graphicImage name="/resources/images/exports/csv.png" width="24"/>
                     <p:dataExporter type="csv" target="tabelaEmprestimo" fileName="exemplares" />
                 </h:commandLink>
 
                 <h:commandLink>
-                    <p:graphicImage  name="./images/exports/xml.png" width="24"/>
+                    <p:graphicImage  name="/resources/images/exports/xml.png" width="24"/>
                     <p:dataExporter type="xml" target="tabelaEmprestimo" fileName="exemplares" />
                 </h:commandLink>
             </div>

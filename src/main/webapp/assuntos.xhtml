@@ -58,23 +58,23 @@
                 <h3>Exportar dados da página</h3>
 
                 <h:commandLink id="excel">
-                    <p:graphicImage name="./images/exports/excel.png" />
+                    <p:graphicImage name="/resources/images/exports/excel.png" />
                     <p:dataExporter type="xls" target="tabelaAssunto" fileName="assuntos" postProcessor="#{assuntoBean.postProcessXLS}" />
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
-                    <p:graphicImage name="./images/exports/pdf.png" />
+                    <p:graphicImage name="/resources/images/exports/pdf.png" />
                     <p:dataExporter type="pdf" target="tabelaAssunto" fileName="assuntos" preProcessor="#{assuntoBean.preProcessPDF}" />
                 </h:commandLink>
 
 
                 <h:commandLink>
-                    <p:graphicImage name="./images/exports/csv.png" width="24"/>
+                    <p:graphicImage name="/resources/images/exports/csv.png" width="24"/>
                     <p:dataExporter type="csv" target="tabelaAssunto" fileName="assuntos" />
                 </h:commandLink>
 
                 <h:commandLink>
-                    <p:graphicImage  name="./images/exports/xml.png" width="24"/>
+                    <p:graphicImage  name="/resources/images/exports/xml.png" width="24"/>
                     <p:dataExporter type="xml" target="tabelaAssunto" fileName="assuntos" />
                 </h:commandLink>
             </div>

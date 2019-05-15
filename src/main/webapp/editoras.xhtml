@@ -50,23 +50,23 @@
                 <h3>Exportar dados da página</h3>
 
                 <h:commandLink id="excel">
-                    <p:graphicImage name="./images/exports/excel.png" />
+                    <p:graphicImage name="/resources/images/exports/excel.png" />
                     <p:dataExporter type="xls" target="tabelaEditora" fileName="editoras" postProcessor="#{editoraBean.postProcessXLS}" />
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
-                    <p:graphicImage name="./images/exports/pdf.png" />
+                    <p:graphicImage name="/resources/images/exports/pdf.png" />
                     <p:dataExporter type="pdf" target="tabelaEditora" fileName="editoras" preProcessor="#{editoraBean.preProcessPDF}" />
                 </h:commandLink>
 
 
                 <h:commandLink>
-                    <p:graphicImage name="./images/exports/csv.png" width="24"/>
+                    <p:graphicImage name="/resources/images/exports/csv.png" width="24"/>
                     <p:dataExporter type="csv" target="tabelaEditora" fileName="editoras" />
                 </h:commandLink>
 
                 <h:commandLink>
-                    <p:graphicImage  name="./images/exports/xml.png" width="24"/>
+                    <p:graphicImage  name="/resources/images/exports/xml.png" width="24"/>
                     <p:dataExporter type="xml" target="tabelaEditora" fileName="editoras" />
                 </h:commandLink>
             </div>
