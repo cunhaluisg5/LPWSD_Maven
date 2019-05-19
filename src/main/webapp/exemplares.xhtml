@@ -88,8 +88,8 @@
                     <p:outputLabel value="Selecione: "/>
                     <p:selectBooleanCheckbox value="#{exemplarBean.entidade.circular}" itemLabel=" Circular"/>  
                     <p:outputLabel value="Livro: "/>
-                    <p:selectOneMenu value="#{exemplarBean.entidade.idLivro}" converter="livroConverter" style="width: 180px">
-                        <f:selectItems value="#{livroBean.itens}"/>
+                    <p:selectOneMenu id="livro" value="#{exemplarBean.entidade.idLivro}" converter="livroConverter" style="width: 180px">
+                        <f:selectItems value="#{exemplarBean.livros}" var="livro" itemLabel="#{livro.titulo}" itemValue="#{livro}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>  
                 <br/>

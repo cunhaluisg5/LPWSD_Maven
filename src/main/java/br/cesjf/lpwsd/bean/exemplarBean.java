@@ -6,7 +6,9 @@
 package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.ExemplarDAO;
+import br.cesjf.lpwsd.dao.LivroDAO;
 import br.cesjf.lpwsd.model.Exemplar;
+import br.cesjf.lpwsd.model.Livro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +26,11 @@ public class exemplarBean extends crudBean<Exemplar, ExemplarDAO> {
     private ExemplarDAO exemplarDAO;
     
     public List<SelectItem> itens;
+    private List<Livro> livros;
+
+    public exemplarBean() {
+        livros = new LivroDAO().buscarTodas();
+    }
 
     public List<SelectItem> getItens() {
         List<SelectItem> list = new ArrayList<SelectItem>();
@@ -50,6 +57,22 @@ public class exemplarBean extends crudBean<Exemplar, ExemplarDAO> {
     @Override
     public Exemplar novo() {
         return new Exemplar();
+    }
+
+    public ExemplarDAO getExemplarDAO() {
+        return exemplarDAO;
+    }
+
+    public void setExemplarDAO(ExemplarDAO exemplarDAO) {
+        this.exemplarDAO = exemplarDAO;
+    }
+
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
     }
 
 }

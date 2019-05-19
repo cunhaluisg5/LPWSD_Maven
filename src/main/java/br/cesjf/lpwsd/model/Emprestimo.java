@@ -7,6 +7,7 @@ package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,6 +57,8 @@ public class Emprestimo implements Serializable {
     @JoinColumn(name = "idUsuario", referencedColumnName = "id")
     @ManyToOne
     private Usuario idUsuario;
+    @OneToMany(mappedBy = "idEmprestimo")
+    private List<Reserva> reservaList;
 
     public Emprestimo() {
     }
@@ -100,6 +105,15 @@ public class Emprestimo implements Serializable {
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    @XmlTransient
+    public List<Reserva> getReservaList() {
+        return reservaList;
+    }
+
+    public void setReservaList(List<Reserva> reservaList) {
+        this.reservaList = reservaList;
     }
 
     @Override

@@ -112,17 +112,17 @@
                     <p:outputLabel value="Ano: "/>
                     <p:calendar required="true" requiredMessage="O ano precisa ser preenchido!" locale="pt" navigator="true" pattern="dd/MM/yyyy" id="ano" value="#{livroBean.entidade.ano}"></p:calendar>                     
                     <p:outputLabel value="Editora: "/>
-                    <p:selectOneMenu required="true" requiredMessage="A editora precisa ser selecionada!" id="editora" value="#{livroBean.entidade.editoraid}" style="width: 180px">
-                        <f:selectItems value="#{editoraBean.itens}"/>
-                    </p:selectOneMenu>                    
+                    <p:selectOneMenu required="true" requiredMessage="A editora precisa ser selecionada!" id="editora" value="#{livroBean.entidade.editoraid}" >
+                        <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}"/>
+                    </p:selectOneMenu>
                     <p:outputLabel value="Assunto: "/>
-                    <p:selectOneMenu required="true" requiredMessage="O assunto precisa ser selecionado!" id="autor" value="#{livroBean.entidade.assuntoid}" style="width: 180px">
-                        <f:selectItems value="#{assuntoBean.itens}"/>
-                    </p:selectOneMenu>                    
+                    <p:selectOneMenu required="true" requiredMessage="O assunto precisa ser selecionado!" id="assunto" value="#{livroBean.entidade.assuntoid}" >
+                        <f:selectItems value="#{livroBean.assuntos}" var="assunto" itemLabel="#{assunto.nome}" itemValue="#{assunto}"/>
+                    </p:selectOneMenu>
                     <p:outputLabel value="Selecione Autores: "/>
                     <p:selectManyMenu required="true" requiredMessage="Pelo menos um autor deve ser selecionado!" id="autores" value="#{livroBean.entidade.autorList}" converter="autorConverter">
                         <f:attribute name="collectionType" value="java.util.ArrayList"/>
-                        <f:selectItems value="#{autorBean.entidades}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
+                        <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
                     </p:selectManyMenu>
                     
                 </p:panelGrid>  

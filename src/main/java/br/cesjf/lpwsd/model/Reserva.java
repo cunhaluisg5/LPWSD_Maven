@@ -6,7 +6,7 @@
 package br.cesjf.lpwsd.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,23 +17,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author luisg
  */
 @Entity
-@Table(name = "exemplar")
+@Table(name = "reserva")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Exemplar.findAll", query = "SELECT e FROM Exemplar e")
-    , @NamedQuery(name = "Exemplar.findById", query = "SELECT e FROM Exemplar e WHERE e.id = :id")
-    , @NamedQuery(name = "Exemplar.findByCircular", query = "SELECT e FROM Exemplar e WHERE e.circular = :circular")})
-public class Exemplar implements Serializable {
+    @NamedQuery(name = "Reserva.findAll", query = "SELECT r FROM Reserva r")
+    , @NamedQuery(name = "Reserva.findById", query = "SELECT r FROM Reserva r WHERE r.id = :id")
+    , @NamedQuery(name = "Reserva.findByDataReserva", query = "SELECT r FROM Reserva r WHERE r.dataReserva = :dataReserva")})
+public class Reserva implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,20 +41,23 @@ public class Exemplar implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "circular")
-    private Boolean circular;
-    @OneToMany(mappedBy = "idExemplar")
-    private List<Emprestimo> emprestimoList;
-    @JoinColumn(name = "idLivro", referencedColumnName = "id")
+    @Column(name = "dataReserva")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataReserva;
+    @JoinColumn(name = "idEmprestimo", referencedColumnName = "id")
     @ManyToOne
-    private Livro idLivro;
-    @OneToMany(mappedBy = "idExemplar")
-    private List<Reserva> reservaList;
+    private Emprestimo idEmprestimo;
+    @JoinColumn(name = "idExemplar", referencedColumnName = "id")
+    @ManyToOne
+    private Exemplar idExemplar;
+    @JoinColumn(name = "idUsuario", referencedColumnName = "id")
+    @ManyToOne
+    private Usuario idUsuario;
 
-    public Exemplar() {
+    public Reserva() {
     }
 
-    public Exemplar(Integer id) {
+    public Reserva(Integer id) {
         this.id = id;
     }
 
@@ -66,38 +69,36 @@ public class Exemplar implements Serializable {
         this.id = id;
     }
 
-    public Boolean getCircular() {
-        return circular;
+    public Date getDataReserva() {
+        return dataReserva;
     }
 
-    public void setCircular(Boolean circular) {
-        this.circular = circular;
+    public void setDataReserva(Date dataReserva) {
+        this.dataReserva = dataReserva;
     }
 
-    @XmlTransient
-    public List<Emprestimo> getEmprestimoList() {
-        return emprestimoList;
+    public Emprestimo getIdEmprestimo() {
+        return idEmprestimo;
     }
 
-    public void setEmprestimoList(List<Emprestimo> emprestimoList) {
-        this.emprestimoList = emprestimoList;
+    public void setIdEmprestimo(Emprestimo idEmprestimo) {
+        this.idEmprestimo = idEmprestimo;
     }
 
-    public Livro getIdLivro() {
-        return idLivro;
+    public Exemplar getIdExemplar() {
+        return idExemplar;
     }
 
-    public void setIdLivro(Livro idLivro) {
-        this.idLivro = idLivro;
+    public void setIdExemplar(Exemplar idExemplar) {
+        this.idExemplar = idExemplar;
     }
 
-    @XmlTransient
-    public List<Reserva> getReservaList() {
-        return reservaList;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setReservaList(List<Reserva> reservaList) {
-        this.reservaList = reservaList;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -110,10 +111,10 @@ public class Exemplar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Exemplar)) {
+        if (!(object instanceof Reserva)) {
             return false;
         }
-        Exemplar other = (Exemplar) object;
+        Reserva other = (Reserva) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -122,7 +123,7 @@ public class Exemplar implements Serializable {
 
     @Override
     public String toString() {
-        return "br.cesjf.lpwsd.model.Exemplar[ id=" + id + " ]";
+        return "br.cesjf.lpwsd.model.Reserva[ id=" + id + " ]";
     }
     
 }

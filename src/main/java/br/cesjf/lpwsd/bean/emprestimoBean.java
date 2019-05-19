@@ -6,11 +6,17 @@
 package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.EmprestimoDAO;
+import br.cesjf.lpwsd.dao.ExemplarDAO;
+import br.cesjf.lpwsd.dao.UsuarioDAO;
 import br.cesjf.lpwsd.model.Emprestimo;
+import br.cesjf.lpwsd.model.Exemplar;
+import br.cesjf.lpwsd.model.Usuario;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -29,6 +35,13 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
     private boolean tabUsuario;
     private boolean tabExemplar = true;
     private boolean tabFinalizar = true;
+    private List<Exemplar> exemplares;
+    private List<Usuario> usuarios;
+
+    public emprestimoBean() {
+        exemplares = new ExemplarDAO().buscarTodas();
+        usuarios = new UsuarioDAO().buscarTodas();
+    }
 
     public EmprestimoDAO getEmprestimoDAO() {
         return emprestimoDAO;
@@ -189,5 +202,21 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
 
     public void setTabFinalizar(boolean tabFinalizar) {
         this.tabFinalizar = tabFinalizar;
+    }
+
+    public List<Exemplar> getExemplares() {
+        return exemplares;
+    }
+
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

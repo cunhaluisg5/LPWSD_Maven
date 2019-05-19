@@ -62,6 +62,8 @@ public class Usuario implements Serializable {
     private String login;
     @OneToMany(mappedBy = "idUsuario")
     private List<Emprestimo> emprestimoList;
+    @OneToMany(mappedBy = "idUsuario")
+    private List<Reserva> reservaList;
 
     public Usuario() {
     }
@@ -125,6 +127,15 @@ public class Usuario implements Serializable {
 
     public void setEmprestimoList(List<Emprestimo> emprestimoList) {
         this.emprestimoList = emprestimoList;
+    }
+
+    @XmlTransient
+    public List<Reserva> getReservaList() {
+        return reservaList;
+    }
+
+    public void setReservaList(List<Reserva> reservaList) {
+        this.reservaList = reservaList;
     }
 
     @Override

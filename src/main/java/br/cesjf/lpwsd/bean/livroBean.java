@@ -5,9 +5,13 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.dao.AssuntoDAO;
 import br.cesjf.lpwsd.dao.AutorDAO;
+import br.cesjf.lpwsd.dao.EditoraDAO;
 import br.cesjf.lpwsd.dao.LivroDAO;
+import br.cesjf.lpwsd.model.Assunto;
 import br.cesjf.lpwsd.model.Autor;
+import br.cesjf.lpwsd.model.Editora;
 import br.cesjf.lpwsd.model.Livro;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,15 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     
     private LivroDAO livroDAO;
     public List<SelectItem> itens;
+    private List<Assunto> assuntos;
+    private List<Editora> editoras;
+    private List<Autor> autores;
+
+    public livroBean() {
+        assuntos = new AssuntoDAO().buscarTodas();
+        editoras = new EditoraDAO().buscarTodas();
+        autores = new AutorDAO().buscarTodas();
+    }
     
     public List<SelectItem> getItens() {
         List<SelectItem> list = new ArrayList<SelectItem>();
@@ -63,9 +76,29 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     @Override
     public Livro novo() {
         return new Livro();
-    }    
-    
-    public List<Autor> getAutores(){
-        return new AutorDAO().buscarTodas();
+    }   
+
+    public List<Assunto> getAssuntos() {
+        return assuntos;
+    }
+
+    public void setAssuntos(List<Assunto> assuntos) {
+        this.assuntos = assuntos;
+    }
+
+    public List<Editora> getEditoras() {
+        return editoras;
+    }
+
+    public void setEditoras(List<Editora> editoras) {
+        this.editoras = editoras;
+    }
+
+    public List<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
     }
 }

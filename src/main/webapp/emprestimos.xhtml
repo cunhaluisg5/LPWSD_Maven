@@ -102,9 +102,8 @@
                                 <p:panel header="Validação de Usuário">
                                     <h:panelGrid columns="4">
                                         <p:outputLabel value="Usuário: " style="float: right;"/>
-                                        <p:selectOneMenu value="#{emprestimoBean.entidade.idUsuario}"
-                                                         style="width: 202px">
-                                            <f:selectItems value="#{usuarioBean.itens}" />
+                                        <p:selectOneMenu id="usuario" value="#{emprestimoBean.entidade.idUsuario}" style="width: 202px">
+                                            <f:selectItems value="#{emprestimoBean.usuarios}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario}"/>
                                         </p:selectOneMenu>
 
                                         <p:commandButton value="Validar"                                                     
@@ -123,10 +122,8 @@
                                 <p:panel header="Validação de Livro">
                                     <h:panelGrid columns="4">
                                         <p:outputLabel value="Livro: " style="float: right;"/>
-                                        <p:selectOneMenu value="#{emprestimoBean.entidade.idExemplar}"
-                                                         style="width: 202px" 
-                                                         requiredMessage="Selecione um livro">
-                                            <f:selectItems value="#{exemplarBean.itens}"/>
+                                        <p:selectOneMenu id="exemplar" value="#{emprestimoBean.entidade.idExemplar}" style="width: 202px">
+                                            <f:selectItems value="#{emprestimoBean.exemplares}" var="exemplar" itemLabel="#{exemplar.idLivro.titulo}" itemValue="#{exemplar}"/>
                                         </p:selectOneMenu>
                                         <p:commandButton value="Validar"                                                     
                                                          icon="ui-icon-search"
