@@ -68,23 +68,23 @@
                 <h3>Exportar dados da página</h3>
 
                 <h:commandLink id="excel">
-                    <p:graphicImage name="/resources/images/exports/excel.png" />
+                    <p:graphicImage value="/resources/images/exports/excel.png" />
                     <p:dataExporter type="xls" target="tableEmprestimo" fileName="emprestimos" postProcessor="#{emprestimoBean.postProcessXLS}" />
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
-                    <p:graphicImage name="/resources/images/exports/pdf.png" />
+                    <p:graphicImage value="/resources/images/exports/pdf.png" />
                     <p:dataExporter type="pdf" target="tableEmprestimo" fileName="emprestimos" preProcessor="#{emprestimoBean.preProcessPDF}" />
                 </h:commandLink>
 
 
                 <h:commandLink>
-                    <p:graphicImage name="/resources/images/exports/csv.png" width="24"/>
+                    <p:graphicImage value="/resources/images/exports/csv.png" width="24"/>
                     <p:dataExporter type="csv" target="tableEmprestimo" fileName="emprestimos" />
                 </h:commandLink>
 
                 <h:commandLink>
-                    <p:graphicImage  name="/resources/images/exports/xml.png" width="24"/>
+                    <p:graphicImage value="/resources/images/exports/xml.png" width="24"/>
                     <p:dataExporter type="xml" target="tableEmprestimo" fileName="emprestimos" />
                 </h:commandLink>
             </div>
