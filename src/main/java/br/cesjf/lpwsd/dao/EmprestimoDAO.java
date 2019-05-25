@@ -10,7 +10,9 @@ import br.cesjf.lpwsd.util.PersistenceUtil;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -21,27 +23,27 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
     @Override
     public Emprestimo buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Emprestimo a where a.id =:id ");
+        TypedQuery<Emprestimo> query = em.createQuery("SELECT e FROM Emprestimo e WHERE e.id =:id ", Emprestimo.class);
         query.setParameter("id", id);
 
-        List<Emprestimo> emprestimo = query.getResultList();
-        if (emprestimo != null && emprestimo.size() > 0) {
-            return emprestimo.get(0);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
-        return null;
     }
 
     @Override
     public List<Emprestimo> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("from Emprestimo As a");
+        Query query = em.createQuery("FROM Emprestimo As a");
         return query.getResultList();
     }
 
     @Override
     public List<Emprestimo> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select distinct a from Emprestimo a group by a.emprestimo");
+        Query query = em.createQuery("SELECT DISTINCT a FROM Emprestimo a GROUP BY a.emprestimo");
         return query.getResultList();
     }
 
@@ -74,46 +76,34 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
        em.getTransaction().begin();
-       Query query = em.createQuery(" delete from Emprestimo");
+       Query query = em.createQuery(" DELETE FROM Emprestimo");
        query.executeUpdate();
        em.getTransaction().commit();
     }
     
-    public Integer checkDebit(int id) {
+    public boolean checkDebit(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Emprestimo a where a.idUsuario.id =:id and a.dataDevolucao <= :data");
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.idUsuario.id =:id AND e.dataDevolucao IS NULL AND e.dataPrevista <= :dataAtual", Long.class);
         query.setParameter("id", id);
-        query.setParameter("data", new Date());
+        query.setParameter("dataAtual", new Date());
 
-        List<Emprestimo> emprestimo = query.getResultList();
-        if (emprestimo != null && emprestimo.size() > 0) {
-            return emprestimo.size();
-        }
-        return 0;
+        return query.getSingleResult() > 0;
     }
     
-    public Integer checkOpened(int id) {
+    public Long checkOpened(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Emprestimo a where a.idUsuario.id =:id and a.dataDevolucao >= :data");
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.idUsuario.id =:id AND e.dataPrevista >= :dataAtual ", Long.class);
         query.setParameter("id", id);
-        query.setParameter("data", new Date());
+        query.setParameter("dataAtual", new Date());
 
-        List<Emprestimo> emprestimo = query.getResultList();
-        if (emprestimo != null && emprestimo.size() > 0) {
-            return emprestimo.size();
-        }
-        return 0;
+        return query.getSingleResult();
     }
     
-    public Integer available(int id) {
+    public boolean available(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Emprestimo a where a.idExemplar.id =:id ");
-        query.setParameter("id", id);        
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.dataDevolucao IS NULL AND e.idExemplar.id =:id ", Long.class);
+        query.setParameter("id", id);
 
-        List<Emprestimo> emprestimo = query.getResultList();
-        if (emprestimo != null && emprestimo.size() > 0) {
-            return emprestimo.size();
-        }
-        return null;
+        return query.getSingleResult() == 0;
     }   
 }

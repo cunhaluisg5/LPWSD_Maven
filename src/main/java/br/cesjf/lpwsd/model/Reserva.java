@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Reserva.findAll", query = "SELECT r FROM Reserva r")
     , @NamedQuery(name = "Reserva.findById", query = "SELECT r FROM Reserva r WHERE r.id = :id")
-    , @NamedQuery(name = "Reserva.findByDataReserva", query = "SELECT r FROM Reserva r WHERE r.dataReserva = :dataReserva")})
+    , @NamedQuery(name = "Reserva.findByDataReserva", query = "SELECT r FROM Reserva r WHERE r.dataReserva = :dataReserva")
+    , @NamedQuery(name = "Reserva.findByCancelar", query = "SELECT r FROM Reserva r WHERE r.cancelar = :cancelar")})
 public class Reserva implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +46,9 @@ public class Reserva implements Serializable {
     @Column(name = "dataReserva")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataReserva;
+    @Size(max = 30)
+    @Column(name = "cancelar")
+    private String cancelar;
     @JoinColumn(name = "idEmprestimo", referencedColumnName = "id")
     @ManyToOne
     private Emprestimo idEmprestimo;
@@ -75,6 +80,14 @@ public class Reserva implements Serializable {
 
     public void setDataReserva(Date dataReserva) {
         this.dataReserva = dataReserva;
+    }
+
+    public String getCancelar() {
+        return cancelar;
+    }
+
+    public void setCancelar(String cancelar) {
+        this.cancelar = cancelar;
     }
 
     public Emprestimo getIdEmprestimo() {

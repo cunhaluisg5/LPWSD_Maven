@@ -99,5 +99,4 @@ public abstract class crudBean<E, D extends CrudDAO> {
 
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     }
-
 }

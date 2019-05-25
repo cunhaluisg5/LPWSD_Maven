@@ -10,46 +10,98 @@
         <br/>
         <ms:mensagem/>
         <h:form id="formPrincipal">
-            <div align="center">
+            <div align="center" style="text-align: center">
                 
-                <p:dataTable var="list" value="#{emprestimoBean.entidades}"
-                             id="tableEmprestimos" emptyMessage="Nenhum registro encontrado"
-                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
-
-                    <p:column headerText="Código" sortBy="#{list.id}" filterBy="#{list.id}">
-                        <h:outputText value="#{list.id}" />
+                <p:dataTable var="lista" 
+                             value="#{emprestimoBean.entidades}"
+                             id="tabelaEmprestimos" 
+                             emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink}
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true" 
+                             rows="10" 
+                             rowsPerPageTemplate="5,10,25,50,100,9999" 
+                             style="width:100%">
+                    
+                    <p:column style="width: 100px" 
+                              headerText="Código" 
+                              sortBy="#{lista.id}" 
+                              filterBy="#{lista.id}">
+                        <h:outputText value="#{lista.id}"/>
                     </p:column>
                     
-                    <p:column headerText="Usuário" sortBy="#{list.idUsuario.nome}" filterBy="#{list.idUsuario.nome}">
-                        <h:outputText value="#{list.idUsuario.nome}" />
+                    <p:column style="width: 180px" 
+                              headerText="Usuário" 
+                              sortBy="#{lista.idUsuario.nome}" 
+                              filterBy="#{lista.idUsuario.nome}">
+                        <h:outputText value="#{lista.idUsuario.nome}"/>
                     </p:column>
                     
-                    <p:column headerText="Livro" sortBy="#{list.idExemplar.idLivro.titulo}" filterBy="#{list.idExemplar.idLivro.titulo}">
-                        <h:outputText value="#{list.idExemplar.idLivro.titulo}" />
+                    <p:column style="width: 200px" 
+                              headerText="Livro" 
+                              sortBy="#{lista.idExemplar.idLivro.titulo}" 
+                              filterBy="#{lista.idExemplar.idLivro.titulo}">
+                        <h:outputText value="#{lista.idExemplar.idLivro.titulo}"/>
                     </p:column>
                     
-                    <p:column headerText="Data Empréstimo" sortBy="#{list.dataEmprestimo}" filterBy="#{list.dataEmprestimo}">
-                        <h:outputText value="#{list.dataEmprestimo}">
+                    <p:column style="width: 200px" 
+                              headerText="Data Empréstimo" 
+                              sortBy="#{lista.dataEmprestimo}" 
+                              filterBy="#{lista.dataEmprestimo}">
+                        <h:outputText value="#{lista.dataEmprestimo}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
-                    </p:column>]
+                    </p:column>
                     
-                    <p:column headerText="Data Devolução" sortBy="#{list.dataDevolucao}" filterBy="#{list.dataDevolucao}">
-                        <h:outputText value="#{list.dataDevolucao}">
+                    <p:column style="width: 200px" 
+                              headerText="Data Prevista" 
+                              sortBy="#{lista.dataPrevista}" 
+                              filterBy="#{lista.dataPrevista}">
+                        <h:outputText value="#{lista.dataPrevista}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
-                    </p:column>]
+                    </p:column>
+                    
+                    <p:column exportable="true" 
+                              style="width: 200px" 
+                              headerText="Situação" 
+                              sortBy="#{lista.dataDevolucao}" 
+                              filterBy="#{lista.dataDevolucao}">
+                        <h:outputText rendered="#{lista.dataDevolucao != null}" 
+                                      value="Devolvido em "/>
+                        <h:outputText rendered="#{lista.dataDevolucao != null}" 
+                                      value="#{lista.dataDevolucao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        
+                        <p:commandButton id="returned" 
+                                         rendered="#{lista.dataDevolucao == null}" 
+                                         icon="ui-icon-check" 
+                                         actionListener="#{emprestimoBean.setEntidade(lista)}" 
+                                         onclick="PF('returned').show();" 
+                                         style="font-size: 14px; width: 100px; height: 40px" 
+                                         value="Devolver"/>
+                    </p:column>
                     
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             
-                            <p:commandButton immediate="true" icon="ui-icon-pencil" value="Editar" onclick="PF('record').show();"> 
-                                <f:setPropertyActionListener target="#{emprestimoBean.entidade}" value="#{list}" />
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-pencil" 
+                                             value="Editar" 
+                                             style="margin: 5px"
+                                             onclick="PF('record').show();"> 
+                                <f:setPropertyActionListener target="#{emprestimoBean.entidade}" 
+                                                             value="#{lista}"/>
                             </p:commandButton>
                             
-                            <p:commandButton immediate="true" icon="ui-icon-trash" value="Deletar" onclick="PF('remove').show();"> 
-                                <f:setPropertyActionListener target="#{emprestimoBean.entidade}" value="#{list}" />
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-trash" 
+                                             value="Deletar" 
+                                             style="margin: 5px"
+                                             onclick="PF('remove').show();"> 
+                                <f:setPropertyActionListener target="#{emprestimoBean.entidade}" 
+                                                             value="#{lista}"/>
                             </p:commandButton> 
                         
                         </center>
@@ -60,7 +112,9 @@
             <br/>
             
             <p:column>
-                <p:commandButton icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
+                <p:commandButton icon="ui-icon-plus" 
+                                 value="Novo Empréstimo" 
+                                 onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
             
@@ -68,109 +122,235 @@
                 <h3>Exportar dados da página</h3>
 
                 <h:commandLink id="excel">
-                    <p:graphicImage value="/resources/images/exports/excel.png" />
-                    <p:dataExporter type="xls" target="tableEmprestimo" fileName="emprestimos" postProcessor="#{emprestimoBean.postProcessXLS}" />
+                    <p:graphicImage value="/resources/images/exports/excel.png"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="xls" 
+                                    target="tabelaEmprestimos" 
+                                    fileName="emprestimos" 
+                                    postProcessor="#{emprestimoBean.postProcessXLS}"/>
                 </h:commandLink>
 
                 <h:commandLink id="pdf">
-                    <p:graphicImage value="/resources/images/exports/pdf.png" />
-                    <p:dataExporter type="pdf" target="tableEmprestimo" fileName="emprestimos" preProcessor="#{emprestimoBean.preProcessPDF}" />
-                </h:commandLink>
-
-
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/csv.png" width="24"/>
-                    <p:dataExporter type="csv" target="tableEmprestimo" fileName="emprestimos" />
+                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="pdf" 
+                                    target="tabelaEmprestimos" 
+                                    fileName="emprestimos" 
+                                    preProcessor="#{emprestimoBean.preProcessPDF}"/>
                 </h:commandLink>
 
                 <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/xml.png" width="24"/>
-                    <p:dataExporter type="xml" target="tableEmprestimo" fileName="emprestimos" />
+                    <p:graphicImage value="/resources/images/exports/csv.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="csv" 
+                                    target="tabelaEmprestimos" 
+                                    fileName="emprestimos"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <p:graphicImage value="/resources/images/exports/xml.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="xml" 
+                                    target="tabelaEmprestimos" 
+                                    fileName="emprestimos"/>
                 </h:commandLink>
             </div>
 
             <p:confirmDialog global="true">  
-                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
-                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                <p:commandButton value="Sim" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check"/>  
+                <p:commandButton value="Não" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-no" 
+                                 icon="ui-icon-close"/>  
             </p:confirmDialog>  
 
             <center>
-                <p:dialog resizable="false" header="Novo Empréstimo" width="650px" widgetVar="record" modal="true">
+                <p:dialog resizable="false" 
+                          header="Novo Empréstimo" 
+                          width="750px" 
+                          widgetVar="record" 
+                          modal="true">
                     <p:panel>
-                        <p:tabView id="tabMain" dynamic="true" activeIndex="#{emprestimoBean.index}" orientation="left">
-                            <p:tab disabled="#{emprestimoBean.tabUsuario}" id="user" title="Usuário"> 
+                        <p:tabView id="tabMain" 
+                                   dynamic="true" 
+                                   activeIndex="#{emprestimoBean.index}" 
+                                   orientation="left">
+                            <p:tab disabled="#{emprestimoBean.index != 0}"
+                                   id="user"> 
+                                <f:facet name="title">
+                                    <h:outputText value="Usuário"
+                                                  style="margin: 5px; vertical-align: middle"/>
+                                    <p:graphicImage value="/resources/images/user.png"
+                                                    style="margin: 5px; vertical-align: middle"/>
+                                 </f:facet>
                                 <p:panel header="Validação de Usuário">
                                     <h:panelGrid columns="4">
-                                        <p:outputLabel value="Usuário: " style="float: right;"/>
-                                        <p:selectOneMenu id="usuario" value="#{emprestimoBean.entidade.idUsuario}" style="width: 202px">
-                                            <f:selectItems value="#{emprestimoBean.usuarios}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario}"/>
+                                        <p:outputLabel value="Usuário: " 
+                                                       style="float: right;"/>
+                                        <p:selectOneMenu id="usuario" 
+                                                         value="#{emprestimoBean.idUsuario}" 
+                                                         style="width: 202px">
+                                            <f:selectItems value="#{emprestimoBean.usuarioBean.entidades}" 
+                                                       var="usuario"
+                                                       itemLabel="#{usuario.nome}"
+                                                       itemValue="#{usuario.id}"/>
                                         </p:selectOneMenu>
 
                                         <p:commandButton value="Validar"                                                     
                                                          icon="ui-icon-search"
-                                                         action="#{emprestimoBean.checkDebit}" update="tabMain"/>        
+                                                         action="#{emprestimoBean.checkDebit}" 
+                                                         update="tabMain"/>        
                                     </h:panelGrid>
                                     <br/>
                                     <p:outputLabel value="O usuário não está apto a efetuar empréstimo!" 
                                                    rendered="#{emprestimoBean.debit}" 
-                                                   style="color: #ff0100; font-style: oblique" />
+                                                   style="color: #ff0100; font-style: oblique"/>
                                     <br/>
                                 </p:panel>
-                                <p:commandButton style="float: left" value="Cancelar" icon="ui-icon-refresh" actionListener="#{emprestimoBean.reset}" update="@form"/>
+                                <p:commandButton style="float: left" 
+                                                 value="Cancelar" 
+                                                 icon="ui-icon-closethick" 
+                                                 actionListener="#{emprestimoBean.reset}" 
+                                                 update="@form"/>
                             </p:tab>
-                            <p:tab disabled="#{emprestimoBean.tabExemplar}" id="book" title="Livro"> 
+                            <p:tab disabled="#{emprestimoBean.index != 1}" 
+                                   id="book"> 
+                                <f:facet name="title">
+                                    <h:outputText value="Livro"
+                                                  style="margin: 5px; vertical-align: middle"/>
+                                    <p:graphicImage value="/resources/images/book.png"
+                                                    style="margin: 5px; vertical-align: middle"/>
+                                 </f:facet>
                                 <p:panel header="Validação de Livro">
                                     <h:panelGrid columns="4">
-                                        <p:outputLabel value="Livro: " style="float: right;"/>
-                                        <p:selectOneMenu id="exemplar" value="#{emprestimoBean.entidade.idExemplar}" style="width: 202px">
-                                            <f:selectItems value="#{emprestimoBean.exemplares}" var="exemplar" itemLabel="#{exemplar.idLivro.titulo}" itemValue="#{exemplar}"/>
+                                        <p:outputLabel value="Livro: " 
+                                                       style="float: right;"/>
+                                        <p:selectOneMenu id="exemplar" 
+                                                         value="#{emprestimoBean.idExemplar}" 
+                                                         style="width: 202px">
+                                            <f:selectItems value="#{emprestimoBean.exemplarBean.entidades}"
+                                                       var="exemplar"
+                                                       itemLabel="#{exemplar.idLivro.titulo}"
+                                                       itemValue="#{exemplar.id}"/>
                                         </p:selectOneMenu>
                                         <p:commandButton value="Validar"                                                     
                                                          icon="ui-icon-search"
-                                                         action="#{emprestimoBean.checkExemplar}" update="tabMain"/>
+                                                         action="#{emprestimoBean.checkExemplar}" 
+                                                         update="tabMain"/>
                                     </h:panelGrid>
                                     <br/>
                                     <p:outputLabel value="Exemplar indisponível ou já emprestado!!" 
                                                    rendered="#{emprestimoBean.debit}" 
-                                                   style="color: #ff0100; font-style: oblique" />
+                                                   style="color: #ff0100; font-style: oblique"/>
                                     <br/>
                                 </p:panel>
-                                <p:commandButton style="float: left" value="Cancelar" icon="ui-icon-refresh" actionListener="#{emprestimoBean.reset}" update="@form"/>
+                                <p:commandButton style="float: left" 
+                                                 value="Cancelar" 
+                                                 icon="ui-icon-closethick" 
+                                                 actionListener="#{emprestimoBean.reset}" 
+                                                 update="@form"/>
                             </p:tab>
-                            <p:tab disabled="#{emprestimoBean.tabFinalizar}" id="confirm" title="Confirmar">
+                            <p:tab disabled="#{emprestimoBean.index != 2}" 
+                                   id="confirm">
+                                <f:facet name="title">
+                                    <h:outputText value="Confirmar"
+                                                  style="margin: 5px; vertical-align: middle"/>
+                                    <p:graphicImage value="/resources/images/confirm.png"
+                                                    style="margin: 5px; vertical-align: middle"/>
+                                 </f:facet>
                                 <p:panel header="Resumo ">
-                                    <h:outputLabel value="Usuário: " for="nameUser"/>
-                                    <h:outputText id="nameUser" value="#{emprestimoBean.entidade.idUsuario.nome} "/>
+                                    <h:outputLabel value="Usuário: " 
+                                                   for="nameUser"/>
+                                    <h:outputText id="nameUser" 
+                                                  value="#{emprestimoBean.entidade.idUsuario.nome} "/>
                                     <br/>
                                     <br/>
-                                    <h:outputLabel value="Livro: " for="titleBook"/>
-                                    <h:outputText id="titleBook" value="#{emprestimoBean.entidade.idExemplar.idLivro.titulo} "/>
+                                    <h:outputLabel value="Livro: " 
+                                                   for="titleBook"/>
+                                    <h:outputText id="titleBook" 
+                                                  value="#{emprestimoBean.entidade.idExemplar.idLivro.titulo} "/>
                                     <br/>
                                     <br/>
-                                    <h:outputLabel value="Data do Empréstimo: " for="dateExit"/>
-                                    <h:outputText id="dateExit" value="#{emprestimoBean.entidade.dataEmprestimo}">
+                                    <h:outputLabel value="Data do empréstimo: " 
+                                                   for="dateExit"/>
+                                    <h:outputText id="dateExit" 
+                                                  value="#{emprestimoBean.entidade.dataEmprestimo}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                     </h:outputText>
                                     <br/>
                                     <br/>
-                                    <h:outputLabel value="Data da Devolução: " for="dateComing"/>
-                                    <h:outputText id="dateComing" value="#{emprestimoBean.entidade.dataDevolucao}">
+                                    <h:outputLabel value="Data prevista para devolução " 
+                                                   for="dateComing"/>
+                                    <h:outputText id="dateComing" 
+                                                  value="#{emprestimoBean.entidade.dataPrevista}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                     </h:outputText>
                                     <br/>
                                     <br/>
                                 </p:panel>
-                                <p:commandButton style="float: left" value="Cancelar" icon="ui-icon-refresh" actionListener="#{emprestimoBean.reset}" update="@form"/>
-                                <p:commandButton style="float: right" value="Registrar" icon="ui-icon-disk" actionListener="#{emprestimoBean.persist}" update="@form" onclick="record.hide()" alt="Record"/>
+                                <p:commandButton style="float: left" 
+                                                 value="Cancelar" 
+                                                 icon="ui-icon-closethick" 
+                                                 actionListener="#{emprestimoBean.reset}" 
+                                                 update="@form"/>
+                                <p:commandButton style="float: right" 
+                                                 value="Registrar" 
+                                                 icon="ui-icon-disk" 
+                                                 actionListener="#{emprestimoBean.persist}" 
+                                                 update="@form" onclick="record.hide()" 
+                                                 alt="Record"/>
                             </p:tab>
                         </p:tabView>
                     </p:panel>
                 </p:dialog>
             </center> 
             
-            <p:dialog header="Deletar" widgetVar="remove" modal="false"> 
+            <p:dialog style="text-align: center" 
+                      resizable="false"
+                      header="Deletar" 
+                      widgetVar="remove" 
+                      modal="true"> 
                 Você tem certeza?
-                <p:commandButton immediate="true" value="Deletar" actionListener="#{emprestimoBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
+                <br/>
+                <br/>
+                <p:commandButton immediate="true" 
+                                 value="Sim" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-circle-check"
+                                 actionListener="#{emprestimoBean.exclude}" 
+                                 onclick="remove.hide()" 
+                                 alt="Delete"/> 
+                <p:commandButton immediate="true"
+                                 value="Não" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-close"
+                                 onclick="remove.hide()"/> 
+            </p:dialog>
+            
+            <p:dialog style="text-align: center"
+                      header="Devolver" 
+                      widgetVar="returned" 
+                      modal="true" 
+                      resizable="false"> 
+                Efetuar devolução?
+                <br/>
+                <br/>
+                <p:commandButton immediate="true"
+                                 value="Sim" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-circle-check"
+                                 actionListener="#{emprestimoBean.returned}" 
+                                 onclick="remove.hide()"/> 
+                <p:commandButton immediate="true"
+                                 value="Não" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-close"
+                                 onclick="remove.hide()"/> 
             </p:dialog>
             
         </h:form>

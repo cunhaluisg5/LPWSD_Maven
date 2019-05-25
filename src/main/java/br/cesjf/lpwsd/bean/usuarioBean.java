@@ -62,4 +62,3 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
         return new Usuario();
     }
 }
-

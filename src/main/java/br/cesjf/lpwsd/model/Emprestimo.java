@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Emprestimo.findAll", query = "SELECT e FROM Emprestimo e")
     , @NamedQuery(name = "Emprestimo.findById", query = "SELECT e FROM Emprestimo e WHERE e.id = :id")
     , @NamedQuery(name = "Emprestimo.findByDataEmprestimo", query = "SELECT e FROM Emprestimo e WHERE e.dataEmprestimo = :dataEmprestimo")
-    , @NamedQuery(name = "Emprestimo.findByDataDevolucao", query = "SELECT e FROM Emprestimo e WHERE e.dataDevolucao = :dataDevolucao")})
+    , @NamedQuery(name = "Emprestimo.findByDataDevolucao", query = "SELECT e FROM Emprestimo e WHERE e.dataDevolucao = :dataDevolucao")
+    , @NamedQuery(name = "Emprestimo.findByDataPrevista", query = "SELECT e FROM Emprestimo e WHERE e.dataPrevista = :dataPrevista")})
 public class Emprestimo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +51,9 @@ public class Emprestimo implements Serializable {
     @Column(name = "dataDevolucao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataDevolucao;
+    @Column(name = "dataPrevista")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataPrevista;
     @JoinColumn(name = "idExemplar", referencedColumnName = "id")
     @ManyToOne
     private Exemplar idExemplar;
@@ -91,6 +94,14 @@ public class Emprestimo implements Serializable {
         this.dataDevolucao = dataDevolucao;
     }
 
+    public Date getDataPrevista() {
+        return dataPrevista;
+    }
+
+    public void setDataPrevista(Date dataPrevista) {
+        this.dataPrevista = dataPrevista;
+    }
+
     public Exemplar getIdExemplar() {
         return idExemplar;
     }
@@ -105,15 +116,6 @@ public class Emprestimo implements Serializable {
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    @XmlTransient
-    public List<Reserva> getReservaList() {
-        return reservaList;
-    }
-
-    public void setReservaList(List<Reserva> reservaList) {
-        this.reservaList = reservaList;
     }
 
     @Override
@@ -134,6 +136,14 @@ public class Emprestimo implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public List<Reserva> getReservaList() {
+        return reservaList;
+    }
+
+    public void setReservaList(List<Reserva> reservaList) {
+        this.reservaList = reservaList;
     }
 
     @Override

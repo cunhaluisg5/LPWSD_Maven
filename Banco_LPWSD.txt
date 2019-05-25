@@ -65,6 +65,7 @@ CREATE TABLE emprestimo(
 	id INT NOT NULL AUTO_INCREMENT,
     	dataEmprestimo DATETIME,
     	dataDevolucao DATETIME,
+	dataPrevista DATETIME,
     	idExemplar INT,
     	idUsuario INT,
     
@@ -92,6 +93,7 @@ CREATE TABLE reserva(
 	idExemplar INT,
 	idEmprestimo INT,
 	dataReserva DATETIME,
+	cancelar VARCHAR(30),
 
 	CONSTRAINT PK_Reserva PRIMARY KEY(id),
 	CONSTRAINT FK_Reserva_Usuario FOREIGN KEY(idUsuario)

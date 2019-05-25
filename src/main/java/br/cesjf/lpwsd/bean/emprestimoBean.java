@@ -1,154 +1,83 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.EmprestimoDAO;
-import br.cesjf.lpwsd.dao.ExemplarDAO;
-import br.cesjf.lpwsd.dao.UsuarioDAO;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import br.cesjf.lpwsd.model.Emprestimo;
 import br.cesjf.lpwsd.model.Exemplar;
 import br.cesjf.lpwsd.model.Usuario;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.ManagedProperty;
 
-/**
- *
- * @author luisg
- */
-@ManagedBean
 @ViewScoped
-public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
-    
+@ManagedBean(name = "emprestimoBean")
+public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
+
     private EmprestimoDAO emprestimoDAO;
-    private boolean debit = false;
-    private int index = 0;
-    private boolean tabUsuario;
-    private boolean tabExemplar = true;
-    private boolean tabFinalizar = true;
-    private List<Exemplar> exemplares;
-    private List<Usuario> usuarios;
+    private boolean debit;
+    private int index;
+    private Integer idUsuario;
+    private Integer idExemplar;
+    @ManagedProperty(value = "#{usuarioBean}")
+    private usuarioBean usuarioBean;
+    @ManagedProperty(value = "#{exemplarBean}")
+    private exemplarBean exemplarBean;
 
-    public emprestimoBean() {
-        exemplares = new ExemplarDAO().buscarTodas();
-        usuarios = new UsuarioDAO().buscarTodas();
-    }
+    public void checkDebit() {
+        getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
+        boolean isDebit = getDao().checkDebit(idUsuario);
+        Long opened = getDao().checkOpened(idUsuario);
+        String typeUser = getEntidade().getIdUsuario().getTipo();
 
-    public EmprestimoDAO getEmprestimoDAO() {
-        return emprestimoDAO;
-    }
-
-    public void setEmprestimoDAO(EmprestimoDAO emprestimoDAO) {
-        this.emprestimoDAO = emprestimoDAO;
-    }
-
-    public boolean isDebit() {
-        return debit;
-    }
-
-    public void setDebit(boolean debit) {
-        this.debit = debit;
-    }
-
-    @Override
-    public EmprestimoDAO getDao() {
-        if (emprestimoDAO == null) {
-            emprestimoDAO = new EmprestimoDAO();
-        }
-        return emprestimoDAO;
-    }
-
-    @Override
-    public Emprestimo novo() {
-        return new Emprestimo();
-    }
-    
-    public void checkDebit(){
-        int idUser = getEntidade().getIdUsuario().getId();
-        if(getDao().checkDebit(idUser) > 0)
+        if (isDebit)
             debit = true;
-        else{
-            int opened = getDao().checkOpened(idUser);
-            String tipo = getEntidade().getIdUsuario().getTipo();
-            if(("Professor".equals(tipo) && opened >= 5) || (!"Professor".equals(tipo) && opened >= 3))
-                debit = true;
-            else{
-                debit = false;
-                tabUsuario = true;
-                tabExemplar = false;
-                nextTab();
-            }
-        }
-    }
-    
-    public void checkExemplar(){
-        int idExemplar = getEntidade().getIdExemplar().getId();
-        if(getDao().available(idExemplar) != null){
+        else if (("Professor".equals(typeUser) && opened >= 5))
             debit = true;
-        }
-        else{
+        else if ((!"Professor".equals(typeUser) && opened >= 3))
+            debit = true;
+        else {
             debit = false;
-            tabUsuario = true;
-            tabExemplar = true;
-            tabFinalizar = false;
             nextTab();
-            record();
         }
     }
-    
-    public void record() {
-        getEntidade().setDataEmprestimo(new Date());
-        if (getEntidade().getIdExemplar().getCircular()) {
-            if ("Professor".equals(getEntidade().getIdUsuario().getTipo()))
-                generateDate(1);
-            else
-                generateDate(0);
-        } else
-            generateDate(2);
+
+    public void checkExemplar() {
+        boolean available = getDao().available(idExemplar);
+        if (!available)
+            debit = true;
+        else {
+            getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
+            generateDate(getEntidade().getIdExemplar(), getEntidade().getIdUsuario());
+            debit = false;
+            nextTab();
+        }
     }
-    
-    public void persist(ActionEvent actionEvent){
+
+    public void persist(ActionEvent actionEvent) {
         record(actionEvent);
         reset();
     }
-    
-    public void reset(){
-        index = 0;
-        tabUsuario = false;
-        tabExemplar = true;
-        tabFinalizar = true;
-        debit = false;
-        novo();
-    }
-    
-    public void generateDate(int opcao) {
-        LocalDate dateNow = null;
+
+    public void generateDate(Exemplar ex, Usuario user) {
+        LocalDate dateNow;
         Date dateEmprestimo = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         getEntidade().setDataEmprestimo(dateEmprestimo);
-        switch (opcao) {
-            case 0:
-                dateNow = LocalDate.now().plusDays(10);
-                break;
-            case 1:
+        boolean opcao = ex.getCircular();
+        String typeUser = user.getTipo();
+
+        if (opcao) {
+            if ("Professor".equals(typeUser))
                 dateNow = LocalDate.now().plusDays(15);
-                break;
-            case 2:
-                dateNow = nextDay();
-                break;
-            default:
-                break;
-        }
-        Date dateDevolucao = Date.from(dateNow.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        getEntidade().setDataDevolucao(dateDevolucao);
+            else
+                dateNow = LocalDate.now().plusDays(10);
+        } else
+            dateNow = nextDay();
+        Date datePrevista = Date.from(dateNow.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        getEntidade().setDataPrevista(datePrevista);
     }
 
     private LocalDate nextDay() {
@@ -168,6 +97,46 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
         return dateNow;
     }
     
+    public void reset(){
+        index = 0;
+        debit = false;
+        novo();
+    }
+    
+    public void returned(ActionEvent actionEvent) {
+        if (getEntidade().getId() != null) {
+            getEntidade().setDataDevolucao(new Date());
+            record(actionEvent);
+        }
+    }
+
+    public boolean isDebit() {
+        return debit;
+    }
+
+    public void setDebit(boolean debit) {
+        this.debit = debit;
+    }
+
+    @Override
+    public EmprestimoDAO getDao() {
+        if (emprestimoDAO == null)
+            emprestimoDAO = new EmprestimoDAO();
+        return emprestimoDAO;
+    }
+    
+    public void nextTab() {
+        index++;
+    }
+
+    public EmprestimoDAO getEmprestimoDAO() {
+        return emprestimoDAO;
+    }
+
+    public void setEmprestimoDAO(EmprestimoDAO emprestimoDAO) {
+        this.emprestimoDAO = emprestimoDAO;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -176,47 +145,43 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO>{
         this.index = index;
     }
 
-    public void nextTab() {
-        index++;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public boolean isTabUsuario() {
-        return tabUsuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public void setTabUsuario(boolean tabUsuario) {
-        this.tabUsuario = tabUsuario;
+    public Integer getIdExemplar() {
+        return idExemplar;
     }
 
-    public boolean isTabExemplar() {
-        return tabExemplar;
+    public void setIdExemplar(Integer idExemplar) {
+        this.idExemplar = idExemplar;
     }
 
-    public void setTabExemplar(boolean tabExemplar) {
-        this.tabExemplar = tabExemplar;
+    public usuarioBean getUsuarioBean() {
+        return usuarioBean;
     }
 
-    public boolean isTabFinalizar() {
-        return tabFinalizar;
+    public void setUsuarioBean(usuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
     }
 
-    public void setTabFinalizar(boolean tabFinalizar) {
-        this.tabFinalizar = tabFinalizar;
+    public exemplarBean getExemplarBean() {
+        return exemplarBean;
     }
 
-    public List<Exemplar> getExemplares() {
-        return exemplares;
+    public void setExemplarBean(exemplarBean exemplarBean) {
+        this.exemplarBean = exemplarBean;
+    }
+    
+    @Override
+    public Emprestimo novo() {
+        idUsuario = null;
+        idExemplar = null;
+        return new Emprestimo();
     }
 
-    public void setExemplares(List<Exemplar> exemplares) {
-        this.exemplares = exemplares;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
 }
