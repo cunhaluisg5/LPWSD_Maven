@@ -20,8 +20,8 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
     private EmprestimoDAO emprestimoDAO;
     private boolean debit;
     private int index;
-    private Integer idUsuario;
-    private Integer idExemplar;
+    private Integer idUsuario = null;
+    private Integer idExemplar = null;
     @ManagedProperty(value = "#{usuarioBean}")
     private usuarioBean usuarioBean;
     @ManagedProperty(value = "#{exemplarBean}")
@@ -183,5 +183,4 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
         idExemplar = null;
         return new Emprestimo();
     }
-
 }

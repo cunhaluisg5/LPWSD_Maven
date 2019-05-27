@@ -1,0 +1,281 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h2 class="page-header">Gerenciar Reservas</h2>
+        <br/>
+        <ms:mensagem/>
+        <h:form id="formPrincipal">
+            <div align="center" style="text-align: center">
+                
+                <p:dataTable var="lista" 
+                             value="#{reservaBean.entidades}"
+                             id="tabelaReserva" 
+                             emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true" 
+                             rows="10" 
+                             rowsPerPageTemplate="5,10,25,50,100,9999" 
+                             style="width:100%">
+
+                    <p:column style="width: 100px"
+                              headerText="Código" 
+                              sortBy="#{lista.id}" 
+                              filterBy="#{lista.id}">
+                        <h:outputText value="#{lista.id}"/>
+                    </p:column>
+                    
+                    <p:column style="width: 200px"
+                              headerText="Data Reserva"  
+                              sortBy="#{lista.dataReserva}" 
+                              filterBy="#{lista.dataReserva}">
+                        <h:outputText  value="#{lista.dataReserva}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column style="width: 200px"
+                              headerText="Exemplar" 
+                              sortBy="#{lista.idExemplar.idLivro.titulo}" 
+                              filterBy="#{lista.idExemplar.idLivro.titulo}">
+                        <h:outputText value="#{lista.idExemplar.idLivro.titulo}"/>
+                    </p:column>
+                    
+                    <p:column style="width: 180px" 
+                              headerText="Usuário" 
+                              sortBy="#{lista.idUsuario.nome}" 
+                              filterBy="#{lista.idUsuario.nome}">
+                        <h:outputText value="#{lista.idUsuario.nome}"/>
+                    </p:column>
+                    
+                    <p:column style="width: 200px" 
+                              headerText="Empréstimo" 
+                              sortBy="#{lista.idEmprestimo.id}" 
+                              filterBy="#{lista.idEmprestimo.id}">
+                        <h:outputText rendered="#{lista.idEmprestimo != null}" 
+                                      value="Cod "/>
+                        <h:outputText rendered="#{lista.idEmprestimo != null}" 
+                                      value="#{lista.idEmprestimo.id} - ">
+                        </h:outputText>
+                        <h:outputText  value="#{lista.idEmprestimo.dataEmprestimo}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        
+                        <p:commandButton id="emprestimo" 
+                                         rendered="#{lista.idEmprestimo == null}" 
+                                         icon="ui-icon-check" 
+                                         actionListener="#{reservaBean.setEntidade(lista)}"
+                                         onclick="PF('Emprestar').show();"  
+                                         style="font-size: 14px; width: 100px; height: 40px" 
+                                         value="Emprestar"/>
+                    </p:column>
+                    
+                    
+                    <p:column style="width: 200px"
+                              headerText="Situação" 
+                              sortBy="#{lista.cancelar}" 
+                              filterBy="#{lista.cancelar}">
+                        <h:outputText rendered="#{lista.cancelar != null}" 
+                                      value="Cancelado por "/>
+                        <h:outputText rendered="#{lista.cancelar != null}" 
+                                      value="#{lista.cancelar}"/>
+                        <p:commandButton id="cancelar"
+                                         rendered="#{(lista.cancelar == null) 
+                                                     and (lista.idEmprestimo != null)}" 
+                                         icon="ui-icon-cancel"
+                                         actionListener="#{reservaBean.setEntidade(lista)}"
+                                         onclick="PF('Cancelar').show();"
+                                         style="font-size: 14px; width: 100px; height: 40px"
+                                         value="Cancelar"/>
+                    </p:column>
+                    
+                    <p:column headerText="Opções" exportable="false">
+                        <center>
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-pencil" 
+                                             value="Editar" 
+                                             style="margin: 5px"
+                                             onclick="PF('record').show();"> 
+                                <f:setPropertyActionListener target="#{reservaBean.entidade}" 
+                                                             value="#{lista}"/>
+                            </p:commandButton>
+                            
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-trash" 
+                                             value="Deletar" 
+                                             style="margin: 5px"
+                                             onclick="PF('remove').show();"> 
+                                <f:setPropertyActionListener target="#{reservaBean.entidade}" 
+                                                             value="#{lista}"/>
+                            </p:commandButton> 
+                        
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+            <br/>
+            
+            <p:column>
+                <p:commandButton icon="ui-icon-plus" 
+                                 value="Nova Reserva" 
+                                 onclick="PF('record').show();">  
+                </p:commandButton> 
+            </p:column>
+            
+            <div align="center">
+                <h3>Exportar dados da página</h3>
+
+                <h:commandLink id="excel">
+                    <p:graphicImage value="/resources/images/exports/excel.png"/>
+                    <p:dataExporter encoding="iso-8859-1"
+                                    type="xls" 
+                                    target="tabelaReserva" 
+                                    fileName="reservas" 
+                                    postProcessor="#{reservaBean.postProcessXLS}"/>
+                </h:commandLink>
+
+                <h:commandLink id="pdf">
+                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                    <p:dataExporter encoding="iso-8859-1"
+                                    type="pdf" 
+                                    target="tabelaReserva" 
+                                    fileName="reservas" 
+                                    preProcessor="#{reservaBean.preProcessPDF}"/>
+                </h:commandLink>
+
+
+                <h:commandLink>
+                    <p:graphicImage value="/resources/images/exports/csv.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1"
+                                    type="csv" 
+                                    target="tabelaReserva" 
+                                    fileName="reservas"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <p:graphicImage value="/resources/images/exports/xml.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1"
+                                    type="xml" 
+                                    target="tabelaReserva" 
+                                    fileName="reservas"/>
+                </h:commandLink>
+            </div>
+
+            <p:dialog header="Nova Reserva" 
+                      resizable="false"
+                      widgetVar="record" 
+                      modal="true">
+                <p:panelGrid columns="2"> 
+                    <h:outputText value="Data Reserva"/>
+                    <p:calendar id="dataReserva" 
+                                value="#{reservaBean.entidade.dataReserva}" 
+                                pattern="dd/MM/yyyy">
+                    </p:calendar>
+                        
+                    <p:outputLabel value="Exemplar: " 
+                                   style="float: right;"/>
+                    <p:selectOneMenu id="exemplar" 
+                                    value="#{reservaBean.idExemplar}" 
+                                    style="width: 202px">
+                       <f:selectItems value="#{reservaBean.exemplarBean.entidades}"
+                                  var="exemplar"
+                                  itemLabel="#{exemplar.idLivro.titulo}"
+                                  itemValue="#{exemplar.id}"/>
+                   </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Usuário: " 
+                                   style="float: right;"/>
+                    <p:selectOneMenu id="usuario" 
+                                    value="#{reservaBean.idUsuario}" 
+                                    style="width: 202px">
+                       <f:selectItems value="#{reservaBean.usuarioBean.entidades}" 
+                                  var="usuario"
+                                  itemLabel="#{usuario.nome}"
+                                  itemValue="#{usuario.id}"/>
+                   </p:selectOneMenu>
+                </p:panelGrid> 
+                <p:commandButton value="Salvar" 
+                                 update="@form" 
+                                 icon="ui-icon-disk"
+                                 actionListener="#{reservaBean.persist}" 
+                                 onclick="record.hide()"
+                                 alt="Record"/>
+            </p:dialog>
+            
+            <p:dialog style="text-align: center" 
+                      resizable="false"
+                      header="Deletar" 
+                      widgetVar="remove" 
+                      modal="true"> 
+                Você tem certeza?
+                <br/>
+                <br/>
+                <p:commandButton immediate="true" 
+                                 value="Sim" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-circle-check"
+                                 actionListener="#{reservaBean.exclude}" 
+                                 onclick="remove.hide()" 
+                                 alt="Delete"/> 
+                <p:commandButton immediate="true"
+                                 value="Não" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-close"
+                                 onclick="remove.hide()"/> 
+            </p:dialog>
+            
+            <p:dialog style="text-align: center" 
+                      resizable="false"
+                      header="Cancelar" 
+                      widgetVar="Cancelar" 
+                      modal="true"> 
+                Você tem certeza?
+                <br/>
+                <br/>
+                <p:commandButton immediate="true" 
+                                 value="Sim" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-circle-check"
+                                 actionListener="#{reservaBean.cancel}" 
+                                 onclick="remove.hide()" 
+                                 alt="Delete"/> 
+                <p:commandButton immediate="true"
+                                 value="Não" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-close"
+                                 onclick="remove.hide()"/> 
+            </p:dialog>
+            
+            <p:dialog style="text-align: center" 
+                      resizable="false"
+                      header="Emprestar" 
+                      widgetVar="Emprestar" 
+                      modal="true"> 
+                Você tem certeza?
+                <br/>
+                <br/>
+                <p:commandButton immediate="true" 
+                                 value="Sim" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-circle-check"
+                                 actionListener="#{reservaBean.lend}" 
+                                 onclick="remove.hide()" 
+                                 alt="Delete"/> 
+                <p:commandButton immediate="true"
+                                 value="Não" 
+                                 style="margin: 5px"
+                                 icon="ui-icon-close"
+                                 onclick="remove.hide()"/> 
+            </p:dialog>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>

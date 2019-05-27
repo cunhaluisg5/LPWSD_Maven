@@ -30,7 +30,7 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
     @Override
     public Reserva buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Reserva a where a.id =:id");
+        Query query = em.createQuery("SELECT a FROM Reserva a WHERE a.id =:id");
         query.setParameter("id", id);
         
         List<Reserva> reserva = query.getResultList();
@@ -43,14 +43,14 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
     @Override
     public List<Reserva> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("from Reserva As a");
+        Query query = em.createQuery("FROM Reserva As a");
         return query.getResultList();
     }
 
     @Override
     public List<Reserva> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select distinct a from Reserva a group by a.reserva");
+        Query query = em.createQuery("SELECT DISTINCT a FROM Reserva a GROUP BY a.reserva");
         return query.getResultList();
     }
 
@@ -83,7 +83,7 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery(" delete from Reserva ");
+        Query query = em.createQuery(" DELETE FROM Reserva ");
         query.executeUpdate();
         em.getTransaction().commit();
     }

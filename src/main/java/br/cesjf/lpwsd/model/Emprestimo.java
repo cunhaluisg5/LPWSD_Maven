@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -118,6 +119,15 @@ public class Emprestimo implements Serializable {
         this.idUsuario = idUsuario;
     }
 
+    @XmlTransient
+    public List<Reserva> getReservaList() {
+        return reservaList;
+    }
+
+    public void setReservaList(List<Reserva> reservaList) {
+        this.reservaList = reservaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,14 +146,6 @@ public class Emprestimo implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public List<Reserva> getReservaList() {
-        return reservaList;
-    }
-
-    public void setReservaList(List<Reserva> reservaList) {
-        this.reservaList = reservaList;
     }
 
     @Override
