@@ -7,8 +7,12 @@ package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.UsuarioDAO;
 import br.cesjf.lpwsd.model.Usuario;
+import br.cesjf.lpwsd.report.Relatorio;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
@@ -60,5 +64,10 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
     @Override
     public Usuario novo() {
         return new Usuario();
+    }
+    
+    public void gerarRelatorioAction() {
+        Relatorio relatorio = new Relatorio();
+        relatorio.getRelatorio();
     }
 }

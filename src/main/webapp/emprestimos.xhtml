@@ -205,13 +205,14 @@
 
                                         <p:commandButton value="Validar"                                                     
                                                          icon="ui-icon-search"
-                                                         action="#{emprestimoBean.checkDebit}" 
+                                                         actionListener="#{emprestimoBean.checkDebit}" 
+                                                         action="#{emprestimoBean.errorUser()}"
                                                          update="tabMain"/>        
                                     </h:panelGrid>
                                     <br/>
-                                    <p:outputLabel value="O usuário não está apto a efetuar empréstimo!" 
-                                                   rendered="#{emprestimoBean.debit}" 
-                                                   style="color: #ff0100; font-style: oblique"/>
+                                    <p:messages rendered="#{emprestimoBean.debit}" id="messageUser" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
                                     <br/>
                                 </p:panel>
                                 <p:commandButton style="float: left" 
@@ -219,6 +220,7 @@
                                                  icon="ui-icon-closethick" 
                                                  actionListener="#{emprestimoBean.reset}" 
                                                  update="@form"/>
+                                
                             </p:tab>
                             <p:tab disabled="#{emprestimoBean.index != 1}" 
                                    id="book"> 
@@ -242,13 +244,14 @@
                                         </p:selectOneMenu>
                                         <p:commandButton value="Validar"                                                     
                                                          icon="ui-icon-search"
-                                                         action="#{emprestimoBean.checkExemplar}" 
+                                                         actionListener="#{emprestimoBean.checkExemplar}" 
+                                                         action="#{emprestimoBean.errorBook()}"
                                                          update="tabMain"/>
                                     </h:panelGrid>
                                     <br/>
-                                    <p:outputLabel value="Exemplar indisponível ou já emprestado!!" 
-                                                   rendered="#{emprestimoBean.debit}" 
-                                                   style="color: #ff0100; font-style: oblique"/>
+                                    <p:messages rendered="#{emprestimoBean.debit}" id="messageBook" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
                                     <br/>
                                 </p:panel>
                                 <p:commandButton style="float: left" 

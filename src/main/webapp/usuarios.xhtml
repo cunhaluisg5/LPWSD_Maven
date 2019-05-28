@@ -58,6 +58,7 @@
             <p:column>
                 <p:commandButton rendered="#{!(loginBean.tipo == 'Funcionario')}" icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
                 </p:commandButton> 
+                <p:commandButton immediate="true" id="reportPdf" value="Relatório" action="#{usuarioBean.gerarRelatorioAction()}" ajax="false" onclick="this.form.target = '_blank'"/>
             </p:column>
             
             <div align="center">

@@ -124,7 +124,7 @@
                         <f:attribute name="collectionType" value="java.util.ArrayList"/>
                         <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
                     </p:selectManyMenu>
-                    
+
                 </p:panelGrid>  
                 <br/>
                 <p:commandButton value="Salvar" actionListener="#{livroBean.record}" onclick="record.hide()" alt="Record"/> 

@@ -11,7 +11,9 @@ import br.cesjf.lpwsd.model.Usuario;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 @ViewScoped
 @ManagedBean(name = "emprestimoBean")
@@ -182,5 +184,13 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
         idUsuario = null;
         idExemplar = null;
         return new Emprestimo();
+    }
+    
+    public void errorUser() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "O usuário não está apto a efetuar empréstimo."));
+    }
+    
+    public void errorBook() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "Exemplar indisponível ou já emprestado."));
     }
 }

@@ -29,6 +29,7 @@
                     rendered="#{loginBean.tipo == 'Funcionario' || loginBean.tipo == 'Administrador'}"/>
                     <p:menuitem value="Reservas" icon="ui-icon-person" url="/faces/reservas.xhtml"/>
                 </p:submenu>
+                                
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">
                     <p:menuitem value="Sair" icon="ui-icon-close" action="#{loginBean.logout}"/>
                 </p:submenu>
