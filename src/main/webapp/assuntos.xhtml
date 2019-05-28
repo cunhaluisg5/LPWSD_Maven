@@ -10,38 +10,63 @@
         <br/>
         <ms:mensagem/>
         <h:form id="formPrincipal">
-            <div align="center">
+            <div align="center" style="text-align: center">
                 
-                <p:dataTable var="lista" value="#{assuntoBean.entidades}"
-                             id="tabelaAssunto" emptyMessage="Nenhum registro encontrado"
-                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             paginator="true" rows="10" rowsPerPageTemplate="5,10,25,50,100,9999" style="width:100%">
+                <p:dataTable var="lista" 
+                             value="#{assuntoBean.entidades}"
+                             id="tabelaAssunto" 
+                             emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true" 
+                             rows="10" 
+                             rowsPerPageTemplate="5,10,25,50,100,9999" 
+                             style="width:100%">
 
-                    <p:column headerText="Código" sortBy="#{lista.id}" filterBy="#{lista.id}">
-                        <h:outputText value="#{lista.id}" />
+                    <p:column style="width: 100px"
+                              headerText="Código" 
+                              sortBy="#{lista.id}" 
+                              filterBy="#{lista.id}">
+                        <h:outputText value="#{lista.id}"/>
                     </p:column>
                     
-                    <p:column headerText="Nome" sortBy="#{lista.nome}" filterBy="#{lista.nome}">
-                        <h:outputText value="#{lista.nome}" />
+                    <p:column headerText="Nome" 
+                              sortBy="#{lista.nome}" 
+                              filterBy="#{lista.nome}">
+                        <h:outputText value="#{lista.nome}"/>
                     </p:column>
 
-                    <p:column headerText="Descrição" sortBy="#{lista.descricao}" filterBy="#{lista.descricao}">
-                        <h:outputText value="#{lista.descricao}" />
+                    <p:column headerText="Descrição" 
+                              sortBy="#{lista.descricao}" 
+                              filterBy="#{lista.descricao}">
+                        <h:outputText value="#{lista.descricao}"/>
                     </p:column>
                     
-                    <p:column headerText="Assunto" sortBy="#{lista.assunto}" filterBy="#{lista.assunto}">
-                        <h:outputText value="#{lista.assunto}" />
+                    <p:column headerText="Assunto" 
+                              sortBy="#{lista.assunto}" 
+                              filterBy="#{lista.assunto}">
+                        <h:outputText value="#{lista.assunto}"/>
                     </p:column>
                     
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             
-                            <p:commandButton immediate="true" icon="ui-icon-pencil" value="Editar" onclick="PF('record').show();"> 
-                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-pencil" 
+                                             value="Editar" 
+                                             style="margin: 5px"
+                                             onclick="PF('record').show();"> 
+                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" 
+                                                             value="#{lista}"/>
                             </p:commandButton>
                             
-                            <p:commandButton immediate="true" icon="ui-icon-trash" value="Deletar" onclick="PF('remove').show();"> 
-                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" value="#{lista}" />
+                            <p:commandButton immediate="true" 
+                                             icon="ui-icon-trash" 
+                                             value="Deletar" 
+                                             style="margin: 5px"
+                                             onclick="PF('remove').show();"> 
+                                <f:setPropertyActionListener target="#{assuntoBean.entidade}" 
+                                                             value="#{lista}"/>
                             </p:commandButton> 
                         
                         </center>
@@ -52,57 +77,103 @@
             <br/>
             
             <p:column>
-                <p:commandButton icon="ui-icon-plus" value="Novo" onclick="PF('record').show();">  
+                <p:commandButton icon="ui-icon-plus" 
+                                 value="Novo Assunto" 
+                                 onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
 
-                <h:commandLink id="excel">
-                    <p:graphicImage value="/resources/images/exports/excel.png" />
-                    <p:dataExporter type="xls" target="tabelaAssunto" fileName="assuntos" postProcessor="#{assuntoBean.postProcessXLS}" />
+                <h:commandLink id="excel" immediate="true">
+                    <p:graphicImage value="/resources/images/exports/excel.png"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="xls" 
+                                    target="tabelaAssunto" 
+                                    fileName="assuntos" 
+                                    postProcessor="#{assuntoBean.postProcessXLS}"/>
                 </h:commandLink>
 
-                <h:commandLink id="pdf">
-                    <p:graphicImage value="/resources/images/exports/pdf.png" />
-                    <p:dataExporter type="pdf" target="tabelaAssunto" fileName="assuntos" preProcessor="#{assuntoBean.preProcessPDF}" />
+                <h:commandLink id="pdf" immediate="true">
+                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="pdf" 
+                                    target="tabelaAssunto" 
+                                    fileName="assuntos" 
+                                    preProcessor="#{assuntoBean.preProcessPDF}"/>
                 </h:commandLink>
 
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/csv.png" width="24"/>
-                    <p:dataExporter type="csv" target="tabelaAssunto" fileName="assuntos" />
+                <h:commandLink immediate="true">
+                    <p:graphicImage value="/resources/images/exports/csv.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="csv" 
+                                    target="tabelaAssunto" 
+                                    fileName="assuntos"/>
                 </h:commandLink>
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/xml.png" width="24"/>
-                    <p:dataExporter type="xml" target="tabelaAssunto" fileName="assuntos" />
+                <h:commandLink immediate="true">
+                    <p:graphicImage value="/resources/images/exports/xml.png" 
+                                    width="24"/>
+                    <p:dataExporter encoding="iso-8859-1" 
+                                    type="xml" 
+                                    target="tabelaAssunto" 
+                                    fileName="assuntos"/>
                 </h:commandLink>
             </div>
 
             <p:confirmDialog global="true">  
-                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
-                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                <p:commandButton value="Sim" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check"/>  
+                <p:commandButton value="Não" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-no" 
+                                 icon="ui-icon-close"/>  
             </p:confirmDialog>  
 
-
-            <p:dialog header="Novo" widgetVar="record" modal="true" focus="nome">
+            <p:dialog header="Novo Assunto" 
+                      widgetVar="record" 
+                      modal="true" 
+                      resizable="false"
+                      focus="nome">
                 <p:panelGrid id="panelRecord" columns="2"> 
-                    <p:outputLabel value="Nome: " />
-                    <p:inputText required="true" requiredMessage="O nome precisa ser preenchido!"  id="nome" value="#{assuntoBean.entidade.nome}" />
+                    <p:outputLabel value="Nome: "/>
+                    <p:inputText required="true" 
+                                 requiredMessage="O nome precisa ser preenchido!" 
+                                 id="nome" 
+                                 value="#{assuntoBean.entidade.nome}"/>
                     <p:outputLabel value="Descrição: " />
-                    <p:inputText required="true" requiredMessage="A descrição precisa ser preenchida!" id="descricao" value="#{assuntoBean.entidade.descricao}" />
-                    <p:outputLabel value="Assunto: " />
-                    <p:inputText required="true" requiredMessage="O assunto precisa ser preenchido!" id="assunto" value="#{assuntoBean.entidade.assunto}" />
+                    <p:inputText required="true" 
+                                 requiredMessage="A descrição precisa ser preenchida!" 
+                                 id="descricao" 
+                                 value="#{assuntoBean.entidade.descricao}"/>
+                    <p:outputLabel value="Assunto: "/>
+                    <p:inputText required="true" 
+                                 requiredMessage="O assunto precisa ser preenchido!" 
+                                 id="assunto" 
+                                 value="#{assuntoBean.entidade.assunto}"/>
                 </p:panelGrid>  
                 <br/>
-                <p:commandButton value="Salvar" actionListener="#{assuntoBean.record}" onclick="record.hide()" alt="Record"/> 
+                <p:commandButton value="Salvar" 
+                                 actionListener="#{assuntoBean.record}" 
+                                 onclick="record.hide()" 
+                                 alt="Record"/> 
             </p:dialog>
             
-            <p:dialog header="Deletar" widgetVar="remove" modal="false"> 
+            <p:dialog header="Deletar" 
+                      widgetVar="remove" 
+                      resizable="false"
+                      modal="true"> 
                 Você tem certeza?
-                <p:commandButton immediate="true" value="Deletar" actionListener="#{assuntoBean.exclude}" onclick="remove.hide()" alt="Delete" /> 
+                <p:commandButton immediate="true" 
+                                 value="Deletar" 
+                                 actionListener="#{assuntoBean.exclude}" 
+                                 onclick="remove.hide()" 
+                                 alt="Delete"/> 
             </p:dialog>
             
         </h:form>

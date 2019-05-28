@@ -29,7 +29,7 @@ public class AssuntoDAO implements Serializable, CrudDAO<Assunto>{
     
     public Assunto buscar(String nome){
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Assunto a where a.nome =:nome");
+        Query query = em.createQuery("SELECT a FROM Assunto a WHERE a.nome =:nome");
         query.setParameter("nome", nome);
         
         List<Assunto> assunto = query.getResultList();
@@ -42,7 +42,7 @@ public class AssuntoDAO implements Serializable, CrudDAO<Assunto>{
     @Override
     public Assunto buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Assunto a where a.id =:id");
+        Query query = em.createQuery("SELECT a FROM Assunto a WHERE a.id =:id");
         query.setParameter("id", id);
         
         List<Assunto> assunto = query.getResultList();
@@ -55,14 +55,14 @@ public class AssuntoDAO implements Serializable, CrudDAO<Assunto>{
     @Override
     public List<Assunto> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("from Assunto As a");
+        Query query = em.createQuery("FROM Assunto As a");
         return query.getResultList();
     }
 
     @Override
     public List<Assunto> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select distinct a from Assunto a group by a.assunto");
+        Query query = em.createQuery("SELECT DISTINCT a FROM Assunto a GROUP BY a.assunto");
         return query.getResultList();
     }
 
@@ -95,7 +95,7 @@ public class AssuntoDAO implements Serializable, CrudDAO<Assunto>{
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery(" delete from Assunto ");
+        Query query = em.createQuery(" DELETE FROM Assunto ");
         query.executeUpdate();
         em.getTransaction().commit();
     }

@@ -1,6 +1,8 @@
 package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.EmprestimoDAO;
+import br.cesjf.lpwsd.dao.ExemplarDAO;
+import br.cesjf.lpwsd.dao.UsuarioDAO;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -11,26 +13,41 @@ import br.cesjf.lpwsd.model.Usuario;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 @ViewScoped
 @ManagedBean(name = "emprestimoBean")
 public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
 
+    //DAOs
     private EmprestimoDAO emprestimoDAO;
+    private UsuarioDAO usuarioDAO;
+    private ExemplarDAO exemplarDAO;
+    
+    //Listas
+    private List<Usuario> usuarios;
+    private List<Exemplar> exemplares;
+    private List<Emprestimo> emprestimos;
+    
+    //Variáveis
     private boolean debit;
     private int index;
-    private Integer idUsuario = null;
-    private Integer idExemplar = null;
-    @ManagedProperty(value = "#{usuarioBean}")
-    private usuarioBean usuarioBean;
-    @ManagedProperty(value = "#{exemplarBean}")
-    private exemplarBean exemplarBean;
+    private Integer idUsuario;
+    private Integer idExemplar;
+    
+    //Construtor
+    public emprestimoBean() {
+        usuarioDAO = new UsuarioDAO();
+        exemplarDAO = new ExemplarDAO();
+        usuarios = usuarioDAO.buscarTodas();
+        exemplares = exemplarDAO.buscarTodas();
+    }
 
+    //Verifica se existe débito
     public void checkDebit() {
-        getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
+        getEntidade().setIdUsuario(usuarioDAO.buscarId(idUsuario));
         boolean isDebit = getDao().checkDebit(idUsuario);
         Long opened = getDao().checkOpened(idUsuario);
         String typeUser = getEntidade().getIdUsuario().getTipo();
@@ -47,23 +64,26 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
         }
     }
 
+    //Verifica se exemplar está disponível
     public void checkExemplar() {
         boolean available = getDao().available(idExemplar);
         if (!available)
             debit = true;
         else {
-            getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
+            getEntidade().setIdExemplar(exemplarDAO.buscarId(idExemplar));
             generateDate(getEntidade().getIdExemplar(), getEntidade().getIdUsuario());
             debit = false;
             nextTab();
         }
     }
 
+    //Grava os dados no banco
     public void persist(ActionEvent actionEvent) {
         record(actionEvent);
         reset();
     }
 
+    //Calcula a data
     public void generateDate(Exemplar ex, Usuario user) {
         LocalDate dateNow;
         Date dateEmprestimo = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -82,6 +102,7 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
         getEntidade().setDataPrevista(datePrevista);
     }
 
+    //Calcula próximo dia útil
     private LocalDate nextDay() {
         LocalDate dateNow;
         DayOfWeek dayWeek = LocalDate.now().getDayOfWeek();
@@ -99,17 +120,91 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
         return dateNow;
     }
     
+    //Retorna ao estado inicial
     public void reset(){
         index = 0;
         debit = false;
         novo();
     }
     
+    //Registra data de devolução
     public void returned(ActionEvent actionEvent) {
         if (getEntidade().getId() != null) {
             getEntidade().setDataDevolucao(new Date());
             record(actionEvent);
         }
+    }
+    
+    //Incrementa índice da tab
+    public void nextTab() {
+        index++;
+    }
+    
+    //Instancia um novo empréstimo
+    @Override
+    public Emprestimo novo() {
+        idUsuario = null;
+        idExemplar = null;
+        return new Emprestimo();
+    }
+    
+    //Instancia ou retorna o DAO
+    @Override
+    public EmprestimoDAO getDao() {
+        if (emprestimoDAO == null)
+            emprestimoDAO = new EmprestimoDAO();
+        return emprestimoDAO;
+    }
+    
+    //Adiciona mensagem de status de usuário
+    public void errorUser() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "O usuário não está apto a efetuar empréstimo."));
+    }
+    
+    //Adiciona mensagem de status de exemplar
+    public void errorBook() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "Exemplar indisponível ou já emprestado."));
+    }
+
+    //Getters and Setters
+    public EmprestimoDAO getEmprestimoDAO() {
+        return emprestimoDAO;
+    }
+
+    public void setEmprestimoDAO(EmprestimoDAO emprestimoDAO) {
+        this.emprestimoDAO = emprestimoDAO;
+    }
+
+    public UsuarioDAO getUsuarioDAO() {
+        return usuarioDAO;
+    }
+
+    public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
+
+    public ExemplarDAO getExemplarDAO() {
+        return exemplarDAO;
+    }
+
+    public void setExemplarDAO(ExemplarDAO exemplarDAO) {
+        this.exemplarDAO = exemplarDAO;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public List<Exemplar> getExemplares() {
+        return exemplares;
+    }
+
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
     }
 
     public boolean isDebit() {
@@ -118,25 +213,6 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
 
     public void setDebit(boolean debit) {
         this.debit = debit;
-    }
-
-    @Override
-    public EmprestimoDAO getDao() {
-        if (emprestimoDAO == null)
-            emprestimoDAO = new EmprestimoDAO();
-        return emprestimoDAO;
-    }
-    
-    public void nextTab() {
-        index++;
-    }
-
-    public EmprestimoDAO getEmprestimoDAO() {
-        return emprestimoDAO;
-    }
-
-    public void setEmprestimoDAO(EmprestimoDAO emprestimoDAO) {
-        this.emprestimoDAO = emprestimoDAO;
     }
 
     public int getIndex() {
@@ -161,36 +237,5 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
 
     public void setIdExemplar(Integer idExemplar) {
         this.idExemplar = idExemplar;
-    }
-
-    public usuarioBean getUsuarioBean() {
-        return usuarioBean;
-    }
-
-    public void setUsuarioBean(usuarioBean usuarioBean) {
-        this.usuarioBean = usuarioBean;
-    }
-
-    public exemplarBean getExemplarBean() {
-        return exemplarBean;
-    }
-
-    public void setExemplarBean(exemplarBean exemplarBean) {
-        this.exemplarBean = exemplarBean;
-    }
-    
-    @Override
-    public Emprestimo novo() {
-        idUsuario = null;
-        idExemplar = null;
-        return new Emprestimo();
-    }
-    
-    public void errorUser() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "O usuário não está apto a efetuar empréstimo."));
-    }
-    
-    public void errorBook() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", "Exemplar indisponível ou já emprestado."));
     }
 }

@@ -70,4 +70,12 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
         Relatorio relatorio = new Relatorio();
         relatorio.getRelatorio();
     }
+
+    public UsuarioDAO getUsuarioDAO() {
+        return usuarioDAO;
+    }
+
+    public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
 }

@@ -197,7 +197,7 @@
                                         <p:selectOneMenu id="usuario" 
                                                          value="#{emprestimoBean.idUsuario}" 
                                                          style="width: 202px">
-                                            <f:selectItems value="#{emprestimoBean.usuarioBean.entidades}" 
+                                            <f:selectItems value="#{emprestimoBean.usuarios}" 
                                                        var="usuario"
                                                        itemLabel="#{usuario.nome}"
                                                        itemValue="#{usuario.id}"/>
@@ -237,7 +237,7 @@
                                         <p:selectOneMenu id="exemplar" 
                                                          value="#{emprestimoBean.idExemplar}" 
                                                          style="width: 202px">
-                                            <f:selectItems value="#{emprestimoBean.exemplarBean.entidades}"
+                                            <f:selectItems value="#{emprestimoBean.exemplares}"
                                                        var="exemplar"
                                                        itemLabel="#{exemplar.idLivro.titulo}"
                                                        itemValue="#{exemplar.id}"/>
