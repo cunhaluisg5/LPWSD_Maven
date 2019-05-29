@@ -20,6 +20,7 @@ import javax.persistence.TypedQuery;
  */
 public class EmprestimoDAO implements CrudDAO<Emprestimo>{
 
+    //Busca um empréstimo por id
     @Override
     public Emprestimo buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -33,6 +34,7 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         }
     }
 
+    //Busca todos os empréstimos
     @Override
     public List<Emprestimo> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -40,6 +42,7 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         return query.getResultList();
     }
 
+    //Busca a instância de empréstimos
     @Override
     public List<Emprestimo> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -47,17 +50,18 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         return query.getResultList();
     }
 
+    //Remove um empréstimo
     @Override
     public void remover(Emprestimo emprestimo) {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        if (!em.contains(emprestimo)) {
+        if (!em.contains(emprestimo))
             emprestimo = em.merge(emprestimo);
-        }
         em.remove(emprestimo);
         em.getTransaction().commit();
     }
 
+    //Persiste os dados do empréstimo
     @Override
     public Emprestimo persistir(Emprestimo emprestimo) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -72,15 +76,17 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         return emprestimo;
     }
 
+    //Remove todos os empréstimos
     @Override
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
        em.getTransaction().begin();
-       Query query = em.createQuery(" DELETE FROM Emprestimo");
+       Query query = em.createQuery("DELETE FROM Emprestimo");
        query.executeUpdate();
        em.getTransaction().commit();
     }
     
+    //Verifica se existe débito
     public boolean checkDebit(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
         TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.idUsuario.id =:id AND e.dataDevolucao IS NULL AND e.dataPrevista <= :dataAtual", Long.class);
@@ -90,6 +96,7 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         return query.getSingleResult() > 0;
     }
     
+    //Verifica se existe empréstimo em aberto
     public Long checkOpened(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
         TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.idUsuario.id =:id AND e.dataPrevista >= :dataAtual ", Long.class);
@@ -99,6 +106,7 @@ public class EmprestimoDAO implements CrudDAO<Emprestimo>{
         return query.getSingleResult();
     }
     
+    //Verifica se existe exemplar disponível
     public boolean available(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
         TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Emprestimo e WHERE e.dataDevolucao IS NULL AND e.idExemplar.id =:id ", Long.class);

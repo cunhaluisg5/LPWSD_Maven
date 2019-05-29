@@ -12,6 +12,8 @@
         <h:form id="formPrincipal">
             <div align="center" style="text-align: center">
                 
+                <!-- Dados da tabela -->
+                
                 <p:dataTable var="lista" 
                              value="#{reservaBean.entidades}"
                              id="tabelaReserva" 
@@ -73,8 +75,7 @@
                                          onclick="PF('Emprestar').show();"  
                                          style="font-size: 14px; width: 100px; height: 40px" 
                                          value="Emprestar"/>
-                    </p:column>
-                    
+                    </p:column>                    
                     
                     <p:column style="width: 200px"
                               headerText="Situação" 
@@ -94,6 +95,8 @@
                                          value="Cancelar"/>
                     </p:column>
                     
+                    <!-- Opções -->
+                    
                     <p:column headerText="Opções" exportable="false">
                         <center>
                             <p:commandButton immediate="true" 
@@ -109,7 +112,7 @@
                                              icon="ui-icon-trash" 
                                              value="Deletar" 
                                              style="margin: 5px"
-                                             onclick="PF('remove').show();"> 
+                                             onclick="PF('exclude').show();"> 
                                 <f:setPropertyActionListener target="#{reservaBean.entidade}" 
                                                              value="#{lista}"/>
                             </p:commandButton> 
@@ -121,12 +124,16 @@
             </div>
             <br/>
             
+            <!-- Botão de nova reserva -->
+            
             <p:column>
                 <p:commandButton icon="ui-icon-plus" 
                                  value="Nova Reserva" 
                                  onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
+            
+            <!-- Formas de exportação -->
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
@@ -168,6 +175,8 @@
                                     fileName="reservas"/>
                 </h:commandLink>
             </div>
+            
+            <!-- Diálogo para novo cadastro -->
 
             <p:dialog header="Nova Reserva" 
                       resizable="false"
@@ -212,69 +221,63 @@
             
             <p:dialog style="text-align: center" 
                       resizable="false"
-                      header="Deletar" 
-                      widgetVar="remove" 
-                      modal="true"> 
-                Você tem certeza?
-                <br/>
-                <br/>
-                <p:commandButton immediate="true" 
-                                 value="Sim" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-circle-check"
-                                 actionListener="#{reservaBean.exclude}" 
-                                 onclick="remove.hide()" 
-                                 alt="Delete"/> 
-                <p:commandButton immediate="true"
-                                 value="Não" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-close"
-                                 onclick="remove.hide()"/> 
-            </p:dialog>
-            
-            <p:dialog style="text-align: center" 
-                      resizable="false"
                       header="Cancelar" 
                       widgetVar="Cancelar" 
                       modal="true"> 
-                Você tem certeza?
+                Deseja realmente cancelar o empréstimo ?
                 <br/>
                 <br/>
                 <p:commandButton immediate="true" 
                                  value="Sim" 
                                  style="margin: 5px"
-                                 icon="ui-icon-circle-check"
                                  actionListener="#{reservaBean.cancel}" 
                                  onclick="remove.hide()" 
                                  alt="Delete"/> 
-                <p:commandButton immediate="true"
+                <p:commandButton immediate="true" 
                                  value="Não" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-close"
-                                 onclick="remove.hide()"/> 
+                                 onclick="PF('Cancelar').hide();" 
+                                 type="button"/> 
             </p:dialog>
             
             <p:dialog style="text-align: center" 
                       resizable="false"
                       header="Emprestar" 
-                      widgetVar="Emprestar" 
+                      widgetVar="Emprestar"
                       modal="true"> 
-                Você tem certeza?
+                Deseja realmente realizar o empréstimo ?
                 <br/>
                 <br/>
                 <p:commandButton immediate="true" 
                                  value="Sim" 
                                  style="margin: 5px"
-                                 icon="ui-icon-circle-check"
                                  actionListener="#{reservaBean.lend}" 
                                  onclick="remove.hide()" 
                                  alt="Delete"/> 
-                <p:commandButton immediate="true"
+                <p:commandButton immediate="true" 
                                  value="Não" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-close"
-                                 onclick="remove.hide()"/> 
+                                 onclick="PF('Emprestar').hide();" 
+                                 type="button"/> 
             </p:dialog>
+            
+            <p:confirmDialog widgetVar="exclude" 
+                             severity="alert" 
+                             message="Deseja realmente remover a reserva ? " 
+                             header="Remover Reserva">
+                <center>
+                    <h:form id="formExclude">                    
+                        <p:commandButton immediate="true" 
+                                         value="Sim" 
+                                         id="btnSim" 
+                                         ajax="false" 
+                                         actionListener="#{reservaBean.exclude}"  
+                                         oncomplete="exclude.hide()" />
+                        <p:commandButton immediate="true" 
+                                         value="Não" 
+                                         onclick="PF('exclude').hide();" 
+                                         type="button"/>  
+                    </h:form>   
+                </center>
+           </p:confirmDialog>
             
         </h:form>
     </ui:define>

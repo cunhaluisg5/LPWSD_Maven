@@ -17,53 +17,56 @@ import javax.persistence.Query;
  */
 public class ExemplarDAO implements CrudDAO<Exemplar> {
 
+    //DAO
     public static ExemplarDAO exemplarDAO;
 
     public static ExemplarDAO getInstance() {
-        if (exemplarDAO == null) {
+        if (exemplarDAO == null)
             exemplarDAO = new ExemplarDAO();
-        }
         return exemplarDAO;
     }
 
+    //Busca um exemplar por id
     @Override
     public Exemplar buscarId(int id) { 
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Exemplar a where a.id =:id ");
+        Query query = em.createQuery("SELECT a FROM Exemplar a WHERE a.id =:id ");
         query.setParameter("id", id);
 
         List<Exemplar> exemplar = query.getResultList();
-        if (exemplar != null && exemplar.size() > 0) {
+        if (exemplar != null && exemplar.size() > 0)
             return exemplar.get(0);
-        }
         return null;
     }
 
+    //Busca todos os exemplares
     @Override
     public List<Exemplar> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("from Exemplar As a");
+        Query query = em.createQuery("FROM Exemplar As a");
         return query.getResultList();
     }
 
+    //Busca a instância de exemplares
     @Override
     public List<Exemplar> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select distinct a from Exemplar a group by a.exemplar");
+        Query query = em.createQuery("SELECT DISTINCT a FROM Exemplar a GROUP BY a.exemplar");
         return query.getResultList();
     }
 
+    //Remove um exemplar
     @Override
     public void remover(Exemplar exemplar) {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        if (!em.contains(exemplar)) {
+        if (!em.contains(exemplar))
             exemplar = em.merge(exemplar);
-        }
         em.remove(exemplar);
         em.getTransaction().commit();
     }
 
+    //Persiste os dados do exemplar
     @Override
     public Exemplar persistir(Exemplar exemplar) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -78,13 +81,13 @@ public class ExemplarDAO implements CrudDAO<Exemplar> {
         return exemplar;
     }
 
+    //Remove todos os exemplares
     @Override
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery(" delete from Exemplar");
+        Query query = em.createQuery("DELETE FROM Exemplar");
         query.executeUpdate();
         em.getTransaction().commit();
     }
-
 }

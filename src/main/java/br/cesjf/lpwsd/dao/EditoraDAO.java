@@ -18,65 +18,69 @@ import javax.persistence.Query;
  */
 public class EditoraDAO implements Serializable, CrudDAO<Editora>{
     
+    //DAO
     public static EditoraDAO editoraDAO;
 
+    //Retorna o DAO
     public static EditoraDAO getInstance() {
-        if (editoraDAO == null) {
+        if (editoraDAO == null)
             editoraDAO = new EditoraDAO();
-        }
         return editoraDAO;
     }    
     
+    //Busca editora por id
     @Override
     public Editora buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Editora a where a.id =:id ");
+        Query query = em.createQuery("SELECT a FROM Editora a WHERE a.id =:id ");
         query.setParameter("id", id);
 
         List<Editora> editora = query.getResultList();
-        if (editora != null && editora.size() > 0) {
+        if (editora != null && editora.size() > 0)
             return editora.get(0);
-        }
         return null;
     }
     
+    //Busca editora por nome
     public Editora buscar(String nome) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select a from Editora a where a.nome =:nome ");
+        Query query = em.createQuery("SELECT a FROM Editora a WHERE a.nome =:nome ");
         query.setParameter("nome", nome);
 
         List<Editora> editora = query.getResultList();
-        if (editora != null && editora.size() > 0) {
+        if (editora != null && editora.size() > 0)
             return editora.get(0);
-        }
         return null;
     }
 
+    //Busca todas as editoras
     @Override
     public List<Editora> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("from Editora As a");
+        Query query = em.createQuery("FROM Editora As a");
         return query.getResultList();
     }
 
+    //Busca a instância de editora
     @Override
     public List<Editora> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        Query query = em.createQuery("select distinct a from Editora a group by a.editora");
+        Query query = em.createQuery("SELECT DISTINCT a FROM Editora a GROUP BY a.editora");
         return query.getResultList();
     }
     
+    //Remove a editora
     @Override
     public void remover(Editora editora) {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        if (!em.contains(editora)) {
+        if (!em.contains(editora))
             editora = em.merge(editora);
-        }
         em.remove(editora);
         em.getTransaction().commit();
     }
 
+    //Persiste os dados da editora
     @Override
     public Editora persistir(Editora editora) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -91,13 +95,13 @@ public class EditoraDAO implements Serializable, CrudDAO<Editora>{
         return editora;
     }
 
+    //Remove todas as editoras
     @Override
     public void removeAll() {
        EntityManager em = PersistenceUtil.getEntityManager();
        em.getTransaction().begin();
-       Query query = em.createQuery(" delete from Editora");
+       Query query = em.createQuery("DELETE FROM Editora");
        query.executeUpdate();
        em.getTransaction().commit();
     }
-    
 }

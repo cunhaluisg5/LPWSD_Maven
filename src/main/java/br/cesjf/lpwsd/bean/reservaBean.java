@@ -22,17 +22,66 @@ import javax.faces.event.ActionEvent;
 @ViewScoped
 public class reservaBean extends crudBean<Reserva, ReservaDAO>{
     
+    //DAO
     private ReservaDAO reservaDAO;
+    
+    //Variáveis
     private Integer idUsuario = null;
     private Integer idExemplar = null;
 
+    //Beans
     @ManagedProperty(value = "#{emprestimoBean}")
     private emprestimoBean emprestimoBean;
     @ManagedProperty(value = "#{exemplarBean}")
     private exemplarBean exemplarBean;
     @ManagedProperty(value = "#{usuarioBean}")
     private usuarioBean usuarioBean;
+    
+    //Realiza o empréstimo
+    public void lend(ActionEvent actionEvent) {
+        if (getEntidade().getId() != null) {
+            emprestimoBean.getEntidade().setIdUsuario(getEntidade().getIdUsuario());
+            emprestimoBean.getEntidade().setIdExemplar(getEntidade().getIdExemplar());
+            emprestimoBean.generateDate(getEntidade().getIdExemplar(), getEntidade().getIdUsuario());
 
+            getEntidade().setIdEmprestimo(new EmprestimoDAO().persistir(emprestimoBean.getEntidade()));
+            record(actionEvent);
+        }
+    }
+    
+    //Realiza o cancelamento
+    public void cancel(ActionEvent actionEvent) {
+        if (getEntidade().getId() != null) {
+            getEntidade().setCancelar(SessionUtil.getUserName());
+            record(actionEvent);
+        }
+    }
+
+    //Persiste os dados
+    public void persist(ActionEvent actionEvent) {
+        getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
+        getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
+        record(actionEvent);
+        idUsuario = null;
+        idExemplar = null;
+    }
+
+    //Retorna o DAO
+    @Override
+    public ReservaDAO getDao() {
+        if (reservaDAO == null)
+            reservaDAO = new ReservaDAO();
+        return reservaDAO;
+    }
+
+    //Instancia a reserva
+    @Override
+    public Reserva novo() {
+        return new Reserva();
+    }
+
+    //Getters and Setters
+    
     public emprestimoBean getEmprestimoBean() {
         return emprestimoBean;
     }
@@ -71,43 +120,5 @@ public class reservaBean extends crudBean<Reserva, ReservaDAO>{
 
     public void setIdExemplar(Integer idExemplar) {
         this.idExemplar = idExemplar;
-    }
-
-    public void lend(ActionEvent actionEvent) {
-        if (getEntidade().getId() != null) {
-            emprestimoBean.getEntidade().setIdUsuario(getEntidade().getIdUsuario());
-            emprestimoBean.getEntidade().setIdExemplar(getEntidade().getIdExemplar());
-            emprestimoBean.generateDate(getEntidade().getIdExemplar(), getEntidade().getIdUsuario());
-
-            getEntidade().setIdEmprestimo(new EmprestimoDAO().persistir(emprestimoBean.getEntidade()));
-            record(actionEvent);
-        }
-    }
-    
-    public void cancel(ActionEvent actionEvent) {
-        if (getEntidade().getId() != null) {
-            getEntidade().setCancelar(SessionUtil.getUserName());
-            record(actionEvent);
-        }
-    }
-
-    public void persist(ActionEvent actionEvent) {
-        getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
-        getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
-        record(actionEvent);
-        idUsuario = null;
-        idExemplar = null;
-    }
-
-    @Override
-    public ReservaDAO getDao() {
-        if (reservaDAO == null)
-            reservaDAO = new ReservaDAO();
-        return reservaDAO;
-    }
-
-    @Override
-    public Reserva novo() {
-        return new Reserva();
     }
 }

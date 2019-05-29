@@ -26,7 +26,7 @@ public class assuntoBean extends crudBean<Assunto, AssuntoDAO>{
     //Itens
     public List<SelectItem> itens;
 
-    //Instancia ou retorna o DAO
+    //Retorna o DAO
     @Override
     public AssuntoDAO getDao() {
         if (assuntoDAO == null)

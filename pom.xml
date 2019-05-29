@@ -157,6 +157,14 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java/br/cesjf/lpwsd/report</directory>
+            </resource>
+        </resources>
     </build>
     <repositories>
         <repository>

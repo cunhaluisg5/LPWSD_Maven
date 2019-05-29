@@ -9,7 +9,6 @@ import br.cesjf.lpwsd.dao.ExemplarDAO;
 import br.cesjf.lpwsd.dao.LivroDAO;
 import br.cesjf.lpwsd.model.Exemplar;
 import br.cesjf.lpwsd.model.Livro;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,42 +22,41 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class exemplarBean extends crudBean<Exemplar, ExemplarDAO> {
 
+    //DAO
     private ExemplarDAO exemplarDAO;
     
+    //Itens
     public List<SelectItem> itens;
+    
+    //Lista de livros
     private List<Livro> livros;
 
+    //Construtor
     public exemplarBean() {
         livros = new LivroDAO().buscarTodas();
     }
-
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Exemplar> exemplares = exemplarDAO.buscarTodas();
-
-        for (Exemplar exemplar : exemplares) {
-            list.add(new SelectItem(exemplar, exemplar.getIdLivro().getTitulo())); //O que aparece no ComboBox
-        }
-        return list;
-    }
     
+    //Busca exemplar por id
      public Exemplar buscarId(int id) {
         return new ExemplarDAO().buscarId(id);
     }
     
+     //Retorna o DAO
     @Override
     public ExemplarDAO getDao() {
-        if (exemplarDAO == null) {
+        if (exemplarDAO == null)
             exemplarDAO = new ExemplarDAO();
-        }
         return exemplarDAO;
     }
 
+    //Instancia um exemplar
     @Override
     public Exemplar novo() {
         return new Exemplar();
     }
 
+    //GETTERs and SETTERs
+    
     public ExemplarDAO getExemplarDAO() {
         return exemplarDAO;
     }
@@ -74,5 +72,4 @@ public class exemplarBean extends crudBean<Exemplar, ExemplarDAO> {
     public void setLivros(List<Livro> livros) {
         this.livros = livros;
     }
-
 }

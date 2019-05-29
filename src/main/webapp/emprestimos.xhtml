@@ -12,6 +12,8 @@
         <h:form id="formPrincipal">
             <div align="center" style="text-align: center">
                 
+                <!-- Dados da tabela -->
+                
                 <p:dataTable var="lista" 
                              value="#{emprestimoBean.entidades}"
                              id="tabelaEmprestimos" 
@@ -78,12 +80,14 @@
                                          rendered="#{lista.dataDevolucao == null}" 
                                          icon="ui-icon-check" 
                                          actionListener="#{emprestimoBean.setEntidade(lista)}" 
-                                         onclick="PF('returned').show();" 
+                                         onclick="PF('Devolver').show();" 
                                          style="font-size: 14px; width: 100px; height: 40px" 
                                          value="Devolver"/>
                         
                         
                     </p:column>
+                    
+                    <!-- Opções -->
                     
                     <p:column headerText="Opções" exportable="false">
                         <center>
@@ -101,7 +105,7 @@
                                              icon="ui-icon-trash" 
                                              value="Deletar" 
                                              style="margin: 5px"
-                                             onclick="PF('remove').show();"> 
+                                             onclick="PF('exclude').show();"> 
                                 <f:setPropertyActionListener target="#{emprestimoBean.entidade}" 
                                                              value="#{lista}"/>
                             </p:commandButton> 
@@ -113,12 +117,16 @@
             </div>
             <br/>
             
+            <!-- Botão de novo empréstimo -->
+            
             <p:column>
                 <p:commandButton icon="ui-icon-plus" 
                                  value="Novo Empréstimo" 
                                  onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
+            
+            <!-- Formas de exportação -->
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
@@ -159,17 +167,8 @@
                                     fileName="emprestimos"/>
                 </h:commandLink>
             </div>
-
-            <p:confirmDialog global="true">  
-                <p:commandButton value="Sim" 
-                                 type="button" 
-                                 styleClass="ui-confirmdialog-yes" 
-                                 icon="ui-icon-check"/>  
-                <p:commandButton value="Não" 
-                                 type="button" 
-                                 styleClass="ui-confirmdialog-no" 
-                                 icon="ui-icon-close"/>  
-            </p:confirmDialog>  
+            
+            <!-- Diálogo para novo empréstimo -->
 
             <center>
                 <p:dialog resizable="false" 
@@ -317,46 +316,43 @@
             
             <p:dialog style="text-align: center" 
                       resizable="false"
-                      header="Deletar" 
-                      widgetVar="remove" 
+                      header="Devolver" 
+                      widgetVar="Devolver"
                       modal="true"> 
-                Você tem certeza?
+                Deseja realmente realizar a devolução ?
                 <br/>
                 <br/>
                 <p:commandButton immediate="true" 
                                  value="Sim" 
                                  style="margin: 5px"
-                                 icon="ui-icon-circle-check"
-                                 actionListener="#{emprestimoBean.exclude}" 
+                                 actionListener="#{emprestimoBean.lend}" 
                                  onclick="remove.hide()" 
                                  alt="Delete"/> 
-                <p:commandButton immediate="true"
+                <p:commandButton immediate="true" 
                                  value="Não" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-close"
-                                 onclick="remove.hide()"/> 
+                                 onclick="PF('Devolver').hide();" 
+                                 type="button"/> 
             </p:dialog>
             
-            <p:dialog style="text-align: center"
-                      header="Devolver" 
-                      widgetVar="returned" 
-                      modal="true" 
-                      resizable="false"> 
-                Efetuar devolução?
-                <br/>
-                <br/>
-                <p:commandButton immediate="true"
-                                 value="Sim" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-circle-check"
-                                 actionListener="#{emprestimoBean.returned}" 
-                                 onclick="remove.hide()"/> 
-                <p:commandButton immediate="true"
-                                 value="Não" 
-                                 style="margin: 5px"
-                                 icon="ui-icon-close"
-                                 onclick="remove.hide()"/> 
-            </p:dialog>
+            <p:confirmDialog widgetVar="exclude" 
+                             severity="alert" 
+                             message="Deseja realmente remover o Empréstimo ? " 
+                             header="Remover Empréstimo">
+                <center>
+                    <h:form id="formExclude">                    
+                        <p:commandButton immediate="true" 
+                                         value="Sim" 
+                                         id="btnSim" 
+                                         ajax="false" 
+                                         actionListener="#{emprestimoBean.exclude}"  
+                                         oncomplete="exclude.hide()" />
+                        <p:commandButton immediate="true" 
+                                         value="Não" 
+                                         onclick="PF('exclude').hide();" 
+                                         type="button"/>  
+                    </h:form>   
+                </center>
+           </p:confirmDialog>
             
         </h:form>
     </ui:define>

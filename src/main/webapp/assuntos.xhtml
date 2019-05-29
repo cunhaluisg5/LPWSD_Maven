@@ -12,6 +12,8 @@
         <h:form id="formPrincipal">
             <div align="center" style="text-align: center">
                 
+                <!-- Dados da tabela -->
+                
                 <p:dataTable var="lista" 
                              value="#{assuntoBean.entidades}"
                              id="tabelaAssunto" 
@@ -48,9 +50,10 @@
                         <h:outputText value="#{lista.assunto}"/>
                     </p:column>
                     
+                    <!-- Opções -->
+                    
                     <p:column headerText="Opções" exportable="false">
                         <center>
-                            
                             <p:commandButton immediate="true" 
                                              icon="ui-icon-pencil" 
                                              value="Editar" 
@@ -64,7 +67,7 @@
                                              icon="ui-icon-trash" 
                                              value="Deletar" 
                                              style="margin: 5px"
-                                             onclick="PF('remove').show();"> 
+                                             onclick="PF('exclude').show();"> 
                                 <f:setPropertyActionListener target="#{assuntoBean.entidade}" 
                                                              value="#{lista}"/>
                             </p:commandButton> 
@@ -76,12 +79,16 @@
             </div>
             <br/>
             
+            <!-- Botão de novo assunto -->
+            
             <p:column>
                 <p:commandButton icon="ui-icon-plus" 
                                  value="Novo Assunto" 
                                  onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
+            
+            <!-- Formas de exportação -->
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
@@ -124,17 +131,8 @@
                 </h:commandLink>
             </div>
 
-            <p:confirmDialog global="true">  
-                <p:commandButton value="Sim" 
-                                 type="button" 
-                                 styleClass="ui-confirmdialog-yes" 
-                                 icon="ui-icon-check"/>  
-                <p:commandButton value="Não" 
-                                 type="button" 
-                                 styleClass="ui-confirmdialog-no" 
-                                 icon="ui-icon-close"/>  
-            </p:confirmDialog>  
-
+            <!-- Diálogo para novo cadastro -->
+            
             <p:dialog header="Novo Assunto" 
                       widgetVar="record" 
                       modal="true" 
@@ -164,17 +162,25 @@
                                  alt="Record"/> 
             </p:dialog>
             
-            <p:dialog header="Deletar" 
-                      widgetVar="remove" 
-                      resizable="false"
-                      modal="true"> 
-                Você tem certeza?
-                <p:commandButton immediate="true" 
-                                 value="Deletar" 
-                                 actionListener="#{assuntoBean.exclude}" 
-                                 onclick="remove.hide()" 
-                                 alt="Delete"/> 
-            </p:dialog>
+            <p:confirmDialog widgetVar="exclude" 
+                             severity="alert" 
+                             message="Deseja realmente remover o assunto ? " 
+                             header="Remover Assunto">
+                <center>
+                    <h:form id="formExclude">                    
+                        <p:commandButton immediate="true" 
+                                         value="Sim" 
+                                         id="btnSim" 
+                                         ajax="false" 
+                                         actionListener="#{assuntoBean.exclude}"  
+                                         oncomplete="exclude.hide()" />
+                        <p:commandButton immediate="true" 
+                                         value="Não" 
+                                         onclick="PF('exclude').hide();" 
+                                         type="button"/>  
+                    </h:form>   
+                </center>
+           </p:confirmDialog>
             
         </h:form>
     </ui:define>

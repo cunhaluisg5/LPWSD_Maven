@@ -13,7 +13,6 @@ import br.cesjf.lpwsd.model.Assunto;
 import br.cesjf.lpwsd.model.Autor;
 import br.cesjf.lpwsd.model.Editora;
 import br.cesjf.lpwsd.model.Livro;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -27,28 +26,44 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class livroBean extends crudBean<Livro, LivroDAO>{
     
+    //DAO
     private LivroDAO livroDAO;
+    
+    //Itens
     public List<SelectItem> itens;
+    
+    //Listas
     private List<Assunto> assuntos;
     private List<Editora> editoras;
     private List<Autor> autores;
 
+    //Construtor
     public livroBean() {
         assuntos = new AssuntoDAO().buscarTodas();
         editoras = new EditoraDAO().buscarTodas();
         autores = new AutorDAO().buscarTodas();
     }
     
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Livro> livros = livroDAO.buscarTodas();
-
-        for (Livro livro : livros) {
-            list.add(new SelectItem(livro, livro.getTitulo())); //O que aparece no ComboBox
-        }
-        return list;
+    //Busca um livro por id
+    public Livro buscarId(int id) {
+        return new LivroDAO().buscarId(id);
+    } 
+    
+    //Retorna o DAO
+    @Override
+    public LivroDAO getDao() {
+        if (livroDAO == null)
+            livroDAO = new LivroDAO();
+        return livroDAO;
     }
 
+    //Instancia um livro
+    @Override
+    public Livro novo() {
+        return new Livro();
+    }  
+
+    //Getters and Setters
     public LivroDAO getLivroDAO() {
         return livroDAO;
     }
@@ -60,23 +75,6 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     public void setItens(List<SelectItem> itens) {
         this.itens = itens;
     }
-    
-    public Livro buscarId(int id) {
-        return new LivroDAO().buscarId(id);
-    }
-
-    @Override
-    public LivroDAO getDao() {
-        if (livroDAO == null) {
-            livroDAO = new LivroDAO();
-        }
-        return livroDAO;
-    }
-
-    @Override
-    public Livro novo() {
-        return new Livro();
-    }   
 
     public List<Assunto> getAssuntos() {
         return assuntos;

@@ -25,25 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 @SessionScoped
 public class loginBean {
 
+    //Variáveis
     private String login;
     private String senha;
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
+    
+    //Realiza o login
     public void logar(ActionEvent actionEvent) throws IOException {
         try {
             Usuario user = new UsuarioDAO().validar(login, senha);
@@ -60,6 +46,7 @@ public class loginBean {
         }        
     }
 
+    //Realiza o logout
     public void logout() throws IOException {
         getRequest().getSession().invalidate();
         FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
@@ -67,11 +54,30 @@ public class loginBean {
         setSenha("");
     }
 
+    //Mostra o status
     public void status() {
         String cabecalho = "Dados Incorretos!";
         String mensagem = "Por favor, preencha novamente!";
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, cabecalho, mensagem);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    }
+    
+    //Getters and Setters
+    
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
     public String getTipo(){

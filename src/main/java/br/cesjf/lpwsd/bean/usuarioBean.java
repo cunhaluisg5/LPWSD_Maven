@@ -8,11 +8,8 @@ package br.cesjf.lpwsd.bean;
 import br.cesjf.lpwsd.dao.UsuarioDAO;
 import br.cesjf.lpwsd.model.Usuario;
 import br.cesjf.lpwsd.report.Relatorio;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
@@ -25,19 +22,13 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
 
+    //DAO
     private UsuarioDAO usuarioDAO;
-    public List<SelectItem> itens;
-
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Usuario> editoras = usuarioDAO.buscarTodas();
-
-        for (Usuario usuario : editoras) {
-            list.add(new SelectItem(usuario, usuario.getNome())); //nome Usuario ira aparecer no combo
-        }
-        return list;
-    }
     
+    //Itens
+    public List<SelectItem> itens;
+    
+    //Retorna os tipos de usuários
     public List<SelectItem> tiposUsuarios() {
         List<SelectItem> list = new ArrayList<SelectItem>();
 
@@ -49,28 +40,33 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
         return list;
     }
 
+    //Busca um usuário por id
     public Usuario buscarId(int id) {
         return new UsuarioDAO().buscarId(id);
     }
     
+    //Retorna o DAO
     @Override
     public UsuarioDAO getDao() {
-        if (usuarioDAO == null) {
+        if (usuarioDAO == null)
             usuarioDAO = new UsuarioDAO();
-        }
         return usuarioDAO;
     }
 
+    //Instancia um usuário
     @Override
     public Usuario novo() {
         return new Usuario();
     }
     
+    //Gera um relatório
     public void gerarRelatorioAction() {
         Relatorio relatorio = new Relatorio();
         relatorio.getRelatorio();
     }
 
+    //Getters and Setters
+    
     public UsuarioDAO getUsuarioDAO() {
         return usuarioDAO;
     }

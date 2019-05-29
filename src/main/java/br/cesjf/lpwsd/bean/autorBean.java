@@ -7,7 +7,6 @@ package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.AutorDAO;
 import br.cesjf.lpwsd.model.Autor;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -21,27 +20,21 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class autorBean extends crudBean<Autor, AutorDAO> {
 
+    //DAO
     private AutorDAO autorDAO;
-    public List<SelectItem> itens;
     
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Autor> autores = autorDAO.buscarTodas();
+    //Itens
+    public List<SelectItem> itens;
 
-        for (Autor autor : autores) {
-            list.add(new SelectItem(autor, autor.getNome())); //O que aparece no ComboBox
-        }
-        return list;
-    }
-
+    //Retorna o DAO
     @Override
     public AutorDAO getDao() {
-        if (autorDAO == null) {
+        if (autorDAO == null)
             autorDAO = new AutorDAO();
-        }
         return autorDAO;
     }
 
+    //Instancia o autor
     @Override
     public Autor novo() {
         return new Autor();

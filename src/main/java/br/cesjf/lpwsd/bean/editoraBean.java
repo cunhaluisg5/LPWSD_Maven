@@ -21,34 +21,28 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class editoraBean extends crudBean<Editora, EditoraDAO> {
 
+    //DAO
     private EditoraDAO editoraDAO;
+    
+    //Itens
     public List<SelectItem> itens;
 
-    public List<SelectItem> getItens() {
-        List<SelectItem> list = new ArrayList<SelectItem>();
-        List<Editora> editoras = editoraDAO.buscarTodas();
-
-        for (Editora editora : editoras) {
-            list.add(new SelectItem(editora, editora.getNome())); //O que aparece no ComboBox
-        }
-        return list;
-    }
-
+    //Busca editora por id
     public Editora buscarId(int id) {
         return new EditoraDAO().buscarId(id);
     }
 
+    //Retorna o DAO
     @Override
     public EditoraDAO getDao() {
-        if (editoraDAO == null) {
+        if (editoraDAO == null)
             editoraDAO = new EditoraDAO();
-        }
         return editoraDAO;
     }
 
+    //Instancia uma Editora
     @Override
     public Editora novo() {
         return new Editora();
     }
-
 }

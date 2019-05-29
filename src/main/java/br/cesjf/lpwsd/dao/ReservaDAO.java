@@ -18,15 +18,17 @@ import javax.persistence.Query;
  */
 public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
     
+    //DAO
     public static ReservaDAO reservaDAO;
     
+    //Retorna o DAO
     public static ReservaDAO getInstance(){
-        if(reservaDAO == null){
+        if(reservaDAO == null)
             reservaDAO = new ReservaDAO();
-        }
         return reservaDAO;
     }
 
+    //Busca uma reserva por id
     @Override
     public Reserva buscarId(int id) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -34,12 +36,12 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
         query.setParameter("id", id);
         
         List<Reserva> reserva = query.getResultList();
-        if(reserva != null && reserva.size() > 0){
+        if(reserva != null && reserva.size() > 0)
             return reserva.get(0);
-        }
         return null;
     }
 
+    //Busca todas as reservas
     @Override
     public List<Reserva> buscarTodas() {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -47,6 +49,7 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
         return query.getResultList();
     }
 
+    //Busca a instância de reservas
     @Override
     public List<Reserva> buscarInstancia() {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -54,17 +57,18 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
         return query.getResultList();
     }
 
+    //Remove uma reserva
     @Override
     public void remover(Reserva reserva) {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        if (!em.contains(reserva)) {
+        if (!em.contains(reserva))
             reserva = em.merge(reserva);
-        }
         em.remove(reserva);
         em.getTransaction().commit();
     }
 
+    //Persiste os dados da reserva
     @Override
     public Reserva persistir(Reserva reserva) {
         EntityManager em = PersistenceUtil.getEntityManager();
@@ -79,13 +83,13 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
         return reserva;
     }
 
+    //Remove todas as reservas
     @Override
     public void removeAll() {
         EntityManager em = PersistenceUtil.getEntityManager();
         em.getTransaction().begin();
-        Query query = em.createQuery(" DELETE FROM Reserva ");
+        Query query = em.createQuery("DELETE FROM Reserva ");
         query.executeUpdate();
         em.getTransaction().commit();
     }
-    
 }

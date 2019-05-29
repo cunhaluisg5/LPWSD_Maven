@@ -43,7 +43,7 @@ public class Relatorio {
     }
     
     public void getRelatorio() {
-        stream = this.getClass().getResourceAsStream("Relatorio_01.jasper");
+        stream = this.getClass().getResourceAsStream("/usuarios.jasper");
         Map<String, Object> params = new HashMap<String, Object>();
         baos = new ByteArrayOutputStream();
         
@@ -56,7 +56,7 @@ public class Relatorio {
             response.reset();
             response.setContentType("application/pdf");
             response.setContentLength(baos.size());
-            response.setHeader("Content-disposition", "inline; filename=Relatorio_01.pdf");
+            response.setHeader("Content-disposition", "inline; filename=usuarios.pdf");
             response.getOutputStream().write(baos.toByteArray());
             response.getOutputStream().flush();
             response.getOutputStream().close();
