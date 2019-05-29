@@ -87,43 +87,48 @@
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
+                
+                <p:panelGrid id="panelExport" columns="4"> 
 
-                <h:commandLink id="excel">
-                    <p:graphicImage value="/resources/images/exports/excel.png"/>
-                    <p:dataExporter type="xls" 
-                                    encoding="iso-8859-1" 
-                                    target="tabelaEmprestimo" 
-                                    fileName="exemplares" 
-                                    postProcessor="#{exemplarBean.postProcessXLS}"/>
-                </h:commandLink>
+                    <h:commandLink id="excel">
+                        <p:graphicImage value="/resources/images/exports/excel.png"/>
+                        <p:dataExporter type="xls" 
+                                        encoding="iso-8859-1" 
+                                        target="tabelaEmprestimo" 
+                                        fileName="exemplares" 
+                                        postProcessor="#{exemplarBean.postProcessXLS}"/>
+                    </h:commandLink>
 
-                <h:commandLink id="pdf">
-                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
-                    <p:dataExporter type="pdf" 
-                                    encoding="iso-8859-1" 
-                                    target="tabelaEmprestimo" 
-                                    fileName="exemplares" 
-                                    preProcessor="#{exemplarBean.preProcessPDF}"/>
-                </h:commandLink>
+                    <h:commandLink id="pdf">
+                        <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                        <p:dataExporter type="pdf" 
+                                        encoding="iso-8859-1" 
+                                        target="tabelaEmprestimo" 
+                                        fileName="exemplares" 
+                                        preProcessor="#{exemplarBean.preProcessPDF}"/>
+                    </h:commandLink>
 
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/csv.png" 
-                                    width="24"/>
-                    <p:dataExporter type="csv" 
-                                    encoding="iso-8859-1" 
-                                    target="tabelaEmprestimo" 
-                                    fileName="exemplares"/>
-                </h:commandLink>
+                    <h:commandLink>
+                        <p:graphicImage value="/resources/images/exports/csv.png" 
+                                        width="24"/>
+                        <p:dataExporter type="csv" 
+                                        encoding="iso-8859-1" 
+                                        target="tabelaEmprestimo" 
+                                        fileName="exemplares"/>
+                    </h:commandLink>
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/xml.png" 
-                                    width="24"/>
-                    <p:dataExporter type="xml" 
-                                    encoding="iso-8859-1" 
-                                    target="tabelaEmprestimo" 
-                                    fileName="exemplares"/>
-                </h:commandLink>
+                    <h:commandLink>
+                        <p:graphicImage value="/resources/images/exports/xml.png" 
+                                        width="24"/>
+                        <p:dataExporter type="xml" 
+                                        encoding="iso-8859-1" 
+                                        target="tabelaEmprestimo" 
+                                        fileName="exemplares"/>
+                    </h:commandLink>
+                    
+                </p:panelGrid>
+                
             </div>
             
             <!-- Diálogo para novo exemplar -->

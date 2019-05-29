@@ -81,42 +81,46 @@
             <div align="center">
                 <h3>Exportar dados da página</h3>
 
-                <h:commandLink immediate="true" id="excel">
-                    <p:graphicImage value="/resources/images/exports/excel.png"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="xls" 
-                                    target="tabelaAutores" 
-                                    fileName="autores" 
-                                    postProcessor="#{autorBean.postProcessXLS}"/>
-                </h:commandLink>
+                <p:panelGrid id="panelExport" columns="4"> 
+                    
+                    <h:commandLink immediate="true" id="excel">
+                        <p:graphicImage value="/resources/images/exports/excel.png"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="xls" 
+                                        target="tabelaAutores" 
+                                        fileName="autores" 
+                                        postProcessor="#{autorBean.postProcessXLS}"/>
+                    </h:commandLink>
 
-                <h:commandLink immediate="true" id="pdf">
-                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="pdf" 
-                                    target="tabelaAutores" 
-                                    fileName="autores" 
-                                    preProcessor="#{autorBean.preProcessPDF}"/>
-                </h:commandLink>
+                    <h:commandLink immediate="true" id="pdf">
+                        <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="pdf" 
+                                        target="tabelaAutores" 
+                                        fileName="autores" 
+                                        preProcessor="#{autorBean.preProcessPDF}"/>
+                    </h:commandLink>
 
+                    <h:commandLink immediate="true">
+                        <p:graphicImage value="/resources/images/exports/csv.png" 
+                                        width="24"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="csv" 
+                                        target="tabelaAutores" 
+                                        fileName="autores"/>
+                    </h:commandLink>
 
-                <h:commandLink immediate="true">
-                    <p:graphicImage value="/resources/images/exports/csv.png" 
-                                    width="24"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="csv" 
-                                    target="tabelaAutores" 
-                                    fileName="autores"/>
-                </h:commandLink>
-
-                <h:commandLink immediate="true">
-                    <p:graphicImage value="/resources/images/exports/xml.png" 
-                                    width="24"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="xml" 
-                                    target="tabelaAutores" 
-                                    fileName="autores"/>
-                </h:commandLink>
+                    <h:commandLink immediate="true">
+                        <p:graphicImage value="/resources/images/exports/xml.png" 
+                                        width="24"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="xml" 
+                                        target="tabelaAutores" 
+                                        fileName="autores"/>
+                    </h:commandLink>
+                    
+                </p:panelGrid>
+                
             </div>
             
             <!-- Diálogo para novo autor -->

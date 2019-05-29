@@ -130,42 +130,47 @@
             
             <div align="center">
                 <h3>Exportar dados da página</h3>
+                
+                <p:panelGrid id="panelExport" columns="4"> 
 
-                <h:commandLink id="excel">
-                    <p:graphicImage value="/resources/images/exports/excel.png"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="xls" 
-                                    target="tabelaEmprestimos" 
-                                    fileName="emprestimos" 
-                                    postProcessor="#{emprestimoBean.postProcessXLS}"/>
-                </h:commandLink>
+                    <h:commandLink id="excel">
+                        <p:graphicImage value="/resources/images/exports/excel.png"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="xls" 
+                                        target="tabelaEmprestimos" 
+                                        fileName="emprestimos" 
+                                        postProcessor="#{emprestimoBean.postProcessXLS}"/>
+                    </h:commandLink>
 
-                <h:commandLink id="pdf">
-                    <p:graphicImage value="/resources/images/exports/pdf.png"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="pdf" 
-                                    target="tabelaEmprestimos" 
-                                    fileName="emprestimos" 
-                                    preProcessor="#{emprestimoBean.preProcessPDF}"/>
-                </h:commandLink>
+                    <h:commandLink id="pdf">
+                        <p:graphicImage value="/resources/images/exports/pdf.png"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="pdf" 
+                                        target="tabelaEmprestimos" 
+                                        fileName="emprestimos" 
+                                        preProcessor="#{emprestimoBean.preProcessPDF}"/>
+                    </h:commandLink>
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/csv.png" 
-                                    width="24"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="csv" 
-                                    target="tabelaEmprestimos" 
-                                    fileName="emprestimos"/>
-                </h:commandLink>
+                    <h:commandLink>
+                        <p:graphicImage value="/resources/images/exports/csv.png" 
+                                        width="24"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="csv" 
+                                        target="tabelaEmprestimos" 
+                                        fileName="emprestimos"/>
+                    </h:commandLink>
 
-                <h:commandLink>
-                    <p:graphicImage value="/resources/images/exports/xml.png" 
-                                    width="24"/>
-                    <p:dataExporter encoding="iso-8859-1" 
-                                    type="xml" 
-                                    target="tabelaEmprestimos" 
-                                    fileName="emprestimos"/>
-                </h:commandLink>
+                    <h:commandLink>
+                        <p:graphicImage value="/resources/images/exports/xml.png" 
+                                        width="24"/>
+                        <p:dataExporter encoding="iso-8859-1" 
+                                        type="xml" 
+                                        target="tabelaEmprestimos" 
+                                        fileName="emprestimos"/>
+                    </h:commandLink>
+                    
+                </p:panelGrid>
+                
             </div>
             
             <!-- Diálogo para novo empréstimo -->
@@ -173,7 +178,7 @@
             <center>
                 <p:dialog resizable="false" 
                           header="Novo Empréstimo" 
-                          width="750px" 
+                          width="800px" 
                           widgetVar="record" 
                           modal="true">
                     <p:panel>
