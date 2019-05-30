@@ -132,8 +132,8 @@
                 <h3>Exportar dados da página</h3>
                 
                 <p:panelGrid id="panelExport" columns="4"> 
-
-                    <h:commandLink id="excel">
+                    
+                    <h:commandLink id="excel" immediate="true" title="EXCEL">
                         <p:graphicImage value="/resources/images/exports/excel.png"/>
                         <p:dataExporter encoding="iso-8859-1" 
                                         type="xls" 
@@ -142,7 +142,7 @@
                                         postProcessor="#{emprestimoBean.postProcessXLS}"/>
                     </h:commandLink>
 
-                    <h:commandLink id="pdf">
+                    <h:commandLink id="pdf" immediate="true" title="PDF">
                         <p:graphicImage value="/resources/images/exports/pdf.png"/>
                         <p:dataExporter encoding="iso-8859-1" 
                                         type="pdf" 
@@ -151,7 +151,8 @@
                                         preProcessor="#{emprestimoBean.preProcessPDF}"/>
                     </h:commandLink>
 
-                    <h:commandLink>
+
+                    <h:commandLink immediate="true" title="CSV">
                         <p:graphicImage value="/resources/images/exports/csv.png" 
                                         width="24"/>
                         <p:dataExporter encoding="iso-8859-1" 
@@ -160,7 +161,7 @@
                                         fileName="emprestimos"/>
                     </h:commandLink>
 
-                    <h:commandLink>
+                    <h:commandLink immediate="true" title="XML">
                         <p:graphicImage value="/resources/images/exports/xml.png" 
                                         width="24"/>
                         <p:dataExporter encoding="iso-8859-1" 

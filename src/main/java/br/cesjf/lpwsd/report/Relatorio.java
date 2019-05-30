@@ -8,10 +8,8 @@ package br.cesjf.lpwsd.report;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
@@ -36,6 +34,7 @@ public class Relatorio {
     private ByteArrayOutputStream baos;
     private InputStream stream;
     private Connection con;
+    private String report;
     
     public Relatorio() {
         this.context = FacesContext.getCurrentInstance();
@@ -43,7 +42,7 @@ public class Relatorio {
     }
     
     public void getRelatorio() {
-        stream = this.getClass().getResourceAsStream("/usuarios.jasper");
+        stream = this.getClass().getResourceAsStream("/" + report + ".jasper");
         Map<String, Object> params = new HashMap<String, Object>();
         baos = new ByteArrayOutputStream();
         
@@ -56,7 +55,7 @@ public class Relatorio {
             response.reset();
             response.setContentType("application/pdf");
             response.setContentLength(baos.size());
-            response.setHeader("Content-disposition", "inline; filename=usuarios.pdf");
+            response.setHeader("Content-disposition", "inline; filename=" + report + ".pdf");
             response.getOutputStream().write(baos.toByteArray());
             response.getOutputStream().flush();
             response.getOutputStream().close();
@@ -91,5 +90,13 @@ public class Relatorio {
         } catch (SQLException ex) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
     }
 }

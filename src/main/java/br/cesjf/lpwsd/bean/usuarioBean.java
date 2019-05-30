@@ -62,6 +62,7 @@ public class usuarioBean extends crudBean<Usuario, UsuarioDAO> {
     //Gera um relatório
     public void gerarRelatorioAction() {
         Relatorio relatorio = new Relatorio();
+        relatorio.setReport("usuarios");
         relatorio.getRelatorio();
     }
 

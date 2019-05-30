@@ -1,0 +1,70 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h2 class="page-header">Gerar Relatórios</h2>
+        <br/>
+        <ms:mensagem/>
+        <h:form id="formPrincipal" style="width: 700px">
+            <div align="center">
+            
+                <p:ribbon>
+                    <p:tab title="Livros e Exemplares">
+                        <p:ribbonGroup style="align-items: center">
+                            <p:commandButton immediate="true" 
+                                         value="Gerar Relatório" 
+                                         action="#{usuarioBean.gerarRelatorioAction}" 
+                                         ajax="false" 
+                                         onclick="this.form.target = '_blank'"/>
+                        </p:ribbonGroup>
+                    </p:tab>
+
+                    <p:tab title="Livros Emprestados">
+                        <p:ribbonGroup>
+                            <p:commandButton immediate="true" 
+                                         value="Gerar Relatório" 
+                                         action="#{usuarioBean.gerarRelatorioAction}" 
+                                         ajax="false" 
+                                         onclick="this.form.target = '_blank'"/>
+                        </p:ribbonGroup>
+                    </p:tab>
+
+                    <p:tab title="Livros Reservados">
+                        <p:ribbonGroup>
+                            <p:commandButton immediate="true" 
+                                         value="Gerar Relatório" 
+                                         action="#{usuarioBean.gerarRelatorioAction}" 
+                                         ajax="false" 
+                                         onclick="this.form.target = '_blank'"/>
+                        </p:ribbonGroup>
+                    </p:tab>
+
+                    <p:tab title="Usuários cadastrados">
+                        <p:ribbonGroup>
+                            <p:commandButton immediate="true" 
+                                         value="Gerar Relatório" 
+                                         action="#{usuarioBean.gerarRelatorioAction}" 
+                                         ajax="false" 
+                                         onclick="this.form.target = '_blank'"/>
+                        </p:ribbonGroup>
+                    </p:tab>
+
+                    <p:tab title="Livros Atrasados">
+                        <p:ribbonGroup>
+                            <p:commandButton immediate="true" 
+                                         value="Gerar Relatório" 
+                                         action="#{usuarioBean.gerarRelatorioAction}" 
+                                         ajax="false" 
+                                         onclick="this.form.target = '_blank'"/>
+                        </p:ribbonGroup>
+                    </p:tab>
+                </p:ribbon>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

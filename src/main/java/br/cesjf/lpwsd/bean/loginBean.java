@@ -45,6 +45,11 @@ public class loginBean {
             status();
         }        
     }
+    
+    //Retorna validação de usuário
+    public boolean isValidated(){
+        return new UsuarioDAO().validar(login, senha) != null;
+    }
 
     //Realiza o logout
     public void logout() throws IOException {

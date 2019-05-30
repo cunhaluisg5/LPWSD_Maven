@@ -6,6 +6,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp">
     <ui:define name="content">
+        
+        <style>
+            #btEntrar{
+                
+            }
+        </style>
+        
         <center>
             <h2 class="page-header">Login</h2>
             <ms:mensagem/>
@@ -16,27 +23,43 @@
         
         <h:form id="formPrincipal">
             <div align="center">
-                <p:panelGrid id="panelRecord" columns="2"> 
-                    <p:outputLabel value="Login: "/>
-                    <p:inputText required="true" 
-                                 requiredMessage="O nome precisa ser preenchido!" 
-                                 style="border-color: #a43b3f" 
-                                 id="login" 
-                                 value="#{loginBean.login}" />    
-                    <p:outputLabel value="Senha: "/>
-                    <p:password required="true" 
-                                requiredMessage="A senha precisa ser preenchida!" 
-                                style="border-color: #a43b3f" 
-                                id="senha" 
-                                value="#{loginBean.senha}"/>
-                    <p:commandButton style="font-size: 16px; font-weight: bold; color: #333333; 
-                                     background-color: #a43b3f" 
-                                     value="Entrar" 
-                                     actionListener="#{loginBean.logar}" 
-                                     icon="ui-icon-power" 
-                                     onclick="record.hide()" 
-                                     alt="Record"/>
-                    <p></p>
+                <p:panelGrid id="panelRecord"> 
+                    
+                    <p:row>
+                        <p:column style="padding: 20px">
+                            <p:outputLabel value="Login: " style="font-weight: bold"/>
+                        </p:column>
+                        <p:column style="padding: 20px">
+                            <p:inputText required="true" 
+                                         requiredMessage="O nome precisa ser preenchido!" 
+                                         style="border-color: #a43b3f" 
+                                         id="login" 
+                                         value="#{loginBean.login}"/> 
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column style="padding: 20px">
+                            <p:outputLabel value="Senha: " style="font-weight: bold"/>
+                        </p:column>
+                        <p:column style="padding: 20px">
+                            <p:password required="true" 
+                                        requiredMessage="A senha precisa ser preenchida!" 
+                                        style="border-color: #a43b3f" 
+                                        id="senha" 
+                                        value="#{loginBean.senha}"/>
+                        </p:column>
+                    </p:row>
+                    
+                        <p:column colspan="2" style="border-color: white; padding: 10px">
+                        <p:commandButton value="Entrar" 
+                                         style="float: right"
+                                         actionListener="#{loginBean.logar}" 
+                                         icon="ui-icon-power" 
+                                         onclick="record.hide()" 
+                                         alt="Record"/>
+                        </p:column>
+                    
                 </p:panelGrid>
             </div>
             <br/>         

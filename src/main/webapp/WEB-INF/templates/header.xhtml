@@ -5,7 +5,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     <header>
-        <h1>LPWSD - Biblioteca</h1>
+        
+        <div style="display: flex;;">
+            <h1>LPWSD - Biblioteca</h1>
+            <p:graphicImage value="/resources/images/logo_book.png"/>
+        </div>
+        
         <h:form>  
             <p:menubar>
                 
@@ -29,6 +34,8 @@
                     rendered="#{loginBean.tipo == 'Funcionario' || loginBean.tipo == 'Administrador'}"/>
                     <p:menuitem value="Reservas" icon="ui-icon-person" url="/faces/reservas.xhtml"/>
                 </p:submenu>
+                
+                <p:menuitem value="Relatórios" icon="ui-icon-home" url="/faces/relatorios.xhtml" />
                                 
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">
                     <p:menuitem value="Sair" icon="ui-icon-close" action="#{loginBean.logout}"/>
