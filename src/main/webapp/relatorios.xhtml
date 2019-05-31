@@ -9,62 +9,116 @@
         <h2 class="page-header">Gerar Relatórios</h2>
         <br/>
         <ms:mensagem/>
-        <h:form id="formPrincipal" style="width: 700px">
-            <div align="center">
+        <h:form id="formPrincipal">
             
-                <p:ribbon>
-                    <p:tab title="Livros e Exemplares">
-                        <p:ribbonGroup style="align-items: center">
-                            <p:commandButton immediate="true" 
-                                         value="Gerar Relatório" 
-                                         action="#{usuarioBean.gerarRelatorioAction}" 
-                                         ajax="false" 
-                                         onclick="this.form.target = '_blank'"/>
-                        </p:ribbonGroup>
-                    </p:tab>
-
-                    <p:tab title="Livros Emprestados">
-                        <p:ribbonGroup>
-                            <p:commandButton immediate="true" 
-                                         value="Gerar Relatório" 
-                                         action="#{usuarioBean.gerarRelatorioAction}" 
-                                         ajax="false" 
-                                         onclick="this.form.target = '_blank'"/>
-                        </p:ribbonGroup>
-                    </p:tab>
-
-                    <p:tab title="Livros Reservados">
-                        <p:ribbonGroup>
-                            <p:commandButton immediate="true" 
-                                         value="Gerar Relatório" 
-                                         action="#{usuarioBean.gerarRelatorioAction}" 
-                                         ajax="false" 
-                                         onclick="this.form.target = '_blank'"/>
-                        </p:ribbonGroup>
-                    </p:tab>
-
-                    <p:tab title="Usuários cadastrados">
-                        <p:ribbonGroup>
-                            <p:commandButton immediate="true" 
-                                         value="Gerar Relatório" 
-                                         action="#{usuarioBean.gerarRelatorioAction}" 
-                                         ajax="false" 
-                                         onclick="this.form.target = '_blank'"/>
-                        </p:ribbonGroup>
-                    </p:tab>
-
-                    <p:tab title="Livros Atrasados">
-                        <p:ribbonGroup>
-                            <p:commandButton immediate="true" 
-                                         value="Gerar Relatório" 
-                                         action="#{usuarioBean.gerarRelatorioAction}" 
-                                         ajax="false" 
-                                         onclick="this.form.target = '_blank'"/>
-                        </p:ribbonGroup>
-                    </p:tab>
-                </p:ribbon>
-
+            <div align="center">
+                <p:panel style="width: 850px">
+                    <p:tabView id="tabMain" 
+                               dynamic="true" 
+                               activeIndex="#{relatorioBean.index}"
+                               orientation="left">
+                        
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros e Exemplares"
+                                              style="margin: 5px; vertical-align: middle"/>
+                             </f:facet>
+                            <p:panel header="Livros e Exemplares">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF de todos os livros e o 
+                                                   respectivo número de exemplares cadastrados no sistema."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                    value="Gerar Relatório" 
+                                                    action="#{relatorioBean.gerarRelatorio}" 
+                                                    ajax="false" 
+                                                    onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Emprestados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                             </f:facet>
+                            <p:panel header="Livros Emprestados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF de todos os livros 
+                                                   emprestados."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                    value="Gerar Relatório" 
+                                                    action="#{relatorioBean.gerarRelatorio}" 
+                                                    ajax="false" 
+                                                    onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Reservados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                             </f:facet>
+                            <p:panel header="Livros Reservados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF de todos os livros 
+                                                   reservados."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                    value="Gerar Relatório" 
+                                                    action="#{relatorioBean.gerarRelatorio}" 
+                                                    ajax="false" 
+                                                    onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Atrasados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                             </f:facet>
+                            <p:panel header="Livros Atrasados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF de todos os livros 
+                                                   atrasados."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                    value="Gerar Relatório" 
+                                                    action="#{relatorioBean.gerarRelatorio}" 
+                                                    ajax="false" 
+                                                    onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Usuários Cadastrados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                             </f:facet>
+                            <p:panel header="Usuários Cadastrados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF de todos os usuários 
+                                                   cadastrados no sistema."/>
+                                    <br/>
+                                    <center>
+                                        <p:commandButton immediate="true" 
+                                                        value="Gerar Relatório" 
+                                                        action="#{relatorioBean.gerarRelatorio}" 
+                                                        ajax="false" 
+                                                        onclick="this.form.target = '_blank'"/>  
+                                    </center>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        
+                    </p:tabView>
+                </p:panel>                
             </div>
+            
         </h:form>
     </ui:define>
 </ui:composition>
