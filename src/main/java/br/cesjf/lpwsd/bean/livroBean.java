@@ -17,6 +17,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -36,6 +37,8 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private List<Assunto> assuntos;
     private List<Editora> editoras;
     private List<Autor> autores;
+    
+    private int index;
 
     //Construtor
     public livroBean() {
@@ -48,6 +51,11 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     public Livro buscarId(int id) {
         return new LivroDAO().buscarId(id);
     } 
+    
+    public String nextTab(FlowEvent event){
+        arquivoBean.livro = getEntidade();
+        return event.getNewStep();
+    }
     
     //Retorna o DAO
     @Override
@@ -98,5 +106,13 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
 
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

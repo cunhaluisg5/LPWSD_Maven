@@ -14,7 +14,7 @@
         <h:form>  
             <p:menubar>
                 
-                <p:menuitem value="Início" icon="ui-icon-home" url="/faces/index.xhtml" />
+                <p:menuitem value="Início" icon="ui-icon-home" url="/faces/index.xhtml"/>
                 
 
                 <p:submenu label="Gerenciar" icon="ui-icon-gear">
@@ -35,8 +35,10 @@
                     <p:menuitem value="Reservas" icon="ui-icon-person" url="/faces/reservas.xhtml"/>
                 </p:submenu>
                 
-                <p:menuitem value="Relatórios" icon="ui-icon-home" url="/faces/relatorios.xhtml" />
-                                
+                <p:menuitem value="Relatórios" icon="ui-icon-home" url="/faces/relatorios.xhtml"/>
+                
+                <p:menuitem value="Dashboard" icon="ui-icon-home" url="/faces/dashboard.xhtml"/>
+                                                
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">
                     <p:menuitem value="Sair" icon="ui-icon-close" action="#{loginBean.logout}"/>
                 </p:submenu>

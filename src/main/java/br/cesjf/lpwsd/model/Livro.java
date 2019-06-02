@@ -63,7 +63,7 @@ public class Livro implements Serializable {
     @Column(name = "titulo")
     private String titulo;
     @ManyToMany(cascade = {
-        CascadeType.ALL})
+        CascadeType.REFRESH})
     @JoinTable(name = "AutorLivro",
             joinColumns = @JoinColumn(name = "idLivro"),
             inverseJoinColumns = @JoinColumn(name = "idAutor")

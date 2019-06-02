@@ -11,9 +11,9 @@
         <ms:mensagem/>
         <h:form id="formPrincipal">
             <div align="center" style="text-align: center">
-                
+
                 <!-- Dados da tabela -->
-                
+
                 <p:dataTable var="lista" 
                              value="#{livroBean.entidades}"
                              id="tabelaLivros" 
@@ -31,56 +31,56 @@
                               filterBy="#{lista.id}">
                         <h:outputText value="#{lista.id}"/>
                     </p:column>
-                    
+
                     <p:column style="width: 180px" 
                               headerText="Título" 
                               sortBy="#{lista.titulo}" 
                               filterBy="#{lista.titulo}">
                         <h:outputText value="#{lista.titulo}"/>
                     </p:column>
-                    
+
                     <p:column style="width: 180px"
                               headerText="ISBN" 
                               sortBy="#{lista.isbn}" 
                               filterBy="#{lista.isbn}">
                         <h:outputText value="#{lista.isbn}"/>
                     </p:column>
-                    
+
                     <p:column style="width: 100px"
                               headerText="Edição" 
                               sortBy="#{lista.edicao}" 
                               filterBy="#{lista.edicao}">
                         <h:outputText value="#{lista.edicao}"/>
                     </p:column>
-                    
+
                     <p:column style="width: 150px" 
                               headerText="Ano" 
                               sortBy="#{lista.ano}" 
                               filterBy="#{lista.ano}">
                         <h:outputText value="#{lista.ano}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
-                    
+
                     <p:column style="width: 180px"
                               headerText="Editora" 
                               sortBy="#{lista.editoraid.nome}" 
                               filterBy="#{lista.editoraid.nome}">
                         <h:outputText value="#{lista.editoraid.nome}"/>
                     </p:column>
-                    
+
                     <p:column style="width: 180px"
                               headerText="Assunto" 
                               sortBy="#{lista.assuntoid.nome}" 
                               filterBy="#{lista.assuntoid.nome}">
                         <h:outputText value="#{lista.assuntoid.nome}"/>
                     </p:column>  
-                    
+
                     <!-- Opções -->
-                    
+
                     <p:column headerText="Opções" exportable="false">
                         <center>
-                            
+
                             <p:commandButton immediate="true" 
                                              icon="ui-icon-pencil" 
                                              style="margin: 5px"
@@ -89,7 +89,7 @@
                                 <f:setPropertyActionListener target="#{livroBean.entidade}" 
                                                              value="#{lista}"/>
                             </p:commandButton>
-                            
+
                             <p:commandButton immediate="true" 
                                              icon="ui-icon-trash" 
                                              value="Deletar" 
@@ -98,30 +98,30 @@
                                 <f:setPropertyActionListener target="#{livroBean.entidade}" 
                                                              value="#{lista}"/>
                             </p:commandButton> 
-                        
+
                         </center>
                     </p:column>
 
                 </p:dataTable>
             </div>
             <br/>
-            
+
             <!-- Botão de novo livro -->
-            
+
             <p:column>
                 <p:commandButton icon="ui-icon-plus" 
                                  value="Novo Livro" 
                                  onclick="PF('record').show();">  
                 </p:commandButton> 
             </p:column>
-            
+
             <!-- Formas de exportação -->
-            
+
             <div align="center">
                 <h3>Exportar dados da página</h3>
-                
+
                 <p:panelGrid id="panelExport" columns="4"> 
-                    
+
                     <h:commandLink id="excel" immediate="true" title="EXCEL">
                         <p:graphicImage value="/resources/images/exports/excel.png"/>
                         <p:dataExporter encoding="iso-8859-1" 
@@ -158,87 +158,107 @@
                                         target="tabelaLivros" 
                                         fileName="livros"/>
                     </h:commandLink>
-                    
+
                 </p:panelGrid>
-                
+
             </div>
-            
+
             <!-- Diálogo para novo cadastro -->
 
             <p:dialog header="Novo Livro" 
                       widgetVar="record" 
                       resizable="false"
-                      modal="true" 
-                      focus="titulo">
-                <p:panelGrid id="panelRecord" 
-                             columns="2"> 
-                    <p:outputLabel value="Título: "/>
-                    <p:inputText required="true" 
-                                 requiredMessage="O título precisa ser preenchido!" 
-                                 id="titulo" 
-                                 value="#{livroBean.entidade.titulo}"/>                    
-                    <p:outputLabel value="ISBN: "/>
-                    <p:inputMask required="true" 
-                                 requiredMessage="O ISBN precisa ser preenchido!" 
-                                 mask="9999999999999" 
-                                 id="isbn" 
-                                 value="#{livroBean.entidade.isbn}"/>                    
-                    <p:outputLabel value="Edição: "/>
-                    <p:inputMask required="true" 
-                                 requiredMessage="A edição precisa ser preenchida!" 
-                                 mask="9999" 
-                                 id="edicao" 
-                                 value="#{livroBean.entidade.edicao}"/>                    
-                    <p:outputLabel value="Ano: "/>
-                    <p:calendar required="true" 
-                                requiredMessage="O ano precisa ser preenchido!" 
-                                locale="pt" 
-                                navigator="true" 
-                                pattern="dd/MM/yyyy" 
-                                id="ano" 
-                                value="#{livroBean.entidade.ano}">
-                    </p:calendar>                     
-                    <p:outputLabel value="Editora: "/>
-                    <p:selectOneMenu required="true" 
-                                     requiredMessage="A editora precisa ser selecionada!" 
-                                     id="editora" 
-                                     value="#{livroBean.entidade.editoraid}">
-                        <f:selectItems value="#{livroBean.editoras}" 
-                                       var="editora" 
-                                       itemLabel="#{editora.nome}" 
-                                       itemValue="#{editora}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel value="Assunto: "/>
-                    <p:selectOneMenu required="true" 
-                                     requiredMessage="O assunto precisa ser selecionado!" 
-                                     id="assunto" 
-                                     value="#{livroBean.entidade.assuntoid}">
-                        <f:selectItems value="#{livroBean.assuntos}" 
-                                       var="assunto" 
-                                       itemLabel="#{assunto.nome}" 
-                                       itemValue="#{assunto}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel value="Selecione Autores: "/>
-                    <p:selectManyMenu required="true" 
-                                      requiredMessage="Pelo menos um autor deve ser selecionado!" 
-                                      id="autores" 
-                                      value="#{livroBean.entidade.autorList}" converter="autorConverter">
-                        <f:attribute name="collectionType" 
-                                     value="java.util.ArrayList"/>
-                        <f:selectItems value="#{livroBean.autores}" 
-                                       var="autor" 
-                                       itemLabel="#{autor.nome}" 
-                                       itemValue="#{autor}"/>
-                    </p:selectManyMenu>
+                      modal="true">
 
-                </p:panelGrid>  
+
+                <p:wizard flowListener="#{livroBean.nextTab}" nextLabel="Próximo">
+                    <p:tab title="Dados do Livro">
+                        <p:panel style="width: 350px">
+                            <ms:mensagem/>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Título: "/>
+                                <p:inputText required="true" 
+                                             requiredMessage="O título precisa ser preenchido!" 
+                                             id="titulo" 
+                                             value="#{livroBean.entidade.titulo}"/>
+                                <p:outputLabel value="ISBN: "/>
+                                <p:inputMask required="true" 
+                                             requiredMessage="O ISBN precisa ser preenchido!" 
+                                             mask="9999999999999" 
+                                             id="isbn" 
+                                             value="#{livroBean.entidade.isbn}"/>  
+                                <p:outputLabel value="Edição: "/>
+                                <p:inputMask required="true" 
+                                             requiredMessage="A edição precisa ser preenchida!" 
+                                             mask="9999" 
+                                             id="edicao" 
+                                             value="#{livroBean.entidade.edicao}"/>  
+                                <p:outputLabel value="Ano: "/>
+                                <p:calendar required="true" 
+                                            requiredMessage="O ano precisa ser preenchido!" 
+                                            locale="pt" 
+                                            navigator="true" 
+                                            pattern="dd/MM/yyyy" 
+                                            id="ano" 
+                                            value="#{livroBean.entidade.ano}">
+                                </p:calendar>   
+                                <p:outputLabel value="Editora: "/>
+                                <p:selectOneMenu required="true" 
+                                                 requiredMessage="A editora precisa ser selecionada!" 
+                                                 id="editora" 
+                                                 value="#{livroBean.entidade.editoraid}">
+                                    <f:selectItems value="#{livroBean.editoras}" 
+                                                   var="editora" 
+                                                   itemLabel="#{editora.nome}" 
+                                                   itemValue="#{editora}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Assunto: "/>
+                                <p:selectOneMenu required="true" 
+                                                 requiredMessage="O assunto precisa ser selecionado!" 
+                                                 id="assunto" 
+                                                 value="#{livroBean.entidade.assuntoid}">
+                                    <f:selectItems value="#{livroBean.assuntos}" 
+                                                   var="assunto" 
+                                                   itemLabel="#{assunto.nome}" 
+                                                   itemValue="#{assunto}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Selecione Autores: "/>
+                                <p:selectManyMenu required="true" 
+                                                  requiredMessage="Pelo menos um autor deve ser selecionado!" 
+                                                  id="autores" 
+                                                  value="#{livroBean.entidade.autorList}" converter="autorConverter">
+                                    <f:selectItems value="#{livroBean.autores}" 
+                                                   var="autor" 
+                                                   itemLabel="#{autor.nome}" 
+                                                   itemValue="#{autor}"/>
+                                </p:selectManyMenu>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Upload">
+                        <p:panel style="width: 350px; text-align: center">
+                            <h:panelGrid columns="1">
+                                <p:fileUpload id="upload" 
+                                              label="Selecionar Arquivo"
+                                              fileUploadListener="#{arquivoBean.fileUploadAction}" 
+                                              auto="true"/>
+                                <p:messages showDetail="true" closable="true">
+                                    <p:autoUpdate/>
+                                </p:messages>
+                                <p:commandButton value="Finalizar" 
+                                                 actionListener="#{livroBean.record}" 
+                                                 onclick="record.hide()"
+                                                 alt="Record"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+
                 <br/>
-                <p:commandButton value="Salvar" 
-                                 actionListener="#{livroBean.record}" 
-                                 onclick="record.hide()" 
-                                 alt="Record"/> 
+
             </p:dialog>
-            
+
             <p:confirmDialog widgetVar="exclude" 
                              severity="alert" 
                              message="Deseja realmente remover o livro ? " 
@@ -257,8 +277,8 @@
                                          type="button"/>  
                     </h:form>   
                 </center>
-           </p:confirmDialog>
-            
+            </p:confirmDialog>
+
         </h:form>
     </ui:define>
 </ui:composition>

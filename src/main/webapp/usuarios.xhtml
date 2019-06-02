@@ -159,8 +159,12 @@
                     <p:outputLabel value="E-mail: "/>
                     <p:inputText required="true" 
                                  requiredMessage="O e-mail deve ser preenchido!" 
+                                 validatorMessage="E-mail incorreto!"
                                  id="email" 
-                                 value="#{usuarioBean.entidade.email}"/>                    
+                                 value="#{usuarioBean.entidade.email}">  
+                    <f:validateRegex pattern="[\w\.-][a-zA-Z0-9_]@[\w\.-][a-zA-Z0-9]\.
+                                                  [a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                    </p:inputText>
                     <p:outputLabel value="Senha: "/>
                     <p:password required="true" 
                                 requiredMessage="A senha deve ser preenchida!" 

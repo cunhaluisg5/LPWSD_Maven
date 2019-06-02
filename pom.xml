@@ -24,6 +24,7 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>7.0</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
@@ -70,11 +71,6 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.10.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml-schemas</artifactId>
             <version>3.10.1</version>
         </dependency>
         <dependency>

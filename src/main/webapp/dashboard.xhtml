@@ -1,0 +1,118 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h2 class="page-header">Gerar Relatórios</h2>
+        <br/>
+        <ms:mensagem/>
+        <h:form id="formPrincipal">
+
+            <div align="center">
+                <p:panel style="width: 80%">
+                    <p:tabView id="tabMain" 
+                               dynamic="true" 
+                               activeIndex="#{relatorioBean.index}"
+                               orientation="left">
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Reservados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+
+                            <!--<p:barChart model="#{graficoBean.bookReserved}" style="width: 100%; height: 500px;" widgetVar="01"/>-->
+                            
+                            <p:commandButton onclick="export01()" value="Exportar Gráfico para PDF"/>
+
+                        </p:tab>
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Emprestados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+                            <!--<p:barChart model="#{graficoBean.bookEmp}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
+                            <br />
+
+                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
+
+                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
+                            </p:dialog> 
+                        </p:tab>
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Reservados - Categoria"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
+                            <br />
+
+                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
+
+                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
+                            </p:dialog> 
+                        </p:tab>
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Emprestados - Categoria"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
+                            <br />
+
+                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
+
+                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
+                            </p:dialog> 
+                        </p:tab>
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Livros Reservados/Emprestados"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
+                            <br />
+
+                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
+
+                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
+                            </p:dialog> 
+                        </p:tab>
+
+                    </p:tabView>
+                </p:panel>                
+            </div>
+
+        </h:form>
+        
+        <h:outputScript name="js/pdfmake.min.js" />
+        <h:outputScript name="js/vfs_fonts.js" />
+
+        <script>
+            function export01() {
+                var docDefinition = {
+                    content: [
+                        'Bar Chart',
+                        {
+                            image: $(PF('01').exportAsImage()).attr('src'),
+                            width: 520
+                        }
+                    ]
+                };
+                pdfMake.createPdf(docDefinition).open();
+                pdfMake.createPdf(docDefinition).download('Gráfico_01.pdf');
+            }
+        </script>
+    </ui:define>
+</ui:composition>
