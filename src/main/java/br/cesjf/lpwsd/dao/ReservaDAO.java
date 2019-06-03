@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -81,6 +82,13 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
             e.printStackTrace();
         }
         return reserva;
+    }
+    
+    //Sistema faz o cancelamento
+    public List<Reserva> systemCancel() {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        TypedQuery<Reserva> query = em.createQuery("SELECT a FROM Reserva a WHERE a.idEmprestimo IS NULL AND a.cancelar IS NULL AND a.dataReserva < current_date", Reserva.class);
+        return query.getResultList();
     }
 
     //Remove todas as reservas

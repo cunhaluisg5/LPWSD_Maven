@@ -48,10 +48,14 @@ public abstract class crudBean<E, D extends CrudDAO> {
     }
 
     public void exclude(ActionEvent actionEvent) {
-        getDao().remover(entidade);
-        entidades = getDao().buscarTodas();
-        addMessage("Excluído(a) com sucesso!", FacesMessage.SEVERITY_INFO);
-        entidade = novo();
+        try{
+            getDao().remover(entidade);
+            entidades = getDao().buscarTodas();
+            addMessage("Excluído(a) com sucesso!", FacesMessage.SEVERITY_INFO);
+            entidade = novo();
+        }catch(Exception e){
+            addMessage("Não é possível excluir!", FacesMessage.SEVERITY_WARN);
+        }
     }
 
     //getters and setters

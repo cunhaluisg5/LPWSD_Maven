@@ -9,6 +9,10 @@ import br.cesjf.lpwsd.dao.EmprestimoDAO;
 import br.cesjf.lpwsd.dao.ReservaDAO;
 import br.cesjf.lpwsd.model.Reserva;
 import br.cesjf.lpwsd.util.SessionUtil;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -64,6 +68,24 @@ public class reservaBean extends crudBean<Reserva, ReservaDAO>{
         record(actionEvent);
         idUsuario = null;
         idExemplar = null;
+    }
+    
+    public void systemCancel() {
+        List<Reserva> reservations = getDao().systemCancel();
+        LocalDate dateNow = LocalDate.now();
+
+        if (reservations.size() > 0) {
+            for (Reserva r : reservations) {
+                LocalDate dateRes = r.getDataReserva().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                long interval = ChronoUnit.DAYS.between(dateRes, dateNow);
+
+                if (interval > 3) {
+                    Reserva aux = r;
+                    aux.setCancelar("Sistema");
+                    getDao().persistir(aux);
+                }
+            }
+        }
     }
 
     //Retorna o DAO
