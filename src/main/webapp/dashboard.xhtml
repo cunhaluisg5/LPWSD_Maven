@@ -15,7 +15,7 @@
                 <p:panel style="width: 80%">
                     <p:tabView id="tabMain" 
                                dynamic="true" 
-                               activeIndex="#{relatorioBean.index}"
+                               activeIndex="#{graficoBean.index}"
                                orientation="left">
 
                         <p:tab> 
@@ -25,8 +25,19 @@
                             </f:facet>
 
                             <!--<p:barChart model="#{graficoBean.bookReserved}" style="width: 100%; height: 500px;" widgetVar="01"/>-->
-                            
-                            <p:commandButton onclick="export01()" value="Exportar Gráfico para PDF"/>
+
+                            <p:panel header="Livros Reservados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados nos últimos 3 meses."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                     value="Exportar Gráfico" 
+                                                     action="#{graficoBean.gerarRelatorio}" 
+                                                     ajax="false" 
+                                                     icon="ui-icon-document"
+                                                     onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
 
                         </p:tab>
 
@@ -35,14 +46,19 @@
                                 <h:outputText value="Livros Emprestados"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            <!--<p:barChart model="#{graficoBean.bookEmp}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
-                            <br />
-
-                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
-
-                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
-                            </p:dialog> 
+                            
+                            <p:panel header="Livros Emprestados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros emprestados nos últimos 3 meses."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                     value="Exportar Gráfico" 
+                                                     action="#{graficoBean.gerarRelatorio}" 
+                                                     ajax="false" 
+                                                     icon="ui-icon-document"
+                                                     onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
                         </p:tab>
 
                         <p:tab> 
@@ -50,14 +66,19 @@
                                 <h:outputText value="Livros Reservados - Categoria"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
-                            <br />
-
-                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
-
-                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
-                            </p:dialog> 
+                            
+                            <p:panel header="Livros Reservados - Categoria">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados por categoria nos últimos 3 meses."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                     value="Exportar Gráfico" 
+                                                     action="#{graficoBean.gerarRelatorio}" 
+                                                     ajax="false" 
+                                                     icon="ui-icon-document"
+                                                     onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
                         </p:tab>
 
                         <p:tab> 
@@ -65,14 +86,19 @@
                                 <h:outputText value="Livros Emprestados - Categoria"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
-                            <br />
-
-                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
-
-                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
-                            </p:dialog> 
+                            
+                            <p:panel header="Livros Emprestados - Categoria">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros emprestados por categoria nos últimos 3 meses."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                     value="Exportar Gráfico" 
+                                                     action="#{graficoBean.gerarRelatorio}" 
+                                                     ajax="false" 
+                                                     icon="ui-icon-document"
+                                                     onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
                         </p:tab>
 
                         <p:tab> 
@@ -80,14 +106,19 @@
                                 <h:outputText value="Livros Reservados/Emprestados"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            <!--<p:barChart model="#{graficoBean.bookReserved}"  style="width: 100%; height: 500px;" widgetVar="chart" />-->
-                            <br />
-
-                            <p:commandButton type="button" value="Gerar PDF" icon="ui-icon-document" onclick="exportChart()"/>
-
-                            <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                                <p:outputPanel layout="block" style="width:500px;height:300px"/>
-                            </p:dialog> 
+                            
+                            <p:panel header="Livros Reservados/Emprestados">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados e emprestados nos último mês."/>
+                                    <br/>
+                                    <p:commandButton immediate="true" 
+                                                     value="Exportar Gráfico" 
+                                                     action="#{graficoBean.gerarRelatorio}" 
+                                                     ajax="false" 
+                                                     icon="ui-icon-document"
+                                                     onclick="this.form.target = '_blank'"/>      
+                                </h:panelGrid>
+                            </p:panel>
                         </p:tab>
 
                     </p:tabView>
@@ -95,7 +126,7 @@
             </div>
 
         </h:form>
-        
+
         <h:outputScript name="js/pdfmake.min.js" />
         <h:outputScript name="js/vfs_fonts.js" />
 
