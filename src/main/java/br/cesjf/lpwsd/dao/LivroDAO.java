@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -51,6 +52,54 @@ public class LivroDAO implements Serializable, CrudDAO<Livro> {
         if (livro != null && livro.size() > 0)
             return livro.get(0);
         return null;
+    }
+    
+    //Busca os livros por título
+    public List<Object[]> livrosPorTitulo(String titulo) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
+                + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
+                + "(SELECT COUNT(e) FROM Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
+                + "(SELECT COUNT(e) FROM Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"
+                + "FROM Livro l WHERE l.titulo =:titulo", Object[].class);
+
+        query.setParameter("v", Boolean.TRUE);
+        query.setParameter("titulo", titulo);
+        query.setParameter("f", Boolean.FALSE);        
+
+        return query.getResultList();
+    }
+    
+    //Busca os livros por autor
+    public List<Object[]> livrosPorAutor(String autor) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
+                + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
+                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
+                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"
+                + "FROM Livro l WHERE :autor IN (l.autorList.nome)", Object[].class);
+
+        query.setParameter("v", Boolean.TRUE);
+        query.setParameter("autor", autor);
+        query.setParameter("f", Boolean.FALSE);        
+
+        return query.getResultList();
+    }
+    
+    //Busca os livros por assunto
+    public List<Object[]> livrosPorAssunto(String assunto) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
+                + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
+                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
+                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"
+                + "from Livro l WHERE l.assuntoid.nome =:assunto", Object[].class);
+
+        query.setParameter("v", Boolean.TRUE);
+        query.setParameter("assunto", assunto);
+        query.setParameter("f", Boolean.FALSE);        
+
+        return query.getResultList();
     }
 
     //Busca todos os livros

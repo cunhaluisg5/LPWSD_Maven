@@ -1,0 +1,118 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h2 class="page-header">Visualizar Acervo</h2>
+        <br/>
+        <ms:mensagem/>
+        <h:form id="formPrincipal">
+            <center>
+                <div>
+                    <h3 style="margin-top:0">Selecione um filtro e faça a pesquisa</h3>
+                    <p:inputText value="#{acervoBean.text}"/>
+                    <p:commandButton style="margin-left: 10px" 
+                                     value="Buscar" 
+                                     icon="ui-icon-circle-zoomout" 
+                                     update="@form"/>
+                    <br/>
+                    <p:selectOneRadio id="filtro" 
+                                      value="#{acervoBean.option}" 
+                                      unselectable="true">
+                        <f:selectItem itemLabel="Título" 
+                                      itemValue="Título"/>
+                        <f:selectItem itemLabel="Autor" 
+                                      itemValue="Autor"/>
+                        <f:selectItem itemLabel="Assunto" 
+                                      itemValue="Assunto"/>
+                    </p:selectOneRadio>
+                    <br/>
+                </div>
+            </center>
+            <div>
+                <p:dataTable var="lista"
+                             value="#{acervoBean.exemplares}"
+                             id="tabela" 
+                             emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true"
+                             reflow="true"
+                             rows="5"
+                             rowsPerPageTemplate="5,10,25,50,100,9999" 
+                             style="width:100%">
+
+                    <p:column headerText="Título" 
+                              filterBy="#{lista[0]}" 
+                              sortBy="#{lista[0]}">
+                        <center>
+                            <h:outputText value="#{lista[0]}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="ISBN" 
+                              filterBy="#{lista[1]}" 
+                              sortBy="#{lista[1]}" 
+                              style="width: 155px">
+                        <center>
+                            <h:outputText value="#{lista[1]}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Edição" 
+                              filterBy="#{lista[2]}" 
+                              sortBy="#{lista[2]}">
+                        <center>
+                            <h:outputText value="#{lista[2]}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Ano" 
+                              filterBy="#{lista[3]}" 
+                              sortBy="#{lista[3]}">
+                        <center>
+                            <h:outputText value="#{lista[3]}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </center>
+                    </p:column>                 
+
+                    <p:column headerText="Assunto" 
+                              filterBy="#{lista[4]}" 
+                              sortBy="#{lista[4]}">
+                        <center>
+                            <h:outputText value="#{lista[4]}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Editora" 
+                              filterBy="#{lista[5]}" 
+                              sortBy="#{lista[5]}">
+                        <center>
+                            <h:outputText value="#{lista[5]}" />
+                        </center>
+                    </p:column>            
+
+                    <p:column headerText="Circular" 
+                              filterBy="#{lista[6]}" 
+                              sortBy="#{lista[6]}">
+                        <center>
+                            <h:outputText value="#{lista[6] != 0 ? lista[6] : '-'}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Não Circular" 
+                              filterBy="#{lista[7]}" 
+                              sortBy="#{lista[7]}">
+                        <center>
+                            <h:outputText value="#{lista[7] != 0 ? lista[7] : '-'}" />
+                        </center>
+                    </p:column>           
+
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
