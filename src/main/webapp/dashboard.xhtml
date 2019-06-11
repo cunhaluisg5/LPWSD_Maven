@@ -6,7 +6,7 @@
                 xmlns:ms="http://xmlns.jcp.org/jsf/composite/mscomp"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h2 class="page-header">Gerar Relatórios</h2>
+        <h2 class="page-header">DashBoard</h2>
         <br/>
         <ms:mensagem/>
         <h:form id="formPrincipal">
@@ -15,7 +15,7 @@
                 <p:panel style="width: 80%">
                     <p:tabView id="tabMain" 
                                dynamic="true" 
-                               activeIndex="#{graficoBean.index}"
+                               activeIndex="#{dashBoardBean.index}"
                                orientation="left">
 
                         <p:tab> 
@@ -24,18 +24,13 @@
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
 
-                            <!--<p:barChart model="#{graficoBean.bookReserved}" style="width: 100%; height: 500px;" widgetVar="01"/>-->
-
                             <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
-                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados nos últimos 3 meses."/>
+
+                                    <p:barChart model="#{dashBoardBean.bookRes}" style="width: 500px; height: 500px;" widgetVar="01"/>   
                                     <br/>
-                                    <p:commandButton immediate="true" 
-                                                     value="Exportar Gráfico" 
-                                                     action="#{graficoBean.gerarRelatorio}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>      
+                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    
                                 </h:panelGrid>
                             </p:panel>
 
@@ -46,19 +41,17 @@
                                 <h:outputText value="Livros Emprestados"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            
-                            <p:panel header="Livros Emprestados">
+
+                            <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
-                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros emprestados nos últimos 3 meses."/>
+
+                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
                                     <br/>
-                                    <p:commandButton immediate="true" 
-                                                     value="Exportar Gráfico" 
-                                                     action="#{graficoBean.gerarRelatorio}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>      
+                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    
                                 </h:panelGrid>
                             </p:panel>
+
                         </p:tab>
 
                         <p:tab> 
@@ -66,19 +59,17 @@
                                 <h:outputText value="Livros Reservados - Categoria"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            
-                            <p:panel header="Livros Reservados - Categoria">
+
+                            <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
-                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados por categoria nos últimos 3 meses."/>
+
+                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
                                     <br/>
-                                    <p:commandButton immediate="true" 
-                                                     value="Exportar Gráfico" 
-                                                     action="#{graficoBean.gerarRelatorio}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>      
+                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    
                                 </h:panelGrid>
                             </p:panel>
+
                         </p:tab>
 
                         <p:tab> 
@@ -86,19 +77,17 @@
                                 <h:outputText value="Livros Emprestados - Categoria"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            
-                            <p:panel header="Livros Emprestados - Categoria">
+
+                            <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
-                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros emprestados por categoria nos últimos 3 meses."/>
+
+                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
                                     <br/>
-                                    <p:commandButton immediate="true" 
-                                                     value="Exportar Gráfico" 
-                                                     action="#{graficoBean.gerarRelatorio}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>      
+                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    
                                 </h:panelGrid>
                             </p:panel>
+
                         </p:tab>
 
                         <p:tab> 
@@ -106,19 +95,17 @@
                                 <h:outputText value="Livros Reservados/Emprestados"
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
-                            
-                            <p:panel header="Livros Reservados/Emprestados">
+
+                            <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
-                                    <p:outputLabel value="Gera um gráfico em PDF de todos os livros reservados e emprestados nos último mês."/>
+
+                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
                                     <br/>
-                                    <p:commandButton immediate="true" 
-                                                     value="Exportar Gráfico" 
-                                                     action="#{graficoBean.gerarRelatorio}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>      
+                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    
                                 </h:panelGrid>
                             </p:panel>
+
                         </p:tab>
 
                     </p:tabView>
@@ -134,15 +121,14 @@
             function export01() {
                 var docDefinition = {
                     content: [
-                        'Bar Chart',
                         {
                             image: $(PF('01').exportAsImage()).attr('src'),
-                            width: 520
+                            width: 500
                         }
                     ]
                 };
                 pdfMake.createPdf(docDefinition).open();
-                pdfMake.createPdf(docDefinition).download('Gráfico_01.pdf');
+                pdfMake.createPdf(docDefinition).download('Livros_Reservados.pdf');
             }
         </script>
     </ui:define>

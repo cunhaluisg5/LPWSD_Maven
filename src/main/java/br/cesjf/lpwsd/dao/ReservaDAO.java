@@ -87,7 +87,7 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
     //Sistema faz o cancelamento
     public List<Reserva> systemCancel() {
         EntityManager em = PersistenceUtil.getEntityManager();
-        TypedQuery<Reserva> query = em.createQuery("SELECT a FROM Reserva a WHERE a.idEmprestimo IS NULL AND a.cancelar IS NULL AND a.dataReserva < current_date", Reserva.class);
+        TypedQuery<Reserva> query = em.createQuery("SELECT a FROM Reserva a WHERE a.dataReserva < current_date AND a.idEmprestimo IS NULL AND a.cancelar IS NULL", Reserva.class);
         return query.getResultList();
     }
 
