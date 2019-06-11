@@ -5,8 +5,10 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.dao.AssuntoDAO;
 import br.cesjf.lpwsd.dao.EmprestimoDAO;
 import br.cesjf.lpwsd.dao.ReservaDAO;
+import br.cesjf.lpwsd.model.Assunto;
 import br.cesjf.lpwsd.model.Emprestimo;
 import br.cesjf.lpwsd.model.Reserva;
 import java.io.Serializable;
@@ -14,7 +16,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -40,10 +46,13 @@ public class dashBoardBean implements Serializable{
     //Gráficos
     private BarChartModel bookRes;
     private BarChartModel bookEmp;
+    private BarChartModel bookResCat;
+    private BarChartModel total;
     
     //Listas
     private final List<Reserva> res;
     private final List<Emprestimo> emp;
+    private final List<Assunto> ast;
     
     //Datas para controle
     private final LocalDate date1;
@@ -65,31 +74,87 @@ public class dashBoardBean implements Serializable{
         date3 = LocalDate.now().minusMonths(4); 
         res = new ReservaDAO().buscarTodas();
         emp = new EmprestimoDAO().buscarTodas();
+        ast = new AssuntoDAO().buscarTodas();
     }
     
     @PostConstruct
     public void init() {
         createBookReserved();
         createBookBorrowed();
+        createBookReservedCategory();
+        createTotal();
     }
     
     //Cria o gráfico de livros reservados
     public void createBookReserved(){
         reset();
+        
         for(Reserva r : res){
             incrementMonth(r.getDataReserva());
         }  
         
-        bookRes = createBar("Livros reservados nos últimos 3 meses");
+        List<Number> values = new ArrayList<>();
+        values.add(month3);
+        values.add(month2);
+        values.add(month1);
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(returnMonth(date3.getMonthValue()));
+        labels.add(returnMonth(date2.getMonthValue()));
+        labels.add(returnMonth(date1.getMonthValue()));
+        
+        bookRes = createBar(values, labels, "Livros reservados nos últimos 3 meses");
     }
     
     //Cria o gráfico de livros emprestados
     public void createBookBorrowed(){
         reset();
+        
         for(Emprestimo e : emp){
             incrementMonth(e.getDataEmprestimo());
         }
-        bookEmp = createBar("Livros emprestados nos últimos 3 meses");
+        
+        List<Number> values = new ArrayList<>();
+        values.add(month3);
+        values.add(month2);
+        values.add(month1);
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(returnMonth(date3.getMonthValue()));
+        labels.add(returnMonth(date2.getMonthValue()));
+        labels.add(returnMonth(date1.getMonthValue()));
+        
+        bookEmp = createBar(values, labels, "Livros emprestados nos últimos 3 meses");
+    }
+    
+    public void createBookReservedCategory(){
+    }
+    
+    //Cria o gráfico de livros reservados e emprestados
+    public void createTotal(){
+        reset();
+        int totRes = 0;
+        int totEmp = 0;
+        
+        for(Reserva r : res){
+            if(isEqual(r.getDataReserva()))
+                totRes++;
+        }
+        
+        for(Emprestimo e : emp){
+            if(isEqual(e.getDataEmprestimo()))
+                totEmp++;
+        }
+        
+        List<Number> values = new ArrayList<>();
+        values.add(totRes);
+        values.add(totEmp);
+        
+        List<String> labels = new ArrayList<>();
+        labels.add("Reservados");
+        labels.add("Emprestados");
+        
+        total = createBar(values, labels, "Livros reservados e emprestados no último mês");
     }
     
     //Reseta os valores dos meses
@@ -100,14 +165,13 @@ public class dashBoardBean implements Serializable{
     }
        
     //Cria um gráfico
-    public BarChartModel createBar(String text) {
+    public BarChartModel createBar(List<Number> values, List<String> labels, String text) {
         BarChartModel barChartModel = new BarChartModel();
         ChartData data = new ChartData();
          
         BarChartDataSet barDataSet = new BarChartDataSet();
         barDataSet.setLabel("Livros");           
         
-        List<Number> values = insertValues();
         barDataSet.setData(values);
          
         List<String> bgColor = insertBgColor();
@@ -119,7 +183,6 @@ public class dashBoardBean implements Serializable{
          
         data.addChartDataSet(barDataSet);
          
-        List<String> labels = insertLabels();
         data.setLabels(labels);
         barChartModel.setData(data);
          
@@ -168,14 +231,6 @@ public class dashBoardBean implements Serializable{
         return title;
     }
 
-    private List<String> insertLabels() {
-        List<String> labels = new ArrayList<>();
-        labels.add(returnMonth(date3.getMonthValue()));
-        labels.add(returnMonth(date2.getMonthValue()));
-        labels.add(returnMonth(date1.getMonthValue()));
-        return labels;
-    }
-
     private List<String> insertBorderColor() {
         List<String> borderColor = new ArrayList<>();
         borderColor.add("rgb(40, 121, 193)");
@@ -199,16 +254,8 @@ public class dashBoardBean implements Serializable{
         bgColor.add("rgba(0, 0, 0, 0.4)");
         return bgColor;
     }
-
-    private List<Number> insertValues() {
-        List<Number> values = new ArrayList<>();
-        values.add(month3);
-        values.add(month2);
-        values.add(month1);
-        return values;
-    }
     
-    //Incrementa os meses baseado nas reservas
+    //Incrementa os meses
     public void incrementMonth(Date date){
         Calendar calendario = Calendar.getInstance();
         calendario.setTime(date);
@@ -218,6 +265,13 @@ public class dashBoardBean implements Serializable{
             month2++;
          else if(calendario.get(Calendar.MONTH) == date3.getMonthValue())
             month3++;
+    }
+    
+    //Verifica data
+    public boolean isEqual(Date date){
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(date);
+        return calendario.get(Calendar.MONTH) == date1.getMonthValue();
     }
     
     //Retorna o nome do mês
@@ -276,5 +330,21 @@ public class dashBoardBean implements Serializable{
 
     public void setBookEmp(BarChartModel bookEmp) {
         this.bookEmp = bookEmp;
+    }
+
+    public BarChartModel getTotal() {
+        return total;
+    }
+
+    public void setTotal(BarChartModel total) {
+        this.total = total;
+    }
+
+    public BarChartModel getBookResCat() {
+        return bookResCat;
+    }
+
+    public void setBookResCat(BarChartModel bookResCat) {
+        this.bookResCat = bookResCat;
     }
 }

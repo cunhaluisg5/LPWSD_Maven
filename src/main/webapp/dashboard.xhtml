@@ -60,12 +60,12 @@
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
 
-                            <p:panel header="Livros Reservados">
+                            <p:panel header="Livros Reservados - Categoria">
                                 <h:panelGrid style="text-align: center">
 
-                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
+                                    <p:barChart model="#{dashBoardBean.bookResCat}" style="width: 500px; height: 500px;" widgetVar="03"/>   
                                     <br/>
-                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    <p:commandButton value="Exportar Gráfico" onclick="exportPDF('03')"/>
                                     
                                 </h:panelGrid>
                             </p:panel>
@@ -96,12 +96,12 @@
                                               style="margin: 5px; vertical-align: middle"/>
                             </f:facet>
 
-                            <p:panel header="Livros Reservados">
+                            <p:panel header="Livros Reservados/Emprestados">
                                 <h:panelGrid style="text-align: center">
 
-                                    <p:barChart model="#{dashBoardBean.bookReserved}" style="width: 500px; height: 500px;" widgetVar="01"/>   
+                                    <p:barChart model="#{dashBoardBean.total}" style="width: 500px; height: 500px;" widgetVar="05"/>   
                                     <br/>
-                                    <p:commandButton value="Exportar Gráfico" onclick="export01()"/>
+                                    <p:commandButton value="Exportar Gráfico" onclick="exportPDF('05')"/>
                                     
                                 </h:panelGrid>
                             </p:panel>
