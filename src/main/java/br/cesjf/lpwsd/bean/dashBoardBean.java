@@ -42,8 +42,8 @@ public class dashBoardBean implements Serializable{
     private BarChartModel bookEmp;
     
     //Listas
-    private final List<Reserva> reservations;
-    private final List<Emprestimo> emprestimos;
+    private final List<Reserva> res;
+    private final List<Emprestimo> emp;
     
     //Datas para controle
     private final LocalDate date1;
@@ -63,22 +63,40 @@ public class dashBoardBean implements Serializable{
         date1 = LocalDate.now().minusMonths(2);
         date2 = LocalDate.now().minusMonths(3); 
         date3 = LocalDate.now().minusMonths(4); 
-        reservations = new ReservaDAO().buscarTodas();
-        emprestimos = new EmprestimoDAO().buscarTodas();
+        res = new ReservaDAO().buscarTodas();
+        emp = new EmprestimoDAO().buscarTodas();
     }
     
     @PostConstruct
     public void init() {
         createBookReserved();
+        createBookBorrowed();
     }
     
     //Cria o gráfico de livros reservados
     public void createBookReserved(){
-        for(Reserva r : reservations){
-            incrementMonthReserved(r.getDataReserva());
+        reset();
+        for(Reserva r : res){
+            incrementMonth(r.getDataReserva());
         }  
         
         bookRes = createBar("Livros reservados nos últimos 3 meses");
+    }
+    
+    //Cria o gráfico de livros emprestados
+    public void createBookBorrowed(){
+        reset();
+        for(Emprestimo e : emp){
+            incrementMonth(e.getDataEmprestimo());
+        }
+        bookEmp = createBar("Livros emprestados nos últimos 3 meses");
+    }
+    
+    //Reseta os valores dos meses
+    public void reset(){
+        month1 = 0;
+        month2 = 0;
+        month3 = 0;
     }
        
     //Cria um gráfico
@@ -191,7 +209,7 @@ public class dashBoardBean implements Serializable{
     }
     
     //Incrementa os meses baseado nas reservas
-    public void incrementMonthReserved(Date date){
+    public void incrementMonth(Date date){
         Calendar calendario = Calendar.getInstance();
         calendario.setTime(date);
         if(calendario.get(Calendar.MONTH) == date1.getMonthValue())
@@ -250,5 +268,13 @@ public class dashBoardBean implements Serializable{
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public BarChartModel getBookEmp() {
+        return bookEmp;
+    }
+
+    public void setBookEmp(BarChartModel bookEmp) {
+        this.bookEmp = bookEmp;
     }
 }
