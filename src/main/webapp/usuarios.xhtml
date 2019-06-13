@@ -162,8 +162,7 @@
                                  validatorMessage="E-mail incorreto!"
                                  id="email" 
                                  value="#{usuarioBean.entidade.email}">  
-                    <f:validateRegex pattern="[\w\.-][a-zA-Z0-9_]@[\w\.-][a-zA-Z0-9]\.
-                                                  [a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                    <!--<f:validateRegex for="email" pattern="[\w\.-][a-zA-Z0-9_]@[\w\.-][a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>-->
                     </p:inputText>
                     <p:outputLabel value="Senha: "/>
                     <p:password required="true" 

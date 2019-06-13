@@ -131,7 +131,8 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
     public void returned(ActionEvent actionEvent) {
         if (getEntidade().getId() != null) {
             getEntidade().setDataDevolucao(new Date());
-            record(actionEvent);
+            getDao().persistir(getEntidade());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Empréstimo", "Devolvido com sucesso!"));
         }
     }
     

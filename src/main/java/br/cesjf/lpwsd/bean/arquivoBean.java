@@ -37,11 +37,11 @@ public class arquivoBean {
             String realPath = context.getRealPath("/");
  
             // Aqui cria o diretorio caso não exista
-            File file = new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\files");
+            File file = new File(realPath + "/files/");
             file.mkdirs();
             
             byte[] arquivo = event.getFile().getContents();
-            String caminho = "C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\files\\" + livro.getIsbn() + event.getFile().getContentType().replace("application/", ".");
+            String caminho = realPath + "/files/" + livro.getIsbn() + event.getFile().getContentType().replace("application/", ".");
       
             // Esse trecho grava o arquivo no diretório
             FileOutputStream fos = new FileOutputStream(caminho);
