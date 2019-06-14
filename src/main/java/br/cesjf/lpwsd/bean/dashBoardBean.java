@@ -47,6 +47,7 @@ public class dashBoardBean implements Serializable{
     private BarChartModel bookRes;
     private BarChartModel bookEmp;
     private BarChartModel bookResCat;
+    private BarChartModel bookEmpCat;
     private BarChartModel total;
     
     //Listas
@@ -82,6 +83,7 @@ public class dashBoardBean implements Serializable{
         createBookReserved();
         createBookBorrowed();
         createBookReservedCategory();
+        createBookBorrowedCategory();
         createTotal();
     }
     
@@ -127,7 +129,66 @@ public class dashBoardBean implements Serializable{
         bookEmp = createBar(values, labels, "Livros emprestados nos últimos 3 meses");
     }
     
+    //Cria o gráfico de livros reservados por assunto
     public void createBookReservedCategory(){
+        reset();
+        
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        
+        for(Assunto a: ast) {
+            map.put(a.getAssunto(), 0);
+        }
+        
+        map = map.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        
+        for(Reserva r: res){
+            if(isInterval(r.getDataReserva())){
+                map.computeIfPresent(r.getIdExemplar().getIdLivro().getAssuntoid().getNome(), (k, v) -> v + 1);
+            }
+        }
+        
+        List<Number> values = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+            values.add(entry.getValue());
+        }
+        
+        List<String> labels = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+            labels.add(entry.getKey());
+        }
+        
+        bookResCat = createBar(values, labels, "Livros reservados por assunto nos últimos 3 meses");
+    }
+    
+    //Cria o gráfico de livros emprestados por assunto
+    public void createBookBorrowedCategory(){
+        reset();
+        
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        
+        for(Assunto a: ast) {
+            map.put(a.getAssunto(), 0);
+        }
+        
+        map = map.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        
+        for(Emprestimo e: emp){
+            if(isInterval(e.getDataEmprestimo())){
+                map.computeIfPresent(e.getIdExemplar().getIdLivro().getAssuntoid().getNome(), (k, v) -> v + 1);
+            }
+        }
+        
+        List<Number> values = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+            values.add(entry.getValue());
+        }
+        
+        List<String> labels = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+            labels.add(entry.getKey());
+        }
+        
+        bookEmpCat = createBar(values, labels, "Livros emprestados por assunto nos últimos 3 meses");
     }
     
     //Cria o gráfico de livros reservados e emprestados
@@ -255,6 +316,14 @@ public class dashBoardBean implements Serializable{
         return bgColor;
     }
     
+    //Verifica se data está no intervalo
+    public boolean isInterval(Date date){
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(date);
+        int value = calendario.get(Calendar.MONTH);
+        return ((value == date1.getMonthValue()) || (value == date2.getMonthValue()) || (value == date3.getMonthValue()));
+    }
+    
     //Incrementa os meses
     public void incrementMonth(Date date){
         Calendar calendario = Calendar.getInstance();
@@ -346,5 +415,13 @@ public class dashBoardBean implements Serializable{
 
     public void setBookResCat(BarChartModel bookResCat) {
         this.bookResCat = bookResCat;
+    }
+
+    public BarChartModel getBookEmpCat() {
+        return bookEmpCat;
+    }
+
+    public void setBookEmpCat(BarChartModel bookEmpCat) {
+        this.bookEmpCat = bookEmpCat;
     }
 }
