@@ -28,8 +28,6 @@ public class acervoBean {
         switch (option) {
             case "Título":
                 return livroDAO.livrosPorTitulo(text);
-            case "Autor":
-                return livroDAO.livrosPorAutor(text);
             case "Assunto":
                 return livroDAO.livrosPorAssunto(text);
             default:
