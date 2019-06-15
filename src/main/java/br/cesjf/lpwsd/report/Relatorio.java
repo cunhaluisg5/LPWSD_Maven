@@ -29,12 +29,12 @@ import java.util.logging.Logger;
  * @author luisg
  */
 public class Relatorio {
-    private HttpServletResponse response;
-    private FacesContext context;
+    private final HttpServletResponse response;
+    private final FacesContext context;
     private ByteArrayOutputStream baos;
     private InputStream stream;
     private Connection con;
-    private String report;
+    private String tReport;
     
     public Relatorio() {
         this.context = FacesContext.getCurrentInstance();
@@ -42,10 +42,9 @@ public class Relatorio {
     }
     
     public void getRelatorio() {
-        stream = this.getClass().getResourceAsStream("/" + report + ".jasper");
+        stream = this.getClass().getResourceAsStream("/" + tReport + ".jasper");
         Map<String, Object> params = new HashMap<String, Object>();
         baos = new ByteArrayOutputStream();
-        
             JasperReport report;
         try {
             report = (JasperReport) JRLoader.loadObject(stream);
@@ -92,11 +91,11 @@ public class Relatorio {
         }
     }
 
-    public String getReport() {
-        return report;
+    public String getTReport() {
+        return tReport;
     }
 
-    public void setReport(String report) {
-        this.report = report;
+    public void setTReport(String tReport) {
+        this.tReport = tReport;
     }
 }

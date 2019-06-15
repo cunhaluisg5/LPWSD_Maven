@@ -16,52 +16,44 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class relatorioBean {
-    
-    //Indica o nome do relatório
-    private String report;
-    
     //Controla as tabs
     private int index;
     
-    //Gera um relatório
-    public void gerarRelatorio() {
+    ///Gera o relatório de livros e exemplares
+    public void report1(){
         Relatorio relatorio = new Relatorio();
-        nameReport();
-        relatorio.setReport(report);
-        relatorio.getRelatorio();
+        relatorio.setTReport("livrosExemplares");
+        relatorio.getRelatorio();  
     }
     
-    //Seleciona o nome do relatório
-    public void nameReport(){
-        switch(index){
-            case 0:
-                report = "livrosExemplares";
-                break;
-            case 1:
-                report = "livrosEmprestados";
-                break;
-            case 2:
-                report = "livrosReservados";
-                break;
-            case 3:
-                report = "livrosAtrasados";
-                break;
-            case 4:
-                report = "usuarios";
-                break;
-        }
+    ///Gera o relatório de livros emprestados
+    public void report2(){
+        Relatorio relatorio = new Relatorio();
+        relatorio.setTReport("livrosEmprestados");
+        relatorio.getRelatorio();  
     }
     
-    //getters and Setters
+    ///Gera o relatório de livros reservados
+    public void report3(){
+        Relatorio relatorio = new Relatorio();
+        relatorio.setTReport("livrosReservados");
+        relatorio.getRelatorio();  
+    }
     
-    public String getCaminho() {
-        return report;
+    ///Gera o relatório de livros atrasados
+    public void report4(){
+        Relatorio relatorio = new Relatorio();
+        relatorio.setTReport("livrosAtrasados");
+        relatorio.getRelatorio();  
     }
-
-    public void setCaminho(String caminho) {
-        this.report = caminho;
+    
+    ///Gera o relatório de usuários cadastrados
+    public void report5(){
+        Relatorio relatorio = new Relatorio();
+        relatorio.setTReport("usuarios");
+        relatorio.getRelatorio();  
     }
-
+    
     public int getIndex() {
         return index;
     }

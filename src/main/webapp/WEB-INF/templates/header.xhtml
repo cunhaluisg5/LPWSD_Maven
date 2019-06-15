@@ -17,29 +17,37 @@
                 <p:menuitem value="Início" icon="ui-icon-home" url="/faces/index.xhtml"/>
                 
 
-                <p:submenu label="Gerenciar" icon="ui-icon-gear">
+                <p:submenu label="Gerenciar" icon="ui-icon-gear"
+                rendered="#{!loginBean.tipo == 'Aluno' || !loginBean.tipo == 'Professor' || 
+                loginBean.tipo == 'Funcionário' || loginBean.tipo == 'Administrador' || loginBean.tipo == 'Bibliotecário'}">
                     <p:menuitem value="Assuntos" icon="ui-icon-comment" url="/faces/assuntos.xhtml"
-                                rendered="#{loginBean.tipo == 'Bibliotecario' || loginBean.tipo == 'Administrador'}"/>
+                                rendered="#{loginBean.tipo == 'Bibliotecário' || loginBean.tipo == 'Administrador'}"/>
                     <p:menuitem value="Autores" icon="ui-icon-person" url="/faces/autores.xhtml"
                     rendered="#{loginBean.tipo == 'Administrador'}"/>
                     <p:menuitem value="Editoras" icon="ui-icon-script" url="/faces/editoras.xhtml"
                     rendered="#{loginBean.tipo == 'Administrador'}"/>
-                    <p:menuitem value="Empréstimos" icon="ui-icon-check" url="/faces/emprestimos.xhtml"
-                    rendered="#{loginBean.tipo == 'Funcionario' || loginBean.tipo == 'Administrador'}"/>
                     <p:menuitem value="Exemplares" icon="ui-icon-document-b" url="/faces/exemplares.xhtml" 
-                    rendered="#{loginBean.tipo == 'Aluno' || loginBean.tipo == 'Professor' || loginBean.tipo == 'Administrador' || loginBean.tipo == 'Bibliotecario'}"/>
+                    rendered="#{loginBean.tipo == 'Administrador' || loginBean.tipo == 'Bibliotecário'}"/>
                     <p:menuitem value="Livros" icon="ui-icon-document" url="/faces/livros.xhtml"
-                    rendered="#{loginBean.tipo == 'Bibliotecario' || loginBean.tipo == 'Administrador'}"/>
+                    rendered="#{loginBean.tipo == 'Bibliotecário' || loginBean.tipo == 'Administrador'}"/>
+                    <p:menuitem value="Empréstimos" icon="ui-icon-check" url="/faces/emprestimos.xhtml"
+                    rendered="#{loginBean.tipo == 'Funcionário' || loginBean.tipo == 'Administrador' || 
+                    loginBean.tipo == 'Bibliotecário'}"/>
+                    <p:menuitem value="Reservas" icon="ui-icon-newwin" url="/faces/reservas.xhtml"
+                    rendered="#{loginBean.tipo == 'Funcionário' || loginBean.tipo == 'Administrador' || 
+                    loginBean.tipo == 'Bibliotecário'}"/>
                     <p:menuitem value="Usuários" icon="ui-icon-person" url="/faces/usuarios.xhtml"
-                    rendered="#{loginBean.tipo == 'Funcionario' || loginBean.tipo == 'Administrador'}"/>
-                    <p:menuitem value="Reservas" icon="ui-icon-person" url="/faces/reservas.xhtml"/>
+                    rendered="#{loginBean.tipo == 'Funcionário' || loginBean.tipo == 'Administrador'}"/>
                 </p:submenu>
                 
-                <p:menuitem value="Relatórios" icon="ui-icon-home" url="/faces/relatorios.xhtml"/>
+                <p:menuitem value="Relatórios" icon="ui-icon-script" url="/faces/relatorios.xhtml"
+                rendered="#{loginBean.tipo == 'Administrador'}"/>
                 
-                <p:menuitem value="Dashboard" icon="ui-icon-home" url="/faces/dashboard.xhtml"/>
+                <p:menuitem value="Dashboard" icon="ui-icon-extlink" url="/faces/dashboard.xhtml"
+                rendered="#{loginBean.tipo == 'Administrador'}"/>
                 
-                <p:menuitem value="Acervo" icon="ui-icon-home" url="/faces/acervo.xhtml"/>
+                <p:menuitem value="Acervo" icon="ui-icon-folder-open" url="/faces/acervo.xhtml"
+                rendered="#{loginBean.tipo == 'Aluno' || loginBean.tipo == 'Professor' || loginBean.tipo == 'Administrador'}"/>
                                                 
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">
                     <p:menuitem value="Sair" icon="ui-icon-close" action="#{loginBean.logout}"/>
