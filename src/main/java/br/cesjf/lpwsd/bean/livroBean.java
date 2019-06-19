@@ -14,10 +14,13 @@ import br.cesjf.lpwsd.model.Autor;
 import br.cesjf.lpwsd.model.Editora;
 import br.cesjf.lpwsd.model.Livro;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -39,6 +42,7 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private List<Autor> autores;
     
     private int index;
+    private UploadedFile file;
 
     //Construtor
     public livroBean() {
@@ -52,8 +56,20 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         return new LivroDAO().buscarId(id);
     } 
     
+    @Override
+    public void record(ActionEvent actionEvent) {
+        arquivoBean bean = new arquivoBean();
+        bean.setLivro(getEntidade());
+        bean.setUploadedFile(file);
+        bean.fileUploadAction();
+        LivroDAO livroDao = new LivroDAO();
+        livroDao.persistir(getEntidade());
+        setEntidades(livroDao.buscarTodas());
+        addMessage("Salvo(a) com sucesso!", FacesMessage.SEVERITY_INFO);
+        novo();
+    }
+    
     public String nextTab(FlowEvent event){
-        arquivoBean.livro = getEntidade();
         return event.getNewStep();
     }
     
@@ -114,5 +130,13 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 }

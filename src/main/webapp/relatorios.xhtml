@@ -10,19 +10,19 @@
         <br/>
         <ms:mensagem/>
         <h:form id="formPrincipal">
-            
+
             <div align="center">
-                <p:panel style="width: 850px">
+                <p:panel style="width: 950px">
                     <p:tabView id="tabMain" 
                                dynamic="true" 
                                activeIndex="#{relatorioBean.index}"
                                orientation="left">
-                        
+
                         <p:tab> 
                             <f:facet name="title">
                                 <h:outputText value="Livros e Exemplares"
                                               style="margin: 5px; vertical-align: middle"/>
-                             </f:facet>
+                            </f:facet>
                             <p:panel header="Livros e Exemplares">
                                 <h:panelGrid style="text-align: center">
                                     <p:outputLabel value="Gera um relatório em PDF de todos os livros e o 
@@ -37,12 +37,12 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        
+
                         <p:tab> 
                             <f:facet name="title">
                                 <h:outputText value="Livros Emprestados"
                                               style="margin: 5px; vertical-align: middle"/>
-                             </f:facet>
+                            </f:facet>
                             <p:panel header="Livros Emprestados">
                                 <h:panelGrid style="text-align: center">
                                     <p:outputLabel value="Gera um relatório em PDF de todos os livros 
@@ -57,12 +57,12 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        
+
                         <p:tab> 
                             <f:facet name="title">
                                 <h:outputText value="Livros Reservados"
                                               style="margin: 5px; vertical-align: middle"/>
-                             </f:facet>
+                            </f:facet>
                             <p:panel header="Livros Reservados">
                                 <h:panelGrid style="text-align: center">
                                     <p:outputLabel value="Gera um relatório em PDF de todos os livros 
@@ -77,12 +77,12 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        
+
                         <p:tab> 
                             <f:facet name="title">
                                 <h:outputText value="Livros Atrasados"
                                               style="margin: 5px; vertical-align: middle"/>
-                             </f:facet>
+                            </f:facet>
                             <p:panel header="Livros Atrasados">
                                 <h:panelGrid style="text-align: center">
                                     <p:outputLabel value="Gera um relatório em PDF de todos os livros 
@@ -97,12 +97,12 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        
+
                         <p:tab> 
                             <f:facet name="title">
                                 <h:outputText value="Usuários Cadastrados"
                                               style="margin: 5px; vertical-align: middle"/>
-                             </f:facet>
+                            </f:facet>
                             <p:panel header="Usuários Cadastrados">
                                 <h:panelGrid style="text-align: center">
                                     <p:outputLabel value="Gera um relatório em PDF de todos os usuários 
@@ -110,20 +110,67 @@
                                     <br/>
                                     <center>
                                         <p:commandButton immediate="true" 
-                                                     value="Gerar Relatório" 
-                                                     action="#{relatorioBean.report5}" 
-                                                     ajax="false" 
-                                                     icon="ui-icon-document"
-                                                     onclick="this.form.target = '_blank'"/>    
+                                                         value="Gerar Relatório" 
+                                                         action="#{relatorioBean.report5}" 
+                                                         ajax="false" 
+                                                         icon="ui-icon-document"
+                                                         onclick="this.form.target = '_blank'"/>    
                                     </center>
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                        
+
+                        <p:tab> 
+                            <f:facet name="title">
+                                <h:outputText value="Gerencial"
+                                              style="margin: 5px; vertical-align: middle"/>
+                            </f:facet>
+                            <p:panel header="Gerencial">
+                                <h:panelGrid style="text-align: center">
+                                    <p:outputLabel value="Gera um relatório em PDF com base em empréstimos e reservas 
+                                                   feitas em um período específico."/>
+                                    <br/>
+                                    <center>
+                                        <p:column>
+                                            <p:outputLabel value="Início: " 
+                                                           style="margin-right: 10px; 
+                                                           font-weight: bold"/>
+                                            <p:calendar required="true" 
+                                                        requiredMessage="O ano precisa ser preenchido!" 
+                                                        locale="pt" 
+                                                        navigator="true" 
+                                                        pattern="dd/MM/yyyy" 
+                                                        id="inicio" 
+                                                        value="#{relatorioBean.dateStart}">
+                                            </p:calendar>   
+                                            <p:outputLabel value="Fim: " 
+                                                           style="margin-left: 10px; 
+                                                           font-weight: bold"/>
+                                            <p:calendar required="true" 
+                                                        requiredMessage="O ano precisa ser preenchido!" 
+                                                        locale="pt" 
+                                                        navigator="true" 
+                                                        pattern="dd/MM/yyyy" 
+                                                        id="fim" 
+                                                        value="#{relatorioBean.dateEnd}">
+                                            </p:calendar>  
+                                        </p:column>
+                                        <br/>
+                                        <p:commandButton immediate="true" 
+                                                         value="Gerar Relatório" 
+                                                         action="#{relatorioBean.report6}" 
+                                                         ajax="false" 
+                                                         icon="ui-icon-document"
+                                                         onclick="this.form.target = '_blank'"/>    
+                                    </center>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
                     </p:tabView>
                 </p:panel>                
             </div>
-            
+
         </h:form>
     </ui:define>
 </ui:composition>

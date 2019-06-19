@@ -246,12 +246,13 @@
                             <h:panelGrid columns="1">
                                 <p:fileUpload id="upload" 
                                               label="Selecionar Arquivo"
-                                              fileUploadListener="#{arquivoBean.fileUploadAction}" 
-                                              auto="true"/>
+                                              value="#{livroBean.file}"
+                                              mode="simple" skinSimple="true"/>
                                 <p:messages showDetail="true" closable="true">
                                     <p:autoUpdate/>
                                 </p:messages>
                                 <p:commandButton value="Finalizar" 
+                                                 ajax="false"
                                                  actionListener="#{livroBean.record}" 
                                                  onclick="record.hide()"
                                                  alt="Record"/>

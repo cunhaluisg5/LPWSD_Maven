@@ -5,7 +5,6 @@
  */
 package br.cesjf.lpwsd.filter;
 
-import br.cesjf.lpwsd.bean.reservaBean;
 import br.cesjf.lpwsd.model.Usuario;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -65,7 +64,6 @@ public class AutenticacaoFilter implements Filter {
 
         HttpSession session = rq.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
-        new reservaBean().systemCancel();
         if (session.isNew() || user == null) {
             doLogin(request, response, rq);
         } else {

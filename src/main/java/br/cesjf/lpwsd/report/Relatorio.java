@@ -33,17 +33,23 @@ public class Relatorio {
     private final FacesContext context;
     private ByteArrayOutputStream baos;
     private InputStream stream;
-    private Connection con;
+    public static Connection con;
     private String tReport;
+    private String dateStart = null;
+    private String dateEnd = null;
     
     public Relatorio() {
         this.context = FacesContext.getCurrentInstance();
         this.response = (HttpServletResponse) context.getExternalContext().getResponse();
     }
     
-    public void getRelatorio() {
+    public void getRelatorio(boolean isGerencial) {
         stream = this.getClass().getResourceAsStream("/" + tReport + ".jasper");
         Map<String, Object> params = new HashMap<String, Object>();
+        if(isGerencial){
+            params.put("start", getDateStart());
+            params.put("end", getDateEnd());
+        }
         baos = new ByteArrayOutputStream();
             JasperReport report;
         try {
@@ -68,7 +74,7 @@ public class Relatorio {
             
     }
     
-    public Connection getConexao(){        
+    public static Connection getConexao(){        
         try {            
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/LPWSD", "root", "");
@@ -83,7 +89,7 @@ public class Relatorio {
         return con;
     }
     
-    public void fecharConexao(){
+    public static void fecharConexao(){
         try {
             con.close();
         } catch (SQLException ex) {
@@ -97,5 +103,21 @@ public class Relatorio {
 
     public void setTReport(String tReport) {
         this.tReport = tReport;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
     }
 }
