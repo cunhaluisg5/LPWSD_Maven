@@ -136,7 +136,7 @@
                                                            style="margin-right: 10px; 
                                                            font-weight: bold"/>
                                             <p:calendar required="true" 
-                                                        requiredMessage="O ano precisa ser preenchido!" 
+                                                        requiredMessage="A data inicial precisa ser preenchida!" 
                                                         locale="pt" 
                                                         navigator="true" 
                                                         pattern="dd/MM/yyyy" 
@@ -147,7 +147,7 @@
                                                            style="margin-left: 10px; 
                                                            font-weight: bold"/>
                                             <p:calendar required="true" 
-                                                        requiredMessage="O ano precisa ser preenchido!" 
+                                                        requiredMessage="A data final precisa ser preenchida!" 
                                                         locale="pt" 
                                                         navigator="true" 
                                                         pattern="dd/MM/yyyy" 
@@ -156,11 +156,11 @@
                                             </p:calendar>  
                                         </p:column>
                                         <br/>
-                                        <p:commandButton immediate="true" 
-                                                         value="Gerar Relatório" 
-                                                         action="#{relatorioBean.report6}" 
-                                                         ajax="false" 
+                                        <p:commandButton value="Gerar Relatório" 
+                                                         actionListener="#{relatorioBean.report6}" 
+                                                         ajax="false"
                                                          icon="ui-icon-document"
+                                                         process="@form"
                                                          onclick="this.form.target = '_blank'"/>    
                                     </center>
                                 </h:panelGrid>

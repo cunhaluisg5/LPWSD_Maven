@@ -60,7 +60,7 @@ public class Relatorio {
             response.reset();
             response.setContentType("application/pdf");
             response.setContentLength(baos.size());
-            response.setHeader("Content-disposition", "inline; filename=" + report + ".pdf");
+            response.setHeader("Content-disposition", "inline; filename=" + tReport + ".pdf");
             response.getOutputStream().write(baos.toByteArray());
             response.getOutputStream().flush();
             response.getOutputStream().close();

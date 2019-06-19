@@ -21,9 +21,11 @@ public class relatorioBean {
     //Controla as tabs
     private int index;
     
+    //Período para a geração do formulário
     private Date dateStart;
     private Date dateEnd;
     
+    //Referência para o formulário
     Relatorio report;
     
     ///Gera o relatório de livros e exemplares
@@ -71,6 +73,8 @@ public class relatorioBean {
         report.getRelatorio(true);  
     }
     
+    //Getters and Setters
+    
     public int getIndex() {
         return index;
     }
@@ -91,7 +95,7 @@ public class relatorioBean {
         return dateEnd;
     }
 
-    public void setDataEnd(Date dateEnd) {
+    public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 }

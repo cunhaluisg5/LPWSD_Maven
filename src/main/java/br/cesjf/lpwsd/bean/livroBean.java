@@ -16,6 +16,7 @@ import br.cesjf.lpwsd.model.Livro;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -29,6 +30,9 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class livroBean extends crudBean<Livro, LivroDAO>{
+    //Bean 
+    @ManagedProperty(value = "#{arquivoBean}")
+    private arquivoBean bean = new arquivoBean();
     
     //DAO
     private LivroDAO livroDAO;
@@ -56,9 +60,9 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         return new LivroDAO().buscarId(id);
     } 
     
+    //Grava os dados do livro e do arquivo
     @Override
     public void record(ActionEvent actionEvent) {
-        arquivoBean bean = new arquivoBean();
         bean.setLivro(getEntidade());
         bean.setUploadedFile(file);
         bean.fileUploadAction();
@@ -69,6 +73,7 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         novo();
     }
     
+    //Atualiza próxima aba
     public String nextTab(FlowEvent event){
         return event.getNewStep();
     }
@@ -138,5 +143,13 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
 
     public void setFile(UploadedFile file) {
         this.file = file;
+    }
+
+    public arquivoBean getBean() {
+        return bean;
+    }
+
+    public void setBean(arquivoBean bean) {
+        this.bean = bean;
     }
 }
