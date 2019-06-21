@@ -48,7 +48,7 @@
                 
                 <p:menuitem value="Acervo" icon="ui-icon-folder-open" url="/faces/acervo.xhtml"
                 rendered="#{loginBean.tipo == 'Aluno' || loginBean.tipo == 'Professor' || loginBean.tipo == 'Administrador'}"/>
-                                                
+                                                                
                 <p:submenu style="float: right" label="#{loginBean.perfil}" icon="ui-icon-person">
                     <p:menuitem value="Sair" icon="ui-icon-close" action="#{loginBean.logout}"/>
                 </p:submenu>

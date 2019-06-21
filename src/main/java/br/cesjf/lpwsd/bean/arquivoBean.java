@@ -5,17 +5,22 @@
  */
 package br.cesjf.lpwsd.bean;
 
-import br.cesjf.lpwsd.model.Livro;
+import br.cesjf.lpwsd.util.FileUtil;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -24,44 +29,58 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class arquivoBean implements Serializable{
+public class arquivoBean implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private Livro livro;
-    private UploadedFile uploadedFile;
-    private final String diretorio;
-
-    public arquivoBean() {
-        this.diretorio = "C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\files\\";
-    }
     
-    public void fileUploadAction() {
-        FacesContext aFacesContext = FacesContext.getCurrentInstance();
+    //Controle de arquivo
+    private List<File> files = new ArrayList<>();
+    private UploadedFile uploadedFile;
+    private StreamedContent streamedContent;
+    
+    //Id do livro
+    private int idBook;
+
+    @PostConstruct
+    public void postConstruct() {
+        files = new ArrayList<>(FileUtil.list());
+    }
+
+    //Método para fazer upload
+    public void upload() {
         try {
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+            File arquivo = FileUtil.write(idBook + uploadedFile.getContentType().replace("application/", "."), uploadedFile.getContents());
 
-            ServletContext context = (ServletContext) aFacesContext.getExternalContext().getContext();
-           
-            String realPath = context.getRealPath("/");
- 
-            // Aqui cria o diretorio caso não exista
-            File file = new File(diretorio);
-            file.mkdirs();
-            byte[] arquivo = uploadedFile.getContents();
-            String caminho = diretorio + livro.getIsbn() + uploadedFile.getContentType().replace("application/", ".");
-      
-            // Esse trecho grava o arquivo no diretório
-            FileOutputStream fos = new FileOutputStream(caminho);
-            fos.write(arquivo);
-            fos.close();
-            
-            aFacesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Upload", "Arquivo gravado com sucesso!"));
-            
+            files.add(arquivo);
 
-        } catch (Exception ex) {
-            System.out.println("Erro: " + ex);
-            aFacesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Upload", "Erro ao gravar arquivo!"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Upload completo", "O arquivo " + arquivo.getName() + " foi salvo!"));
+        } catch (IOException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Erro", e.getMessage()));
         }
+    }
+
+    //Método para fazer download
+    public void download(File file) throws IOException {
+        InputStream inputStream = new FileInputStream(file);
+
+        streamedContent = new DefaultStreamedContent(inputStream,
+                Files.probeContentType(file.toPath()), file.getName());
+    }
+
+    //Getters and Setters
+    
+    public StreamedContent getStreamedContent() {
+        return streamedContent;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 
     public UploadedFile getUploadedFile() {
@@ -72,11 +91,11 @@ public class arquivoBean implements Serializable{
         this.uploadedFile = uploadedFile;
     }
 
-    public Livro getLivro() {
-        return livro;
+    public int getIdBook() {
+        return idBook;
     }
 
-    public void setLivro(Livro livro) {
-        this.livro = livro;
+    public void setIdBook(int idBook) {
+        this.idBook = idBook;
     }
 }

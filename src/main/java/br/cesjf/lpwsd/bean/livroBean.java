@@ -45,7 +45,6 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private List<Editora> editoras;
     private List<Autor> autores;
     
-    private int index;
     private UploadedFile file;
 
     //Construtor
@@ -63,13 +62,13 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     //Grava os dados do livro e do arquivo
     @Override
     public void record(ActionEvent actionEvent) {
-        bean.setLivro(getEntidade());
-        bean.setUploadedFile(file);
-        bean.fileUploadAction();
         LivroDAO livroDao = new LivroDAO();
-        livroDao.persistir(getEntidade());
+        int id = livroDao.persistir(getEntidade()).getId();
         setEntidades(livroDao.buscarTodas());
         addMessage("Salvo(a) com sucesso!", FacesMessage.SEVERITY_INFO);
+        bean.setIdBook(id);
+        bean.setUploadedFile(file);
+        bean.upload();
         novo();
     }
     
@@ -127,14 +126,6 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
 
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public UploadedFile getFile() {
