@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -59,15 +58,25 @@ public class arquivoBean implements Serializable {
     }
 
     //Método para fazer download
-    public void download(Livro livro) throws IOException {
+    public void download(Livro book) throws IOException {
         try {
-            File file = new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\files\\" + livro.getId() + ".pdf");
+            File file = new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\files\\" + book.getId() + ".pdf");
             InputStream inputStream = new FileInputStream(file);
 
-            streamedContent = new DefaultStreamedContent(inputStream, Files.probeContentType(file.toPath()), livro.getTitulo() + ".pdf");
+            streamedContent = new DefaultStreamedContent(inputStream, Files.probeContentType(file.toPath()), book.getTitulo() + ".pdf");
         } catch (FileNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Que pena!", "Não existe a versão digital deste livro"));
+        }
+    }
+    
+    //Remove os arquivos dos diretórios
+    public void remove(Livro book){
+        try{
+            new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\files\\" + book.getId() + ".pdf").delete();
+            new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\bookImages\\" + book.getId() + ".png").delete();
+        }catch(Exception e){
+            System.out.println("Erro ao apagar arquivos! " + e);
         }
     }
 

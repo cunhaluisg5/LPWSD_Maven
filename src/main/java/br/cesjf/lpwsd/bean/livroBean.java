@@ -13,7 +13,6 @@ import br.cesjf.lpwsd.model.Assunto;
 import br.cesjf.lpwsd.model.Autor;
 import br.cesjf.lpwsd.model.Editora;
 import br.cesjf.lpwsd.model.Livro;
-import java.io.File;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -46,6 +45,7 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private List<Editora> editoras;
     private List<Autor> autores;
     
+    //Arquivos
     private UploadedFile file;
     private UploadedFile image;
 
@@ -78,6 +78,19 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         if (image != null) {
             bean.setUploadedFile(image);
             bean.upload(id + ".png", "bookImages");
+        }
+    }
+    
+    @Override
+    public void exclude(ActionEvent actionEvent) {
+        try{
+            getDao().remover(getEntidade());
+            bean.remove(getEntidade());
+            setEntidades(getDao().buscarTodas());
+            addMessage("Excluído(a) com sucesso!", FacesMessage.SEVERITY_INFO);
+            setEntidade(novo());
+        }catch(Exception e){
+            addMessage("Não é possível excluir!", FacesMessage.SEVERITY_WARN);
         }
     }
     

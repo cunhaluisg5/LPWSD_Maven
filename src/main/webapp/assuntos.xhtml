@@ -149,7 +149,7 @@
                                  requiredMessage="O nome precisa ser preenchido!" 
                                  id="nome" 
                                  value="#{assuntoBean.entidade.nome}"/>
-                    <p:outputLabel value="Descrição: " />
+                    <p:outputLabel value="Descrição: "/>
                     <p:inputText required="true" 
                                  requiredMessage="A descrição precisa ser preenchida!" 
                                  id="descricao" 
@@ -178,7 +178,7 @@
                                          id="btnSim" 
                                          ajax="false" 
                                          actionListener="#{assuntoBean.exclude}"  
-                                         oncomplete="exclude.hide()" />
+                                         oncomplete="exclude.hide()"/>
                         <p:commandButton immediate="true" 
                                          value="Não" 
                                          onclick="PF('exclude').hide();" 

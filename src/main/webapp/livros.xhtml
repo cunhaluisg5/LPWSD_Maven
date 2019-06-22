@@ -263,6 +263,8 @@
                                                   id="autores" 
                                                   value="#{livroBean.entidade.autorList}" 
                                                   converter="autorConverter">
+                                <f:attribute name="collectionType" 
+                                             value="java.util.ArrayList"/>
                                 <f:selectItems value="#{livroBean.autores}" 
                                                var="autor" 
                                                itemLabel="#{autor.nome}" 

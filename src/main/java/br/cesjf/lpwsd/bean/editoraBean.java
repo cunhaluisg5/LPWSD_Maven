@@ -7,7 +7,6 @@ package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.EditoraDAO;
 import br.cesjf.lpwsd.model.Editora;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

@@ -7,7 +7,6 @@ package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.UsuarioDAO;
 import br.cesjf.lpwsd.model.Usuario;
-import br.cesjf.lpwsd.report.Relatorio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;

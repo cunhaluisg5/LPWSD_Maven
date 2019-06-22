@@ -38,5 +38,5 @@ public class assuntoBean extends crudBean<Assunto, AssuntoDAO>{
     @Override
     public Assunto novo() {
         return new Assunto();
-    }    
+    } 
 }
