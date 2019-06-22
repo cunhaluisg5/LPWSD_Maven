@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class FileUtil {
     //Método para gravação de arquivo
-    public static File write(String name, byte[] contents) throws IOException {
-        File file = new File(rootFiles(), name);
+public static File write(String name, byte[] contents, String folder) throws IOException {
+        File file = new File(rootFiles(folder), name);
 
         OutputStream out = new FileOutputStream(file);
         out.write(contents);
@@ -29,15 +29,20 @@ public class FileUtil {
     }
 
     //Método para listagem de arquivos
-    public static List<File> list() {
-        File dir = rootFiles();
+    public static List<File> list(String folder) {
+        File dir = rootFiles(folder);
 
         return Arrays.asList(dir.listFiles());
     }
 
     //Caminho raiz de arquivo
-    public static java.io.File rootFiles() {
-        File dir = new File(root(), "files");
+    public static java.io.File rootFiles(String folder) {
+        File dir;
+        if ("files".equals(folder)) {
+            dir = new File(root(), "files");
+        } else {
+            dir = new File(root(), "bookImages");
+        }
 
         if (!dir.exists()) {
             dir.mkdirs();

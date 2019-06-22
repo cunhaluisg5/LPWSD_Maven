@@ -59,7 +59,7 @@ public class Livro implements Serializable {
     @Size(max = 30)
     @Column(name = "isbn")
     private String isbn;
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "titulo")
     private String titulo;
     @ManyToMany(cascade = {

@@ -24,6 +24,39 @@
                              rows="10" 
                              rowsPerPageTemplate="5,10,25,50,100,9999" 
                              style="width:100%">
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:rowExpansion>
+                        <center>
+                            <p:panelGrid style="margin-top:20px; width: 1000px; text-align: center">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="2">
+                                            <h:outputText value="#{lista.titulo}"/>
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
+
+                                <p:row>
+                                    <p:column style="font-weight: bold;">
+                                        <p:graphicImage value="#{livroBean.dir(lista.id)}" width="100px"/>
+                                    </p:column>
+                                    <p:column style="font-weight: bold;">
+                                        <h:outputText value="Versão Digital"/>
+                                        <br/>
+                                        <br/>
+                                        <p:commandButton immediate="true" value="Baixar" ajax="false"
+                                                         actionListener="#{arquivoBean.download(lista)}"
+                                                         icon="ui-icon-arrowthick-1-s">
+                                            <p:fileDownload value="#{arquivoBean.streamedContent}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                            <br/>
+                        </center>
+                    </p:rowExpansion>
 
                     <p:column style="width: 100px"
                               headerText="Código" 
@@ -53,7 +86,7 @@
                         <h:outputText value="#{lista.edicao}"/>
                     </p:column>
 
-                    <p:column style="width: 150px" 
+                    <p:column style="width: 130px" 
                               headerText="Ano" 
                               sortBy="#{lista.ano}" 
                               filterBy="#{lista.ano}">
@@ -74,7 +107,7 @@
                               sortBy="#{lista.assuntoid.nome}" 
                               filterBy="#{lista.assuntoid.nome}">
                         <h:outputText value="#{lista.assuntoid.nome}"/>
-                    </p:column>  
+                    </p:column>
 
                     <!-- Opções -->
 
@@ -235,11 +268,18 @@
                                                itemLabel="#{autor.nome}" 
                                                itemValue="#{autor}"/>
                             </p:selectCheckboxMenu>
+
                             <p:fileUpload 
                                 label="Selecionar Arquivo"
                                 mode="simple" 
                                 skinSimple="true"
                                 value="#{livroBean.file}"/>
+
+                            <p:fileUpload 
+                                label="Selecionar Capa"
+                                mode="simple" 
+                                skinSimple="true"
+                                value="#{livroBean.image}"/>
                         </h:panelGrid>
                     </center>
                 </p:panel>

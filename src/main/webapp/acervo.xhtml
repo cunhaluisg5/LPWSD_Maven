@@ -42,70 +42,112 @@
                              rowsPerPageTemplate="5,10,25,50,100,9999" 
                              style="width:100%">
 
-                    <p:column headerText="Título" 
-                              filterBy="#{lista[0]}" 
-                              sortBy="#{lista[0]}">
-                        <center>
-                            <h:outputText value="#{lista[0]}" />
-                        </center>
+                    <p:column style="width:30px">
+                        <p:rowToggler />
                     </p:column>
+                    <p:rowExpansion>
+                        <center>
+                            <p:panelGrid style="margin-top:20px; width: 1000px; text-align: center">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="2">
+                                            <h:outputText value="#{lista[1]}"/>
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
 
-                    <p:column headerText="ISBN" 
+                                <p:row>
+                                    <p:column style="font-weight: bold;">
+                                        <p:graphicImage value="#{livroBean.dir(lista[0])}" width="100px"/>
+                                    </p:column>
+                                    <p:column style="font-weight: bold;">
+                                        <h:outputText value="Assunto: "/>
+                                        <h:outputText value="#{lista[5]}"/>
+                                        <br/>
+                                        <h:outputText value="Editora: "/>
+                                        <h:outputText value="#{lista[6]}"/>
+                                        <br/>
+                                        <h:outputText value="Ano: "/>
+                                        <h:outputText value="#{lista[4]}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="ISBN: "/>
+                                        <h:outputText value="#{lista[2]}"/>
+                                        <br/>
+                                        <h:outputText value="Edição: "/>
+                                        <h:outputText value="#{lista[3]}"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                            <br/>
+                        </center>
+                    </p:rowExpansion>
+
+                    <p:column headerText="Título" 
                               filterBy="#{lista[1]}" 
-                              sortBy="#{lista[1]}" 
-                              style="width: 155px">
+                              sortBy="#{lista[1]}">
                         <center>
                             <h:outputText value="#{lista[1]}" />
                         </center>
                     </p:column>
 
-                    <p:column headerText="Edição" 
+                    <p:column headerText="ISBN" 
                               filterBy="#{lista[2]}" 
-                              sortBy="#{lista[2]}">
+                              sortBy="#{lista[2]}" 
+                              style="width: 155px">
                         <center>
                             <h:outputText value="#{lista[2]}" />
                         </center>
                     </p:column>
 
-                    <p:column headerText="Ano" 
+                    <p:column headerText="Edição" 
                               filterBy="#{lista[3]}" 
                               sortBy="#{lista[3]}">
                         <center>
-                            <h:outputText value="#{lista[3]}" >
+                            <h:outputText value="#{lista[3]}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Ano" 
+                              filterBy="#{lista[4]}" 
+                              sortBy="#{lista[4]}">
+                        <center>
+                            <h:outputText value="#{lista[4]}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </center>
                     </p:column>                 
 
                     <p:column headerText="Assunto" 
-                              filterBy="#{lista[4]}" 
-                              sortBy="#{lista[4]}">
-                        <center>
-                            <h:outputText value="#{lista[4]}" />
-                        </center>
-                    </p:column>
-
-                    <p:column headerText="Editora" 
                               filterBy="#{lista[5]}" 
                               sortBy="#{lista[5]}">
                         <center>
                             <h:outputText value="#{lista[5]}" />
                         </center>
-                    </p:column>            
+                    </p:column>
 
-                    <p:column headerText="Circular" 
+                    <p:column headerText="Editora" 
                               filterBy="#{lista[6]}" 
                               sortBy="#{lista[6]}">
                         <center>
-                            <h:outputText value="#{lista[6] != 0 ? lista[6] : '-'}" />
+                            <h:outputText value="#{lista[6]}" />
                         </center>
-                    </p:column>
+                    </p:column>            
 
-                    <p:column headerText="Não Circular" 
+                    <p:column headerText="Circular" 
                               filterBy="#{lista[7]}" 
                               sortBy="#{lista[7]}">
                         <center>
                             <h:outputText value="#{lista[7] != 0 ? lista[7] : '-'}" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Não Circular" 
+                              filterBy="#{lista[8]}" 
+                              sortBy="#{lista[8]}">
+                        <center>
+                            <h:outputText value="#{lista[8] != 0 ? lista[8] : '-'}" />
                         </center>
                     </p:column>           
 

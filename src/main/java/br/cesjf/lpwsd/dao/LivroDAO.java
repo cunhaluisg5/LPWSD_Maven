@@ -57,7 +57,7 @@ public class LivroDAO implements Serializable, CrudDAO<Livro> {
     //Busca os livros por título
     public List<Object[]> livrosPorTitulo(String titulo) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
+        TypedQuery<Object[]> query = em.createQuery("SELECT l.id, l.titulo,"
                 + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
                 + "(SELECT COUNT(e) FROM Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
                 + "(SELECT COUNT(e) FROM Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"
@@ -70,26 +70,10 @@ public class LivroDAO implements Serializable, CrudDAO<Livro> {
         return query.getResultList();
     }
     
-    //Busca os livros por autor
-    public List<Object[]> livrosPorAutor(String autor) {
-        EntityManager em = PersistenceUtil.getEntityManager();
-        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
-                + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
-                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
-                + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"
-                + "FROM Livro l WHERE :autor IN (l.autorList.nome)", Object[].class);
-
-        query.setParameter("v", Boolean.TRUE);
-        query.setParameter("autor", autor);
-        query.setParameter("f", Boolean.FALSE);        
-
-        return query.getResultList();
-    }
-    
     //Busca os livros por assunto
     public List<Object[]> livrosPorAssunto(String assunto) {
         EntityManager em = PersistenceUtil.getEntityManager();
-        TypedQuery<Object[]> query = em.createQuery("SELECT l.titulo,"
+        TypedQuery<Object[]> query = em.createQuery("SELECT l.id, l.titulo,"
                 + "l.isbn, l.edicao, l.ano, l.assuntoid.nome, l.editoraid.nome,"
                 + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:v AND e.idLivro.id = l.id),"
                 + "(SELECT COUNT(e) from Exemplar e WHERE e.circular =:f AND e.idLivro.id = l.id)"

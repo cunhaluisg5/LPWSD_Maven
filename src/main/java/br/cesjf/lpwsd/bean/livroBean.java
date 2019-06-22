@@ -13,6 +13,7 @@ import br.cesjf.lpwsd.model.Assunto;
 import br.cesjf.lpwsd.model.Autor;
 import br.cesjf.lpwsd.model.Editora;
 import br.cesjf.lpwsd.model.Livro;
+import java.io.File;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -46,6 +47,7 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
     private List<Autor> autores;
     
     private UploadedFile file;
+    private UploadedFile image;
 
     //Construtor
     public livroBean() {
@@ -67,9 +69,21 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
         setEntidades(livroDao.buscarTodas());
         addMessage("Salvo(a) com sucesso!", FacesMessage.SEVERITY_INFO);
         bean.setIdBook(id);
-        bean.setUploadedFile(file);
-        bean.upload();
-        novo();
+        
+        if (file != null) {
+            bean.setUploadedFile(file);
+            bean.upload(id + ".pdf", "files");
+        }
+
+        if (image != null) {
+            bean.setUploadedFile(image);
+            bean.upload(id + ".png", "bookImages");
+        }
+    }
+    
+    //Caminho da imagem
+    public String dir(String name){
+        return "/resources/bookImages/" + name + ".png";
     }
     
     //Atualiza próxima aba
@@ -142,5 +156,13 @@ public class livroBean extends crudBean<Livro, LivroDAO>{
 
     public void setBean(arquivoBean bean) {
         this.bean = bean;
+    }
+
+    public UploadedFile getImage() {
+        return image;
+    }
+
+    public void setImage(UploadedFile image) {
+        this.image = image;
     }
 }

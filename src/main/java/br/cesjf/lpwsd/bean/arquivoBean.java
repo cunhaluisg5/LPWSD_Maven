@@ -5,9 +5,11 @@
  */
 package br.cesjf.lpwsd.bean;
 
+import br.cesjf.lpwsd.model.Livro;
 import br.cesjf.lpwsd.util.FileUtil;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -32,24 +34,19 @@ import org.primefaces.model.UploadedFile;
 public class arquivoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //Controle de arquivo
     private List<File> files = new ArrayList<>();
     private UploadedFile uploadedFile;
     private StreamedContent streamedContent;
-    
+
     //Id do livro
     private int idBook;
 
-    @PostConstruct
-    public void postConstruct() {
-        files = new ArrayList<>(FileUtil.list());
-    }
-
     //Método para fazer upload
-    public void upload() {
+    public void upload(String name, String folder) {
         try {
-            File arquivo = FileUtil.write(idBook + uploadedFile.getContentType().replace("application/", "."), uploadedFile.getContents());
+            File arquivo = FileUtil.write(name, uploadedFile.getContents(), folder);
 
             files.add(arquivo);
 
@@ -62,15 +59,19 @@ public class arquivoBean implements Serializable {
     }
 
     //Método para fazer download
-    public void download(File file) throws IOException {
-        InputStream inputStream = new FileInputStream(file);
+    public void download(Livro livro) throws IOException {
+        try {
+            File file = new File("C:\\Users\\luisg\\Desktop\\LPWSD\\src\\main\\webapp\\resources\\files\\" + livro.getId() + ".pdf");
+            InputStream inputStream = new FileInputStream(file);
 
-        streamedContent = new DefaultStreamedContent(inputStream,
-                Files.probeContentType(file.toPath()), file.getName());
+            streamedContent = new DefaultStreamedContent(inputStream, Files.probeContentType(file.toPath()), livro.getTitulo() + ".pdf");
+        } catch (FileNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Que pena!", "Não existe a versão digital deste livro"));
+        }
     }
 
     //Getters and Setters
-    
     public StreamedContent getStreamedContent() {
         return streamedContent;
     }
