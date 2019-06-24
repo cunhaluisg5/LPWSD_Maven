@@ -8,8 +8,10 @@ package br.cesjf.lpwsd.bean;
 import br.cesjf.lpwsd.report.Relatorio;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -65,12 +67,17 @@ public class relatorioBean {
     
     ///Gera o relatório com base em empréstimos e reservas feitas em um período específico
     public void report6(){
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-        report = new Relatorio();
-        report.setDateStart(fm.format(dateStart));
-        report.setDateEnd(fm.format(dateEnd));
-        report.setTReport("gerencial");
-        report.getRelatorio(true);  
+        if(dateStart.after(dateEnd))
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+            (FacesMessage.SEVERITY_WARN, "Atenção!", "Período incorreto."));
+         else{
+            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+            report = new Relatorio();
+            report.setDateStart(fm.format(dateStart));
+            report.setDateEnd(fm.format(dateEnd));
+            report.setTReport("gerencial");
+            report.getRelatorio(true);  
+        }
     }
     
     //Getters and Setters

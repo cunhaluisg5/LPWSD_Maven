@@ -90,6 +90,15 @@ public class ReservaDAO implements Serializable, CrudDAO<Reserva>{
         TypedQuery<Reserva> query = em.createQuery("SELECT a FROM Reserva a WHERE a.dataReserva < current_date AND a.idEmprestimo IS NULL AND a.cancelar IS NULL", Reserva.class);
         return query.getResultList();
     }
+    
+    //Verifica se existe exemplar disponível
+    public boolean available(int id) {
+        EntityManager em = PersistenceUtil.getEntityManager();
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(r) FROM Reserva r WHERE r.dataReserva IS NOT NULL AND r.idExemplar.id =:id ", Long.class);
+        query.setParameter("id", id);
+
+        return query.getSingleResult() == 0;
+    }  
 
     //Remove todas as reservas
     @Override

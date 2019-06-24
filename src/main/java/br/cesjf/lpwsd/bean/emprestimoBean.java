@@ -130,9 +130,16 @@ public class emprestimoBean extends crudBean<Emprestimo, EmprestimoDAO> {
     //Registra data de devolução
     public void returned(ActionEvent actionEvent) {
         if (getEntidade().getId() != null) {
-            getEntidade().setDataDevolucao(new Date());
-            getDao().persistir(getEntidade());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Empréstimo", "Devolvido com sucesso!"));
+            Date dateReturned = new Date();
+            if(getEntidade().getDataPrevista().before(dateReturned))
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_WARN, "Expirou!", "Não é possível efetuar devolução."));
+             else{
+                getEntidade().setDataDevolucao(dateReturned);
+                getDao().persistir(getEntidade());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_INFO, "Empréstimo", "Devolvido com sucesso!"));
+            }
         }
     }
     

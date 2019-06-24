@@ -6,16 +6,20 @@
 package br.cesjf.lpwsd.bean;
 
 import br.cesjf.lpwsd.dao.EmprestimoDAO;
+import br.cesjf.lpwsd.dao.ExemplarDAO;
 import br.cesjf.lpwsd.dao.ReservaDAO;
+import br.cesjf.lpwsd.dao.UsuarioDAO;
 import br.cesjf.lpwsd.model.Reserva;
 import br.cesjf.lpwsd.util.SessionUtil;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 /**
@@ -60,14 +64,51 @@ public class reservaBean extends crudBean<Reserva, ReservaDAO>{
             record(actionEvent);
         }
     }
+    
+    //Verifica se existe débito
+    public boolean isDebit() {
+        getEntidade().setIdUsuario(new UsuarioDAO().buscarId(idUsuario));
+        boolean isDebit = emprestimoBean.getDao().checkDebit(idUsuario);
+        Long opened = emprestimoBean.getDao().checkOpened(idUsuario);
+        String typeUser = getEntidade().getIdUsuario().getTipo();
+
+        if (isDebit)
+            return true;
+        else if (("Professor".equals(typeUser) && opened >= 5))
+            return true;
+        else if ((!"Professor".equals(typeUser) && opened >= 3))
+            return true;
+        else {
+            return false;
+        }
+    }
+    
+    //Verifica se exemplar está disponível
+    public boolean available() {
+        boolean available = new ReservaDAO().available(idExemplar);
+        return available;
+    }
 
     //Persiste os dados
     public void persist(ActionEvent actionEvent) {
-        getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
-        getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
-        record(actionEvent);
-        idUsuario = null;
-        idExemplar = null;
+        if((!isDebit()) && (available())){
+            getEntidade().setIdUsuario(usuarioBean.buscarId(idUsuario));
+            if(new ExemplarDAO().buscarId(idExemplar).getCircular()){
+                getEntidade().setIdExemplar(exemplarBean.buscarId(idExemplar));
+                record(actionEvent);
+                idUsuario = null;
+                idExemplar = null;
+            }else
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_WARN, "Não Circular!", "O exemplar não pode ser reservado."));
+        }else{
+            if(isDebit())
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_WARN, "Em Débito!", "Regularize sua situação."));
+            if(!available())
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_WARN, "Pendente!", "Já existe uma reserva pendente."));
+        }
     }
     
     public void systemCancel() {

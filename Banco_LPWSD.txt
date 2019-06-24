@@ -40,7 +40,7 @@ CREATE TABLE livro(
     	ano DATETIME,
     	edicao INT,
     	isbn VARCHAR(30),
-    	titulo VARCHAR(30),
+    	titulo VARCHAR(50),
     	Assunto_id INT,
     	Editora_id INT,
 
