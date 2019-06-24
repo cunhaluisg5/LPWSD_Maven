@@ -24,6 +24,51 @@
                              rows="10" 
                              rowsPerPageTemplate="5,10,25,50,100,9999" 
                              style="width:100%">
+                    
+                    <p:column style="width:30px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:rowExpansion>
+                        <center>
+                            <p:panelGrid style="margin-top:20px; width: 1000px; text-align: center">
+                                <f:facet name="header">
+                                    <p:row>
+                                        <p:column colspan="2">
+                                            <h:outputText value="#{lista.idLivro.titulo}"/>
+                                        </p:column>
+                                    </p:row>
+                                </f:facet>
+
+                                <p:row>
+                                    <p:column style="font-weight: bold;">
+                                        <p:graphicImage value="#{livroBean.dir(lista.idLivro.id)}" width="100px"/>
+                                    </p:column>
+                                    <p:column style="font-weight: bold;">
+                                        <h:outputText value="Assunto: "/>
+                                        <h:outputText value="#{lista.idLivro.assuntoid.nome}"/>
+                                        <br/>
+                                        <h:outputText value="Editora: "/>
+                                        <h:outputText value="#{lista.idLivro.editoraid.nome}"/>
+                                        <br/>
+                                        <h:outputText value="Ano: "/>
+                                        <h:outputText value="#{lista.idLivro.ano}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="ISBN: "/>
+                                        <h:outputText value="#{lista.idLivro.isbn}"/>
+                                        <br/>
+                                        <h:outputText value="Edição: "/>
+                                        <h:outputText value="#{lista.idLivro.edicao}"/>
+                                        <br/>
+                                        <h:outputText value="Circular: "/>
+                                        <h:outputText value="#{lista.circular ? 'Sim' : 'Não'}"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                            <br/>
+                        </center>
+                    </p:rowExpansion>
 
                     <p:column headerText="Código" 
                               sortBy="#{lista.id}" 
@@ -45,7 +90,7 @@
                     
                     <!-- Opções -->
                     
-                    <p:column headerText="Opções" exportable="false">
+                    <p:column headerText="Opções" exportable="false" rendered="#{!(loginBean.tipo == 'Professor' || loginBean.tipo == 'Aluno')}" >
                         <center>
                             
                             <p:commandButton immediate="true" 
